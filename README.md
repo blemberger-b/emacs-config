@@ -1,4 +1,4 @@
-# My Emacs Configuration #
+# Emacs Configuration #
 
 ### To install: ###
 `git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d`
