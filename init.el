@@ -3,7 +3,7 @@
 (setq package-enable-at-startup nil) ;Setting package-enable-at-startup var to nil
 ;; BSL - Add melpa to package provider list
 (add-to-list 'package-archives
-	     '("melpa" . "https://stable.melpa.org/packages/"))
+	     '("melpa" . "https://melpa.org/packages/"))
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
