@@ -1,5 +1,5 @@
 * Installation
-*** Clone into the =.emacs.d= folder created by Emacs
+Clone into the =.emacs.d= folder created by Emacs
 #+BEGIN_SRC 
 git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
@@ -16,7 +16,7 @@ git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
 
 * Installed Packages
-** these packages are installed via =use-package=
+These packages are installed via =use-package=
 *** add =which-keys= package
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
