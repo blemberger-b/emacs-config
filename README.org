@@ -3,3 +3,5 @@
 #+BEGIN_SRC 
 git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d`
 #+END_SRC
+
+#+INCLUDE: "./config.org"
