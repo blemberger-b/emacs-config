@@ -1,3 +1,9 @@
+* Installation
+*** Clone into the =.emacs.d= folder created by Emacs
+#+BEGIN_SRC 
+git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
+#+END_SRC
+
 * Keybindings
 *** remap Mac Fn key to super key =(s- )=
 #+BEGIN_SRC emacs-lisp
