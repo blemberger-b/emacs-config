@@ -23,57 +23,8 @@
   (package-refresh-contents)
   (package-install 'spacemacs-theme))
 
-;; BSL - Use use-package to add which-keys package
-(use-package which-key
-  :ensure t
-  :init (which-key-mode))
-;; BSL - Install & use markdown-mode (from MELPA)
-;;   requires 'markdown' command installed in PATH
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "/usr/local/bin/markdown"))
-
-;; BSL - my UI customizations
-(tool-bar-mode -1) ; turn off graphical tool-bar
-(scroll-bar-mode -1) ; turn off right scroll-bar
-(menu-bar-mode -1) ; turn off top menu bar (in tty mode only)
-(global-display-line-numbers-mode) ; turn on line numbering in all buffers that support it
-(show-paren-mode 1) ; turn on parenthesis matching mode
-;; turn on line highlight mode only in GUI mode
-(when window-system (global-hl-line-mode))
- 
-;; BSL - set some global variables
-(setq inhibit-startup-message t) ; turn off emacs start screen
-;; Set geometry of all emacs frames
-(setq default-frame-alist '((width . 120) (height . 50)))
-;; Turn off aggressive vertical scrolling
-(setq scroll-conservatively 100)
-;; Turn off annoying bell
-(setq ring-bell-function 'ignore)
-;; Turn off autosaving
-(setq auto-save-default nil)
-;; Turn off stupid auto-backups
-(setq make-backup-files nil)
-
-;; BSL - remap Mac Fn key to super key (s- )
-;; only works in GUI mode, because iTerm/console don't allow remapping Fn key
-(setq mac-function-modifier 'super)
-
-;; BSL - replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;; BSL - make bash the default shell for ansi-term
-(defvar my-term-shell "/bin/bash")
-(defadvice ansi-term (before force-bash)
-  (interactive (list my-term-shell)))
-(ad-activate 'ansi-term)
-
-;; BSL - set a keyboard binding for ansi-term command to Command-Enter on Mac
-(global-set-key (kbd "s-t") 'ansi-term)
+;; BSL - use org-babel to source my config.org file for further configurations
+(org-babel-load-file (expand-file-name "~/.emacs.d/config.org")) 
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
