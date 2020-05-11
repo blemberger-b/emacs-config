@@ -5,19 +5,19 @@ git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
 
 * Keybindings
-*** remap Mac Fn key to super key =(s- )=
+*** Remap Mac Fn key to super key =(s- )=
 #+BEGIN_SRC emacs-lisp
   (setq mac-function-modifier 'super)
 #+END_SRC
 
-*** bind ansi-term command to =s-t=
+*** Bind ansi-term command to =s-t=
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-t") 'ansi-term)
 #+END_SRC
 
 * Installed Packages
 These packages are installed via =use-package=
-*** add =which-keys= package
+*** Add =which-keys= package
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
@@ -38,38 +38,38 @@ These packages are installed via =use-package=
 #+END_SRC
 
 * UI Customizations
-*** turn off graphical tool-bar
+*** Turn off graphical tool-bar
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
 #+END_SRC
 
-*** turn off right scroll-bar
+*** Turn off right scroll-bar
 #+BEGIN_SRC emacs-lisp
   (scroll-bar-mode -1)
 #+END_SRC
 
-*** turn off top menu bar (in tty mode only)
+*** Turn off top menu bar (in tty mode only)
 #+BEGIN_SRC emacs-lisp
   (menu-bar-mode -1)
 #+END_SRC
 
-*** turn on line numbering in all buffers that support it
+*** Turn on line numbering in all buffers that support it
 #+BEGIN_SRC emacs-lisp
   (global-display-line-numbers-mode)
 #+END_SRC
 
-*** turn on parenthesis matching mode
+*** Turn on parenthesis matching mode
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
 #+END_SRC
 
-*** turn on line highlight mode only in GUI mode
+*** Turn on line highlight mode only in GUI mode
 #+BEGIN_SRC emacs-lisp
   (when window-system (global-hl-line-mode))
 #+END_SRC
 
 * Terminal
-** make bash the default shell for ansi-term
+*** Make bash the default shell for ansi-term
 #+BEGIN_SRC emacs-lisp
   (defvar my-term-shell "/bin/bash")
   (defadvice ansi-term (before force-bash)
@@ -78,38 +78,38 @@ These packages are installed via =use-package=
 #+END_SRC
 
 * Global Variables
-*** turn off emacs start screen
+*** Turn off emacs start screen
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
 #+END_SRC
 
-*** set geometry of all emacs frames
+*** Set geometry of all emacs frames
 #+BEGIN_SRC emacs-lisp
   (setq default-frame-alist '((width . 120) (height . 50)))
 #+END_SRC
 
-*** turn off aggressive vertical scrolling
+*** Turn off aggressive vertical scrolling
 #+BEGIN_SRC  emacs-lisp
   (setq scroll-conservatively 100)
 #+END_SRC
 
-*** turn off annoying bell
+*** Turn off annoying bell
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
 #+END_SRC
 
-*** turn off auto-saving
+*** Turn off auto-saving
 #+BEGIN_SRC emacs-lisp
   (setq auto-save-default nil)
 #+END_SRC
 
-*** turn off stupid auto-backups
+*** Turn off stupid auto-backups
 #+BEGIN_SRC emacs-lisp
   (setq make-backup-files nil)
 #+END_SRC
 
 * Yes/No Prompt
-*** replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
+*** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
