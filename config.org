@@ -26,7 +26,7 @@ These packages are installed via =use-package=
   ;;   requires 'markdown' command installed (e.g. by Homebrew)
 #+END_SRC
 
-*** Install & use markdown-mode (from MELPA)
+*** Install & use =markdown-mode= (from MELPA)
 #+BEGIN_SRC emacs-lisp
     (use-package markdown-mode
       :ensure t
@@ -36,8 +36,27 @@ These packages are installed via =use-package=
 	     ("\\.markdown\\'" . markdown-mode))
       :init (setq markdown-command "/usr/local/bin/markdown"))
 #+END_SRC
-
+*** Install & use =ido-vertical-mode=
+#+BEGIN_SRC emacs-lisp
+  (use-package ido-vertical-mode
+    :ensure t
+    :init (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+	  (ido-vertical-mode 1))
+#+END_SRC
+*** Install & use =smex= (from MELPA)
+#+BEGIN_SRC emacs-lisp
+   (use-package smex
+     :ensure t
+     :init (smex-initialize)
+     :bind
+     ("M-x" . smex))
+#+END_SRC
 * UI Customizations
+*** Set geometry of all emacs frames
+Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin
+#+BEGIN_SRC emacs-lisp
+(setq default-frame-alist '((top . 50) (left . 250) (width . 112) (height . 45)))
+#+END_SRC
 *** Turn off graphical tool-bar
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
@@ -48,7 +67,7 @@ These packages are installed via =use-package=
   (scroll-bar-mode -1)
 #+END_SRC
 
-*** Turn off top menu bar (in tty mode only)
+*** Turn off top menu bar
 #+BEGIN_SRC emacs-lisp
   (menu-bar-mode -1)
 #+END_SRC
@@ -83,11 +102,6 @@ These packages are installed via =use-package=
   (setq inhibit-startup-message t)
 #+END_SRC
 
-*** Set geometry of all emacs frames
-#+BEGIN_SRC emacs-lisp
-  (setq default-frame-alist '((width . 120) (height . 50)))
-#+END_SRC
-
 *** Turn off aggressive vertical scrolling
 #+BEGIN_SRC  emacs-lisp
   (setq scroll-conservatively 100)
@@ -112,4 +126,15 @@ These packages are installed via =use-package=
 *** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+* IDO Mode
+*** Set some default preferences
+#+BEGIN_SRC emacs-lisp
+  (setq ido-enable-flex-matching nil)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-everywhere t)
+#+END_SRC
+*** Enable =ido-mode=
+#+BEGIN_SRC emacs-lisp
+  (ido-mode 1)
 #+END_SRC

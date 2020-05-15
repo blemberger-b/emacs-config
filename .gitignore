@@ -18,3 +18,9 @@ config.el
 
 # elpa package dir
 elpa/
+
+# smex history file
+smex-items
+
+# ido history file
+ido.last
