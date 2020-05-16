@@ -6,13 +6,22 @@ git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 
 * Keybindings
 *** Remap Mac Fn key to super key =(s- )=
+Doesn't work in tty mode, must use =C-x @ s= and then the key.
 #+BEGIN_SRC emacs-lisp
   (setq mac-function-modifier 'super)
 #+END_SRC
 
 *** Bind ansi-term command to =s-t=
+Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-t") 'ansi-term)
+#+END_SRC
+
+*** Fix some stupid failed binding to =backtab= key in Mac OS console mode
+See https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'term-setup-hook
+	    (lambda () (define-key input-decode-map "\e[Z" [backtab])))
 #+END_SRC
 
 * Installed Packages
