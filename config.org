@@ -38,6 +38,17 @@ ibuffer is a /better/ interactive buffer list that allows deleting buffers and s
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c r") 'config-reload)
 #+END_SRC
+*** Bind my function =split-and-follow-horizontally=.
+Bind to the default split horizontally key =C-x 2=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+#+END_SRC
+
+*** Bind my function =split-and-follow-vertically=.
+Bind to the default split vertically key =C-x 3=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+#+END_SRC
 * Installed Packages
 These packages are installed via =use-package=
 *** Add =which-keys= package
@@ -187,4 +198,22 @@ This function is bound to a key mapping above.
     (defun config-reload ()
       (interactive)
       (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+#+END_SRC
+* Window Splitting
+*** Split window horizontally & put point in new window
+#+BEGIN_SRC emacs-lisp
+  (defun split-and-follow-horizontally ()
+    (interactive)
+    (split-window-below)
+    (balance-windows)
+    (other-window 1))
+#+END_SRC
+
+*** Split window vertically & put point in new window
+#+BEGIN_SRC emacs-lisp
+  (defun split-and-follow-vertically ()
+    (interactive)
+    (split-window-right)
+    (balance-windows)
+    (other-window 1))
 #+END_SRC
