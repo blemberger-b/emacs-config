@@ -24,6 +24,20 @@ See https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error
 	    (lambda () (define-key input-decode-map "\e[Z" [backtab])))
 #+END_SRC
 
+*** Bind =ibuffer= to the normal buffer list key
+ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in the same window.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+#+END_SRC
+
+*** Bind my function =config-visit= defined below to =M-s=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c e") 'config-visit)
+#+END_SRC
+*** Bind my function =config-reload= defined below to =M-r=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c r") 'config-reload)
+#+END_SRC
 * Installed Packages
 These packages are installed via =use-package=
 *** Add =which-keys= package
@@ -62,6 +76,13 @@ This package provides command completion in the minibuffer after typing =M-x=.
        :init (smex-initialize)
        :bind
        ("M-x" . smex))
+#+END_SRC
+*** Install & use =avy= (from MELPA)
+This package provides a way to quickly go to a character in the visible buffer by typing =M-s=.
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t
+    :bind ("M-s" . avy-goto-char))
 #+END_SRC
 * UI Customizations
 *** Set geometry of all emacs frames
@@ -149,4 +170,21 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
 *** Enable =ido-mode=
 #+BEGIN_SRC emacs-lisp
   (ido-mode 1)
+#+END_SRC
+
+* Config edit/reload
+*** Edit this config file
+This function is bound to a key mapping above.
+#+BEGIN_SRC emacs-lisp
+  (defun config-visit ()
+    (interactive)
+    (find-file "~/.emacs.d/config.org"))
+#+END_SRC
+
+*** Reload configs on demand
+This function is bound to a key mapping above.
+#+BEGIN_SRC emacs-lisp
+    (defun config-reload ()
+      (interactive)
+      (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 #+END_SRC
