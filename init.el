@@ -23,11 +23,6 @@
   (package-refresh-contents)
   (package-install 'spacemacs-theme))
 
-;; Install smex package to do interactive prompting at M-x prompt
-(unless (package-installed-p 'smex)
-  (package-refresh-contents)
-  (package-install 'smex))
-
 ;; BSL - use org-babel to source my config.org file for further configurations
 (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
 
