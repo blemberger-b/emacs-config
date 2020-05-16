@@ -27,25 +27,27 @@ See https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error
 * Installed Packages
 These packages are installed via =use-package=
 *** Add =which-keys= package
+    
+This package provides a pop-up menu of command key completions when keys are pressed interactively in the minibuffer.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
     :init (which-key-mode))
-  ;; BSL - 
-  ;;   requires 'markdown' command installed (e.g. by Homebrew)
 #+END_SRC
 
 *** Install & use =markdown-mode= (from MELPA)
+This package provides a major mode for editing markdown files. It requires the =markdown= command be installed via homebrew.
 #+BEGIN_SRC emacs-lisp
-    (use-package markdown-mode
-      :ensure t
-      :commands (markdown-mode gfm-mode)
-      :mode (("README\\.md\\'" . gfm-mode)
-	     ("\\.md\\'" . markdown-mode)
-	     ("\\.markdown\\'" . markdown-mode))
-      :init (setq markdown-command "/usr/local/bin/markdown"))
+  (use-package markdown-mode
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+	   ("\\.md\\'" . markdown-mode)
+	   ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "/usr/local/bin/markdown"))
 #+END_SRC
 *** Install & use =ido-vertical-mode=
+This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
 #+BEGIN_SRC emacs-lisp
   (use-package ido-vertical-mode
     :ensure t
@@ -53,18 +55,19 @@ These packages are installed via =use-package=
 	  (ido-vertical-mode 1))
 #+END_SRC
 *** Install & use =smex= (from MELPA)
+This package provides command completion in the minibuffer after typing =M-x=.
 #+BEGIN_SRC emacs-lisp
-   (use-package smex
-     :ensure t
-     :init (smex-initialize)
-     :bind
-     ("M-x" . smex))
+  (use-package smex
+       :ensure t
+       :init (smex-initialize)
+       :bind
+       ("M-x" . smex))
 #+END_SRC
 * UI Customizations
 *** Set geometry of all emacs frames
-Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin
+Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
 #+BEGIN_SRC emacs-lisp
-(setq default-frame-alist '((top . 50) (left . 250) (width . 112) (height . 45)))
+  (setq default-frame-alist '((top . 50) (left . 250) (width . 112) (height . 45)))
 #+END_SRC
 *** Turn off graphical tool-bar
 #+BEGIN_SRC emacs-lisp
