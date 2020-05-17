@@ -56,7 +56,9 @@ On OS X, an Emacs instance started from the graphical user interface will have a
 See https://github.com/purcell/exec-path-from-shell
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
-    :ensure t)
+    :ensure t
+    :init (when (memq window-system '(mac ns x))
+	    (exec-path-from-shell-initialize)))
 #+END_SRC
 
 *** Add =which-keys= package
