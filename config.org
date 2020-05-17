@@ -51,6 +51,14 @@ Bind to the default split vertically key =C-x 3=.
 #+END_SRC
 * Installed Packages
 These packages are installed via =use-package=
+*** Install & run =exec-path-from-shell=
+On OS X, an Emacs instance started from the graphical user interface will have a different environment than a shell in a terminal window, because OS X does not run a shell during the login. Obviously this will lead to unexpected results when calling external utilities like make from Emacs. This library works around this problem by copying important environment variables from the user's shell.
+See https://github.com/purcell/exec-path-from-shell
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t)
+#+END_SRC
+
 *** Add =which-keys= package
     
 This package provides a pop-up menu of command key completions when keys are pressed interactively in the minibuffer.
