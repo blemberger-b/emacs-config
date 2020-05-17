@@ -95,6 +95,13 @@ This package provides a way to quickly go to a character in the visible buffer b
     :ensure t
     :bind ("M-s" . avy-goto-char))
 #+END_SRC
+*** Install & use =cider= (from MELPA)
+=cider= is the /clojure integrated development environment/ (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
+#+BEGIN_SRC emacs-lisp
+  (use-package cider
+    :ensure t
+    :pin melpa-stable)
+#+END_SRC
 * UI Customizations
 *** Set geometry of all emacs frames
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.

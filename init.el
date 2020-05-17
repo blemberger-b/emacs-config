@@ -1,9 +1,13 @@
-;; BSL - requiring "package" ns (I think).
+;; requiring "package" ns (I think).
 (require 'package)
 (setq package-enable-at-startup nil) ;Setting package-enable-at-startup var to nil
-;; BSL - Add melpa to package provider list
+;; Add melpa to package provider list
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
+
+;; Add melpa stable to package provider list
+(add-to-list 'package-archives
+	     '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
 ;; Added by Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
@@ -37,7 +41,7 @@
  '(custom-safe-themes
    (quote
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(package-selected-packages (quote (avy ido-vertical-mode which-key use-package))))
+ '(package-selected-packages (quote (cider avy ido-vertical-mode which-key use-package))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
