@@ -107,10 +107,12 @@ This package provides a way to quickly go to a character in the visible buffer b
 #+END_SRC
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/ (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
+Initialize the REPL to suppress the verbose help banner when opened.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t
-    :pin melpa-stable)
+    :pin melpa-stable
+    :init (setq cider-repl-display-help-banner nil))
 #+END_SRC
 * UI Customizations
 *** Set geometry of all emacs frames
@@ -183,6 +185,10 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
   (setq make-backup-files nil)
 #+END_SRC
 
+*** Edit src snippets in same window in org-mode
+#+BEGIN_SRC emacs-lisp
+  (setq org-src-window-setup 'current-window)
+#+END_SRC
 * Yes/No Prompt
 *** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
 #+BEGIN_SRC emacs-lisp
