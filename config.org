@@ -70,25 +70,6 @@ This package provides a pop-up menu of command key completions when keys are pre
     :init (which-key-mode))
 #+END_SRC
 
-*** Install & use =markdown-mode= (from MELPA)
-This package provides a major mode for editing markdown files. It requires the =markdown= command be installed via homebrew.
-#+BEGIN_SRC emacs-lisp
-  (use-package markdown-mode
-    :ensure t
-    :commands (markdown-mode gfm-mode)
-    :mode (("README\\.md\\'" . gfm-mode)
-	   ("\\.md\\'" . markdown-mode)
-	   ("\\.markdown\\'" . markdown-mode))
-    :init (setq markdown-command "/usr/local/bin/markdown"))
-#+END_SRC
-*** Install & use =ido-vertical-mode=
-This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
-#+BEGIN_SRC emacs-lisp
-  (use-package ido-vertical-mode
-    :ensure t
-    :init (setq ido-vertical-define-keys 'C-n-and-C-p-only)
-	  (ido-vertical-mode 1))
-#+END_SRC
 *** Install & use =smex= (from MELPA)
 This package provides command completion in the minibuffer after typing =M-x=.
 #+BEGIN_SRC emacs-lisp
@@ -107,12 +88,45 @@ This package provides a way to quickly go to a character in the visible buffer b
 #+END_SRC
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/ (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
-Initialize the REPL to suppress the verbose help banner when opened.
+Initialize the REPL to suppress the verbose help banner when opened, and bind clear the REPL screen to =C-c C-l= key.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t
     :pin melpa-stable
-    :init (setq cider-repl-display-help-banner nil))
+    :init (setq cider-repl-display-help-banner nil)
+    :bind ("C-c C-l" . cider-repl-clear-buffer))
+#+END_SRC
+* Installed Modes
+These modes are installed like packages via =use-package=
+*** Install & use =markdown-mode= (from MELPA)
+This package provides a major mode for editing markdown files. It requires the =markdown= command be installed via homebrew.
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+	   ("\\.md\\'" . markdown-mode)
+	   ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "/usr/local/bin/markdown"))
+#+END_SRC
+
+*** Install & use =ido-vertical-mode=
+This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
+#+BEGIN_SRC emacs-lisp
+  (use-package ido-vertical-mode
+    :ensure t
+    :init (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+	  (ido-vertical-mode 1))
+#+END_SRC
+
+*** Paredit
+This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it for
+=clojure-mode= and =elisp-mode= major modes only.
+#+BEGIN_SRC emacs-lisp
+  (use-package paredit
+    :ensure t
+    :pin melpa-stable
+    :hook ((clojure-mode emacs-lisp-mode) . enable-paredit-mode))
 #+END_SRC
 * UI Customizations
 *** Set geometry of all emacs frames
