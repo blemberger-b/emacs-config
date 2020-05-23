@@ -152,6 +152,14 @@ This minor mode makes dealing with parenthesis and lisp expressions much easier.
 	    emacs-lisp-mode
 	    cider-repl-mode) . enable-paredit-mode))
 #+END_SRC
+*** Presentation Mode
+This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
+on-demand: =M-x presentation-mode=.
+#+BEGIN_SRC emacs-lisp
+  (use-package presentation
+    :ensure t
+    :pin melpa-stable)
+#+END_SRC
 * UI Customizations
 *** Set geometry of all emacs frames
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
