@@ -59,6 +59,11 @@ Bind to the key =C-c l=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c l") 'copy-whole-line)
 #+END_SRC
+*** Bind my function =kill-current-buffer=
+Bind it to the default =kill-buffer= keybinding =C-x k=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x k") 'kill-current-buffer)
+#+END_SRC
 * Installed Packages
 These packages are installed via =use-package=
 *** Install & run =exec-path-from-shell=
@@ -143,7 +148,9 @@ This minor mode makes dealing with parenthesis and lisp expressions much easier.
   (use-package paredit
     :ensure t
     :pin melpa-stable
-    :hook ((clojure-mode emacs-lisp-mode) . enable-paredit-mode))
+    :hook ((clojure-mode
+	    emacs-lisp-mode
+	    cider-repl-mode) . enable-paredit-mode))
 #+END_SRC
 * UI Customizations
 *** Set geometry of all emacs frames
@@ -282,6 +289,15 @@ Copy the line containing the point to the kill ring.
        (buffer-substring
 	(point-at-bol)
 	(point-at-eol)))))
+#+END_SRC
+* Buffers
+*** Always kill the current buffer
+Override default emacs and =ido-mode= functionality to prompt for the buffer to kill, and just go
+ahead and kill the current one. It will still prompt for confirmation if the buffer is unsaved.
+#+BEGIN_SRC emacs-lisp
+  (defun kill-current-buffer ()
+    (interactive)
+    (kill-buffer (current-buffer)))
 #+END_SRC
 * Window Splitting
 *** Split window horizontally & put point in new window
