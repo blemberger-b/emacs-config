@@ -54,6 +54,11 @@ Bind to the key =C-c w=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c w") 'kill-whole-word)
 #+END_SRC
+*** Bind my function =copy-whole-line=
+Bind to the key =C-c l=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c l") 'copy-whole-line)
+#+END_SRC
 * Installed Packages
 These packages are installed via =use-package=
 *** Install & run =exec-path-from-shell=
@@ -265,6 +270,18 @@ Kill the entire word (both backwards and forwards) that is under the point.
     (interactive)
     (backward-word)
     (kill-word 1))
+#+END_SRC
+* Line Manipulation
+*** Copy whole line
+Copy the line containing the point to the kill ring.
+#+BEGIN_SRC emacs-lisp
+  (defun copy-whole-line ()
+    (interactive)
+    (save-excursion
+      (kill-new
+       (buffer-substring
+	(point-at-bol)
+	(point-at-eol)))))
 #+END_SRC
 * Window Splitting
 *** Split window horizontally & put point in new window
