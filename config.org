@@ -94,19 +94,19 @@ This package provides a way to quickly go to a character in the visible buffer b
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/ (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
 Initialize the REPL to suppress the verbose help banner when opened, and bind clear the REPL screen to =C-c C-l= key.
-*** Install & use =sudo-edit= (from MELPA)
-=sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
-#+BEGIN_SRC emacs-lisp
-  (use-package sudo-edit
-    :ensure t
-    :bind ("s-e" . sudo-edit))
-#+END_SRC
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t
     :pin melpa-stable
     :init (setq cider-repl-display-help-banner nil)
     :bind ("C-c C-l" . cider-repl-clear-buffer))
+#+END_SRC
+*** Install & use =sudo-edit= (from MELPA)
+=sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
+#+BEGIN_SRC emacs-lisp
+  (use-package sudo-edit
+    :ensure t
+    :bind ("s-e" . sudo-edit))
 #+END_SRC
 * Installed Modes
 These modes are installed like packages via =use-package=
