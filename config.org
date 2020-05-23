@@ -154,7 +154,7 @@ This minor mode makes dealing with parenthesis and lisp expressions much easier.
 #+END_SRC
 *** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
-on-demand: =M-x presentation-mode=.
+on-demand: =M-x presentation-mode=. See https://github.com/zonuexe/emacs-presentation-mode.
 #+BEGIN_SRC emacs-lisp
   (use-package presentation
     :ensure t
