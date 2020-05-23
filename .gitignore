@@ -24,3 +24,6 @@ smex-items
 
 # ido history file
 ido.last
+
+# tramp file (created by sudo-edit package)
+tramp
