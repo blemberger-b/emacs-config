@@ -3,7 +3,8 @@ Clone into the =.emacs.d= folder created by Emacs
 #+BEGIN_SRC 
 git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
-
+When Emacs is opened, it will download the specified packages (with their dependencies) and
+apply these customizations.
 * Keybindings
 *** Remap Mac Fn key to super key =(s- )=
 Doesn't work in tty mode, must use =C-x @ s= and then the key.
@@ -63,6 +64,11 @@ Bind to the key =C-c l=.
 Bind it to the default =kill-buffer= keybinding =C-x k=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
+#+END_SRC
+*** Bind my function =kill-all-buffers=
+Bind it so some difficult key combination to press by accident =C-M-s-k=
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
 #+END_SRC
 * Installed Packages
 These packages are installed via =use-package=
@@ -306,6 +312,14 @@ ahead and kill the current one. It will still prompt for confirmation if the buf
   (defun kill-current-buffer ()
     (interactive)
     (kill-buffer (current-buffer)))
+#+END_SRC
+*** Kill all buffers
+This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
+to confirm.
+#+BEGIN_SRC emacs-lisp
+  (defun kill-all-buffers ()
+    (interactive)
+    (mapc 'kill-buffer (buffer-list)))
 #+END_SRC
 * Window Splitting
 *** Split window horizontally & put point in new window
