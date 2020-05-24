@@ -66,7 +66,7 @@ Bind it to the default =kill-buffer= keybinding =C-x k=.
   (global-set-key (kbd "C-x k") 'kill-current-buffer)
 #+END_SRC
 *** Bind my function =kill-all-buffers=
-Bind it so some difficult key combination to press by accident =C-M-s-k=
+Bind it to some difficult key combination to press by accident =C-M-s-k=
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
 #+END_SRC
@@ -123,6 +123,29 @@ Initialize the REPL to suppress the verbose help banner when opened, and bind cl
   (use-package sudo-edit
     :ensure t
     :bind ("s-e" . sudo-edit))
+#+END_SRC
+*** Install & use =rainbow-delimiters= (from MELPA)
+This package changes the color of corresponding pairs of parenthesis and brackets. Here, we enable
+it only in prog-mode and its descendants.
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :ensure t
+    :pin melpa-stable
+    :hook ('prog-mode . rainbow-delimiters-mode-enable)
+    )
+#+END_SRC
+*** Dashboard
+The =dashboard= package allows setting a better initial buffer when Emacs opens. See
+https://github.com/emacs-dashboard/emacs-dashboard for info and configuration values.
+#+BEGIN_SRC emacs-lisp
+  (use-package dashboard
+    :ensure t
+    :pin melpa-stable
+    :config
+    (dashboard-setup-startup-hook)
+    (setq dashboard-items '((recents . 10)))
+    (setq dashboard-banner-logo-title "The more I learn about people, the more I like my dog")
+    (setq dashboard-set-footer nil))
 #+END_SRC
 * Installed Modes
 These modes are installed like packages via =use-package=
@@ -244,6 +267,12 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
 *** Edit src snippets in same window in org-mode
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
+#+END_SRC
+*** =org-mode= source snippet for emacs-lisp
+In =org-mode=, the key combination =<el TAB= will insert an *emacs-lisp* block.
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist
+	       '( "el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
 #+END_SRC
 *** Set default fill column
 Set the default column to 100 where emacs will attempt to auto-fill in those modes that support it.
