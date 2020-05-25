@@ -178,14 +178,19 @@ This package makes the IDO mode completions in the minibuffer vertical rather th
 #+END_SRC
 *** Paredit
 This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it for
-=clojure-mode=,  =elisp-mode=, and =cider-repl-mode= major modes only.
+=clojure-mode=,  =elisp-mode=, and =cider-repl-mode= major modes only. Also remap the sexp /slurp/
+and /barf/ commands to keybindings that work in both GUI and TTY.
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
     :ensure t
     :pin melpa-stable
     :hook ((clojure-mode
 	    emacs-lisp-mode
-	    cider-repl-mode) . enable-paredit-mode))
+	    cider-repl-mode) . enable-paredit-mode)
+    :bind (("M-]" . paredit-forward-slurp-sexp)
+	   ("M-[" .  paredit-backward-slurp-sexp)
+	   ("M-}" . paredit-forward-barf-sexp)
+	   ("M-{" . paredit-backward-barf-sexp)))
 #+END_SRC
 *** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
@@ -247,11 +252,13 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
 #+END_SRC
 *** Diminish minor modes from the modeline
     =diminish= allows us to list the mode names that we don't want listed in the modeline. We do
-    that here by using the =:diminish= keyword in =use-package= declarations that we want to suppress.
+    that here by using the =:diminish= keyword in =use-package= declarations that we want to
+    suppress, or by specifing them in the =config:= section. See https://github.com/myrjola/diminish.el.
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :pin melpa-stable
-    :ensure t)
+    :ensure t
+    :config (diminish 'subword-mode))
 #+END_SRC
 * Terminal
 *** Make bash the default shell for ansi-term
