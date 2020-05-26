@@ -188,7 +188,7 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
 	    emacs-lisp-mode
 	    cider-repl-mode) . enable-paredit-mode)
     :bind (("M-]" . paredit-forward-slurp-sexp)
-	   ("M-[" .  paredit-backward-slurp-sexp)
+	   ("M-[" . paredit-backward-slurp-sexp)
 	   ("M-}" . paredit-forward-barf-sexp)
 	   ("M-{" . paredit-backward-barf-sexp)))
 #+END_SRC
@@ -258,7 +258,8 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
   (use-package diminish
     :pin melpa-stable
     :ensure t
-    :config (diminish 'subword-mode))
+    :config (diminish 'subword-mode)
+    (diminish 'eldoc-mode))
 #+END_SRC
 * Terminal
 *** Make bash the default shell for ansi-term
@@ -316,15 +317,15 @@ Set the default column to 100 where emacs will attempt to auto-fill in those mod
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 * IDO Mode
+*** Enable =ido-mode=
+#+BEGIN_SRC emacs-lisp
+  (ido-mode 1)
+#+END_SRC
 *** Set some default preferences
 #+BEGIN_SRC emacs-lisp
   (setq ido-enable-flex-matching nil)
   (setq ido-create-new-buffer 'always)
   (setq ido-everywhere t)
-#+END_SRC
-*** Enable =ido-mode=
-#+BEGIN_SRC emacs-lisp
-  (ido-mode 1)
 #+END_SRC
 * Config edit/reload
 *** Edit this config file
