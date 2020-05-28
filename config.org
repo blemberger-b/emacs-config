@@ -202,7 +202,7 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
     (spaceline-spacemacs-theme))
 #+END_SRC
 *** Diminish minor modes from the modeline
-    =diminish= allows us to list the mode names that we don't want listed in the modeline. We do
+    =diminish= allows us to list the mode names that we don't want displayed in the modeline. We do
     that here by using the =:diminish= keyword in =use-package= declarations that we want to
     suppress, or by specifing them in the =config:= section. See https://github.com/myrjola/diminish.el.
 #+BEGIN_SRC emacs-lisp
@@ -220,7 +220,7 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
   (ad-activate 'ansi-term)
 #+END_SRC
 
-* Global Variables
+* Global Settings
 *** Turn off emacs start screen
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
@@ -246,7 +246,7 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
   (setq make-backup-files nil)
 #+END_SRC
 
-*** Edit src snippets in same window in org-mode
+*** Edit src snippets in same window in =org-mode=
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
 #+END_SRC
@@ -267,12 +267,14 @@ there).
 #+BEGIN_SRC emacs-lisp
   (setq blink-cursor-blinks 0)
 #+END_SRC
-* Yes/No Prompt
+
 *** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 * IDO Mode
+=ido-mode= is a built-in minor mode that makes the minibuffer and most completion buffer features
+work better.
 *** Enable =ido-mode=
 #+BEGIN_SRC emacs-lisp
   (ido-mode 1)
@@ -389,7 +391,7 @@ For auto-complete in programming modes, we'll use the =compay= package (https://
 
 *** Paredit
 This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it for
-=clojure-mode=,  =elisp-mode=, and =cider-repl-mode= major modes only. Also remap the sexp /slurp/
+=clojure-mode=,  =elisp-mode=, and =cider-repl-mode= major modes only. Also remap the s-expression /slurp/
 and /barf/ commands to keybindings that work in both GUI and TTY.
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
@@ -416,6 +418,7 @@ it only in prog-mode and its descendants.
 #+END_SRC
 
 * Clojure
+In addition to the all of the above settings, these settings apply only to editing clojure files and buffers.
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
 (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
