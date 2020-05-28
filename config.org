@@ -417,14 +417,25 @@ it only in prog-mode and its descendants.
 
 * Clojure
 *** Install & use =cider= (from MELPA)
-=cider= is the /clojure integrated development environment/ (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
-Initialize the REPL to suppress the verbose help banner when opened, and bind clear the REPL screen to =C-c C-l= key.
+=cider= is the /clojure integrated development environment/
+(https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
+Initialize the REPL to , and bind clear the REPL screen
+to =C-c C-l= key. Also set the following defaults:
+- =cider-repl-display-help-banner= suppress the verbose help banner when opened
+- =cider-eldoc-display-context-dependent-info= try to auto-complete function calls with in-scope
+  parameters
+- =cider-allow-jack-in-without-project= Suppress warning that the REPL gives when you're current
+  buffer is not part of a leiningen project.
+- =setq cider-use-overlays= Suppress displaying REPL evaluation results in the clojure file's
+  buffer, instead dispay in the botom echo area.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t
     :pin melpa-stable
     :init (setq cider-repl-display-help-banner nil)
     (setq cider-eldoc-display-context-dependent-info t)
+    (setq cider-allow-jack-in-without-project t)
+    (setq cider-use-overlays nil)
     :bind ("C-c C-l" . cider-repl-clear-buffer))
 #+END_SRC
 
@@ -432,18 +443,6 @@ Initialize the REPL to suppress the verbose help banner when opened, and bind cl
 Configure clojure buffers (buffers tied to .clj files) to use =cider-mode= minor mode.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'clojure-mode-hook #'cider-mode)
-#+END_SRC
-
-*** Cider Defaults
-Suppress warning that the REPL gives when you're current buffer is not part of a leiningen project.
-#+BEGIN_SRC emacs-lisp
-  (setq cider-allow-jack-in-without-project t)
-#+END_SRC
-
-Suppress displaying REPL evaluation results in the clojure file's buffer, instead dispay in the
-botom echo area.
-#+BEGIN_SRC emacs-lisp
-  (setq cider-use-overlays nil)
 #+END_SRC
 
 *** =cider-repl-mode=
