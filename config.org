@@ -418,7 +418,7 @@ it only in prog-mode and its descendants.
 #+END_SRC
 
 * Clojure
-In addition to the all of the above settings, these settings apply only to editing clojure files and buffers.
+In addition to the above settings, the following settings apply only to editing clojure files and buffers.
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
 (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
