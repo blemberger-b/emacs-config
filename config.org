@@ -431,6 +431,8 @@ to =C-c C-l= key. Also set the following defaults:
   buffer is not part of a leiningen project.
 - =setq cider-use-overlays= Suppress displaying REPL evaluation results in the clojure file's
   buffer, instead dispay in the botom echo area.
+- =nrepl-log-messages= Log all request/response messages between cider and the =nrepl= server to a
+  special buffer for debugging purposes
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t
@@ -439,6 +441,7 @@ to =C-c C-l= key. Also set the following defaults:
     (setq cider-eldoc-display-context-dependent-info t)
     (setq cider-allow-jack-in-without-project t)
     (setq cider-use-overlays nil)
+    (setq nrepl-log-messages t)
     :bind ("C-c C-l" . cider-repl-clear-buffer))
 #+END_SRC
 
