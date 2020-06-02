@@ -31,11 +31,11 @@ ibuffer is a /better/ interactive buffer list that allows deleting buffers and s
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
 
-*** Bind my function =config-visit= defined below to =M-s=.
+*** Bind my function =config-visit= defined below.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c e") 'config-visit)
 #+END_SRC
-*** Bind my function =config-reload= defined below to =M-r=.
+*** Bind my function =config-reload= defined below.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c r") 'config-reload)
 #+END_SRC
@@ -400,10 +400,10 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
     :hook ((clojure-mode
 	    emacs-lisp-mode
 	    cider-repl-mode) . enable-paredit-mode)
-    :bind (("M-]" . paredit-forward-slurp-sexp)
-	   ("M-[" . paredit-backward-slurp-sexp)
-	   ("M-}" . paredit-forward-barf-sexp)
-	   ("M-{" . paredit-backward-barf-sexp)))
+    :bind (("C-c )" . paredit-forward-slurp-sexp)
+	   ("C-c (" . paredit-backward-slurp-sexp)
+	   ("C-c M-)" . paredit-forward-barf-sexp)
+	   ("C-c M-(" . paredit-backward-barf-sexp)))
 #+END_SRC
 
 *** Install & use =rainbow-delimiters= (from MELPA)
