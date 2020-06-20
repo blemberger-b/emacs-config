@@ -471,7 +471,7 @@ to =C-c C-l= key. Also set the following defaults:
 *** =cider-mode= used for .clj files
 Configure clojure buffers (buffers tied to .clj files) to use =cider-mode= minor mode.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'clojure-mode-hook #'cider-mode)
+  (add-hook 'clojure-mode-hook 'cider-mode)
 #+END_SRC
 
 *** =cider-repl-mode=
