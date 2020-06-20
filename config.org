@@ -208,6 +208,14 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
     :ensure t
     :config (diminish 'eldoc-mode))
 #+END_SRC
+
+* Kill Ring
+*** Turn on helpful kill ring pop-up menu and bind it to =M-y=
+#+BEGIN_SRC emacs-lisp
+  (use-package popup-kill-ring
+    :ensure t
+    :bind ("M-y" . popup-kill-ring))
+#+END_SRC
 * Terminal
 *** Make bash the default shell for ansi-term
 #+BEGIN_SRC emacs-lisp
@@ -361,19 +369,27 @@ to confirm.
 #+END_SRC
 * Text Mode
 *** =text-mode=
-In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that happen but only in =text-mode= and its derivatives.
+In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
+happen but only in =text-mode= and its derivatives. Also, enable =flyspell-mode= minor mode in all
+text modes to get spellchecking functionality. 
+
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+  (add-hook 'text-mode-hook (lambda () (turn-on-auto-fill)
+			      (flyspell-mode)))
 #+END_SRC
+**** Note: This requires that the =ispell= program be installed in the path of the local system.
 * Programming Modes
 *** =prog-mode= hook
 The parent major mode for all programming language modes is =prog-mode=. Here we add the =subword-mode= minor mode to
 this mode, which will allow navigation by word commands to respect camel-case words. In other words, camel-case boundaries
-of identifiers will form "word" boundaries in all programming language files with this setting enabled.
+of identifiers will form "word" boundaries in all programming language files with this setting
+enabled.
+
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook (lambda ()
 			      (subword-mode 1)
-			      (diminish 'subword-mode)))
+			      (diminish 'subword-mode)
+			      (diminish 'flyspell-mode)))
 #+END_SRC
 
 *** Auto-complete
@@ -390,7 +406,11 @@ For auto-complete in programming modes, we'll use the =compay= package (https://
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
 #+END_SRC
-
+*** Turn on spell-checking in comments and literal strings
+#+BEGIN_SRC emacs-lisp
+  (flyspell-prog-mode)
+#+END_SRC
+**** Note: This requires that the =ispell= program be installed in the path of the local system.
 *** Paredit
 This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it for
 =clojure-mode=,  =elisp-mode=, and =cider-repl-mode= major modes only. Also remap the s-expression /slurp/
