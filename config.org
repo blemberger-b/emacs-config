@@ -306,7 +306,6 @@ This function is bound to a key mapping above.
       (interactive)
       (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 #+END_SRC
-* Word Manipulation
 * Line Manipulation
 *** Copy whole line
 Copy the line containing the point to the kill ring.
