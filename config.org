@@ -392,7 +392,7 @@ enabled.
 #+END_SRC
 
 *** Auto-complete
-For auto-complete in programming modes, we'll use the =compay= package (https://company-mode.github.io/).
+For auto-complete in programming modes, we'll use the =company= package (https://company-mode.github.io/).
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
