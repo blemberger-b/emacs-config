@@ -429,12 +429,13 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
 
 *** Install & use =rainbow-delimiters= (from MELPA)
 This package changes the color of corresponding pairs of parenthesis and brackets. Here, we enable
-it only in prog-mode and its descendants.
+it only in prog-mode and its descendants, and in =cider-repl-mode=.
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
     :ensure t
     :pin melpa-stable
-    :hook ('prog-mode . rainbow-delimiters-mode-enable)
+    :hook (('prog-mode . rainbow-delimiters-mode-enable)
+	   ('cider-repl-mode . rainbow-delimiters-mode-enable))
     )
 #+END_SRC
 
