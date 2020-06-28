@@ -382,12 +382,14 @@ text modes to get spellchecking functionality.
 The parent major mode for all programming language modes is =prog-mode=. Here we add the =subword-mode= minor mode to
 this mode, which will allow navigation by word commands to respect camel-case words. In other words, camel-case boundaries
 of identifiers will form "word" boundaries in all programming language files with this setting
-enabled.
+enabled. Also, turn on spell-checking in comments and literal strings using =flyspell-prog-mode= (This requires that the =ispell=
+program be installed in the path of the local system).
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook (lambda ()
 			      (subword-mode 1)
 			      (diminish 'subword-mode)
+			      (flyspell-prog-mode)
 			      (diminish 'flyspell-mode)))
 #+END_SRC
 
@@ -405,11 +407,6 @@ For auto-complete in programming modes, we'll use the =company= package (https:/
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
 #+END_SRC
-*** Turn on spell-checking in comments and literal strings
-#+BEGIN_SRC emacs-lisp
-  (flyspell-prog-mode)
-#+END_SRC
-**** Note: This requires that the =ispell= program be installed in the path of the local system.
 *** Paredit
 This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it for
 =clojure-mode=,  =elisp-mode=, and =cider-repl-mode= major modes only. Also remap the s-expression /slurp/
