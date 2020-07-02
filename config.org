@@ -110,9 +110,18 @@ are excluding files from the recent files list that get treated as edited by the
     :config
     (dashboard-setup-startup-hook)
     (setq dashboard-items '((recents . 10)))
-    (setq dashboard-banner-logo-title "The more I learn about people, the more I like my dog")
+    (setq dashboard-banner-logo-title
+	  "The more I learn about people, the more I like my dog\n\t\t\t\t\t\t\t\t\t--Mark Twain")
     (setq dashboard-set-footer nil)
     (setq recentf-exclude '(".*autoloads\.el" ".*\.gz")))
+#+END_SRC
+*** Go To Last Change
+Use the =C-x C-/= key combination to return to the last edit location
+#+BEGIN_SRC emacs-lisp
+  (use-package goto-last-change
+    :ensure t
+    :pin melpa-stable
+    :bind ("C-x C-/" . goto-last-change))
 #+END_SRC
 * Installed Modes
 These modes are installed like packages via =use-package=
@@ -322,7 +331,7 @@ Copy the line containing the point to the kill ring.
 *** Buffer Move
 Package =buffer-move= allows re-arranging buffers within multiple windows in a frame. The
 keybindings below conflict with =org-mode=, but they are too damn convenient, so just use
-them when not in =org-mode=.
+them when not in =org-mode=. "<C-S->" here means Ctrl+Shift+whatever.
 #+BEGIN_SRC emacs-lisp
   (use-package buffer-move
     :ensure t
@@ -438,6 +447,12 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
 
 * Clojure
 In addition to the above settings, the following settings apply only to editing clojure files and buffers.
+*** Set indent mode for clojure buffers
+Set the variable =clojure-indent-style= to the value =always-indent=. See
+https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
+#+BEGIN_SRC emacs-lisp
+  (setq clojure-indent-style 'always-indent)
+#+END_SRC
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
 (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
