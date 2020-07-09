@@ -453,6 +453,11 @@ https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
 #+BEGIN_SRC emacs-lisp
   (setq clojure-indent-style 'always-indent)
 #+END_SRC
+*** =clojure-mode= customizations
+- =comment-add= only use one =;= when creating block clojure comments
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'clojure-mode-hook (lambda () (setq-local comment-add 0)))
+#+END_SRC
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
 (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
@@ -463,8 +468,6 @@ to =C-c C-l= key. Also set the following defaults:
   parameters
 - =cider-allow-jack-in-without-project= Suppress warning that the REPL gives when you're current
   buffer is not part of a leiningen project.
-- =setq cider-use-overlays= Suppress displaying REPL evaluation results in the clojure file's
-  buffer, instead dispay in the botom echo area.
 - =nrepl-log-messages= Log all request/response messages between cider and the =nrepl= server to a
   special buffer for debugging purposes
 #+BEGIN_SRC emacs-lisp
@@ -474,7 +477,6 @@ to =C-c C-l= key. Also set the following defaults:
     :init (setq cider-repl-display-help-banner nil)
     (setq cider-eldoc-display-context-dependent-info t)
     (setq cider-allow-jack-in-without-project t)
-    (setq cider-use-overlays nil)
     (setq nrepl-log-messages t)
     (setq cider-repl-result-prefix "=> ")
     :bind ("C-c C-l" . cider-repl-clear-buffer))
