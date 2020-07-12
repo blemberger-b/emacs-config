@@ -417,8 +417,8 @@ For auto-complete in programming modes, we'll use the =company= package (https:/
   (show-paren-mode 1)
 #+END_SRC
 *** Paredit
-This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it for
-=clojure-mode=,  =elisp-mode=, and =cider-repl-mode= major modes only. Also remap the s-expression /slurp/
+This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
+for some lisp major modes only. Also remap the s-expression /slurp/
 and /barf/ commands to keybindings that work in both GUI and TTY.
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
@@ -426,6 +426,8 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
     :pin melpa-stable
     :hook ((clojure-mode
 	    emacs-lisp-mode
+	    scheme-mode
+	    geiser-repl-mode
 	    cider-repl-mode) . enable-paredit-mode)
     :bind (("C-c )" . paredit-forward-slurp-sexp)
 	   ("C-c (" . paredit-backward-slurp-sexp)
@@ -494,4 +496,18 @@ Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
   (add-hook 'cider-repl-mode-hook (lambda ()
 			      (subword-mode 1)
 			      (diminish 'subword-mode)))
+#+END_SRC
+* Scheme
+*** Install & use =geiser=
+=geiser= is a better scheme mode than =scheme-mode=. Specify =guile= command as the name of the scheme REPL
+(https://www.gnu.org/software/guile/manual/html_node/index.html#SEC_Contents). =guile= can be
+installed via *homebrew* or downloaded otherwise. The =guile= command must be included in the
+*PATH*.
+
+Start a scheme REPL by running the command =M-x run-geiser=.
+#+BEGIN_SRC emacs-lisp
+    (use-package geiser
+      :ensure t
+      :init (setq geiser-active-implementations '(guile))
+      (setq geiser-repl-query-on-exit-p nil))
 #+END_SRC
