@@ -52,3 +52,5 @@
  '(default ((t (:inherit nil :height 140 :foundry "nil" :family "Monaco"))))
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
  (unless window-system '(show-paren-match ((t (:background "blue" :foreground "white"))))))
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
