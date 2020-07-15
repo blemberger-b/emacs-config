@@ -4,71 +4,7 @@ Clone into the =.emacs.d= folder created by Emacs
 git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
 When Emacs is opened, it will download the specified packages (with their dependencies) and
-apply these customizations.
-* Keybindings
-*** Remap Mac Fn key to super key =(s- )=
-Doesn't work in tty mode, must use =C-x @ s= and then the key.
-#+BEGIN_SRC emacs-lisp
-  (setq mac-function-modifier 'super)
-#+END_SRC
-
-*** Bind ansi-term command to =s-t=
-Doesn't work in tty mode, must use =C-x @ s t=.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-t") 'ansi-term)
-#+END_SRC
-
-*** Fix some stupid failed binding to =backtab= key in Mac OS console mode
-See https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'term-setup-hook
-	    (lambda () (define-key input-decode-map "\e[Z" [backtab])))
-#+END_SRC
-
-*** Bind =ibuffer= to the normal buffer list key
-ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in the same window.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
-#+END_SRC
-
-*** Bind my function =config-visit= defined below.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c e") 'config-visit)
-#+END_SRC
-*** Bind my function =config-reload= defined below.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c r") 'config-reload)
-#+END_SRC
-*** Bind my function =split-and-follow-horizontally=.
-Bind to the default split horizontally key =C-x 2=.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
-#+END_SRC
-
-*** Bind my function =split-and-follow-vertically=.
-Bind to the default split vertically key =C-x 3=.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
-#+END_SRC
-*** Bind my function =copy-whole-line=
-Bind to the key =C-c l=.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c l") 'copy-whole-line)
-#+END_SRC
-*** Bind my function =kill-current-buffer=
-Bind it to the default =kill-buffer= keybinding =C-x k=.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x k") 'kill-current-buffer)
-#+END_SRC
-*** Bind my function =kill-all-buffers=
-Bind it to some difficult key combination to press by accident =C-M-s-k=
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
-#+END_SRC
-*** Bind my function =halve-other-window-height=
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-c v") 'halve-other-window-height)
-#+END_SRC
+apply the customizations from *init.el* and this file.
 * Installed Packages
 These packages are installed via =use-package=
 *** Install & run =exec-path-from-shell=
@@ -166,6 +102,60 @@ on-demand: =M-x presentation-mode=. See https://github.com/zonuexe/emacs-present
     :ensure t
     :pin melpa-stable)
 #+END_SRC
+* Global Settings
+*** Turn off emacs start screen
+#+BEGIN_SRC emacs-lisp
+  (setq inhibit-startup-message t)
+#+END_SRC
+
+*** Turn off aggressive vertical scrolling
+#+BEGIN_SRC  emacs-lisp
+  (setq scroll-conservatively 100)
+#+END_SRC
+
+*** Turn off annoying bell
+#+BEGIN_SRC emacs-lisp
+  (setq ring-bell-function 'ignore)
+#+END_SRC
+
+*** Turn off auto-saving
+#+BEGIN_SRC emacs-lisp
+  (setq auto-save-default nil)
+#+END_SRC
+
+*** Turn off stupid auto-backups
+#+BEGIN_SRC emacs-lisp
+  (setq make-backup-files nil)
+#+END_SRC
+
+*** Set default fill column
+Set the default column to 100 where emacs will attempt to auto-fill in those modes that support it.
+#+BEGIN_SRC emacs-lisp
+  (setq-default fill-column 100)
+#+END_SRC
+*** Cursor blink
+Set the cursor to always blink. This setting has no effect in TTY mode (the cursor always blinks
+there).
+#+BEGIN_SRC emacs-lisp
+  (setq blink-cursor-blinks 0)
+#+END_SRC
+
+*** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
+#+BEGIN_SRC emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
+#+END_SRC
+*** Remap Mac Fn key to super key =(s- )=
+Doesn't work in tty mode, must use =C-x @ s= and then the key.
+#+BEGIN_SRC emacs-lisp
+  (setq mac-function-modifier 'super)
+#+END_SRC
+*** Fix some stupid failed binding to =backtab= key in Mac OS console mode
+See https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'term-setup-hook
+	    (lambda () (define-key input-decode-map "\e[Z" [backtab])))
+#+END_SRC
+
 * UI Customizations
 *** Set geometry of all emacs frames
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
@@ -237,58 +227,21 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
-
-* Global Settings
-*** Turn off emacs start screen
+*** Bind ansi-term command to =s-t=
+Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
-  (setq inhibit-startup-message t)
+  (global-set-key (kbd "s-t") 'ansi-term)
 #+END_SRC
-
-*** Turn off aggressive vertical scrolling
-#+BEGIN_SRC  emacs-lisp
-  (setq scroll-conservatively 100)
-#+END_SRC
-
-*** Turn off annoying bell
-#+BEGIN_SRC emacs-lisp
-  (setq ring-bell-function 'ignore)
-#+END_SRC
-
-*** Turn off auto-saving
-#+BEGIN_SRC emacs-lisp
-  (setq auto-save-default nil)
-#+END_SRC
-
-*** Turn off stupid auto-backups
-#+BEGIN_SRC emacs-lisp
-  (setq make-backup-files nil)
-#+END_SRC
-
-*** Edit src snippets in same window in =org-mode=
+* Org Mode
+*** Edit src snippets in same window
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
 #+END_SRC
-*** =org-mode= source snippet for emacs-lisp
+*** Source snippet for emacs-lisp
 In =org-mode=, the key combination =<el TAB= will insert an *emacs-lisp* block.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'org-structure-template-alist
 	       '( "el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
-#+END_SRC
-*** Set default fill column
-Set the default column to 100 where emacs will attempt to auto-fill in those modes that support it.
-#+BEGIN_SRC emacs-lisp
-  (setq-default fill-column 100)
-#+END_SRC
-*** Cursor blink
-Set the cursor to always blink. This setting has no effect in TTY mode (the cursor always blinks
-there).
-#+BEGIN_SRC emacs-lisp
-  (setq blink-cursor-blinks 0)
-#+END_SRC
-
-*** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
-#+BEGIN_SRC emacs-lisp
-  (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
 * IDO Mode
 =ido-mode= is a built-in minor mode that makes the minibuffer and most completion buffer features
@@ -311,13 +264,20 @@ This function is bound to a key mapping above.
     (interactive)
     (find-file "~/.emacs.d/config.org"))
 #+END_SRC
-
+Bind it to a key:
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c e") 'config-visit)
+#+END_SRC
 *** Reload configs on demand
 This function is bound to a key mapping above.
 #+BEGIN_SRC emacs-lisp
     (defun config-reload ()
       (interactive)
       (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+#+END_SRC
+Bind it to a key:
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c r") 'config-reload)
 #+END_SRC
 * Line Manipulation
 *** Copy whole line
@@ -331,7 +291,17 @@ Copy the line containing the point to the kill ring.
 	(point-at-bol)
 	(point-at-eol)))))
 #+END_SRC
+Bind it to a key:
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c l") 'copy-whole-line)
+#+END_SRC
+
 * Buffers
+*** Bind =ibuffer= to the normal buffer list key
+ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in the same window.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+#+END_SRC
 *** Buffer Move
 Package =buffer-move= allows re-arranging buffers within multiple windows in a frame. The
 keybindings below conflict with =org-mode=, but they are too damn convenient, so just use
@@ -353,6 +323,11 @@ ahead and kill the current one. It will still prompt for confirmation if the buf
     (interactive)
     (kill-buffer (current-buffer)))
 #+END_SRC
+Bind it to the default =kill-buffer= keybinding =C-x k=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x k") 'kill-current-buffer)
+#+END_SRC
+
 *** Kill all buffers
 This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
 to confirm.
@@ -360,6 +335,10 @@ to confirm.
   (defun kill-all-buffers ()
     (interactive)
     (mapc 'kill-buffer (buffer-list)))
+#+END_SRC
+Bind it to some difficult key combination to press by accident =C-M-s-k=
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
 #+END_SRC
 * Windows
 *** Split window horizontally & put point in new window
@@ -370,7 +349,10 @@ to confirm.
     (balance-windows)
     (other-window 1))
 #+END_SRC
-
+Bind to the default split horizontally key =C-x 2=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+#+END_SRC
 *** Split window vertically & put point in new window
 #+BEGIN_SRC emacs-lisp
   (defun split-and-follow-vertically ()
@@ -378,6 +360,10 @@ to confirm.
     (split-window-right)
     (balance-windows)
     (other-window 1))
+#+END_SRC
+Bind to the default split vertically key =C-x 3=.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 #+END_SRC
 *** Halve other window height
     Tip given at https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows.
@@ -387,7 +373,12 @@ to confirm.
     (interactive)
     (enlarge-window (/ (window-height (next-window)) 2)))
 #+END_SRC
+Bind it to a key.
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c v") 'halve-other-window-height)
+#+END_SRC
 *** Bind more convenient keys to resize windows
+These only work in GUI mode in Mac OS.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "<C-M-up>") 'shrink-window)
   (global-set-key (kbd "<C-M-down>") 'enlarge-window)
@@ -518,7 +509,7 @@ Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
 #+END_SRC
 * Scheme
 *** Install & use =geiser=
-=geiser= is a better scheme mode than =scheme-mode=. Specify =guile= command as the name of the scheme REPL
+=geiser= is a better scheme mode than the built-in =scheme-mode=. Specify =guile= command as the name of the scheme REPL
 (https://www.gnu.org/software/guile/manual/html_node/index.html#SEC_Contents). =guile= can be
 installed via *homebrew* or downloaded otherwise. The =guile= command must be included in the
 *PATH*.

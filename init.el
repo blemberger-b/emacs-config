@@ -15,7 +15,7 @@
 (package-initialize)
 
 ;; BSL - added this expression to install use-package package if its not
-;; installed.
+;; installed. See https://github.com/jwiegley/use-package.
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
