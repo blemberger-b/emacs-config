@@ -8,7 +8,11 @@ apply the customizations from *init.el* and this file.
 * Installed Packages
 These packages are installed via =use-package=
 *** Install & run =exec-path-from-shell=
-On OS X, an Emacs instance started from the graphical user interface will have a different environment than a shell in a terminal window, because OS X does not run a shell during the login. Obviously this will lead to unexpected results when calling external utilities like make from Emacs. This library works around this problem by copying important environment variables from the user's shell.
+On OS X, an Emacs instance started from the graphical user interface will have a different
+environment than a shell in a terminal window, because OS X does not run a shell during the login.
+Obviously this will lead to unexpected results when calling external utilities like *make* from
+Emacs. This library works around this problem by copying important environment variables from the
+user's shell.
 See https://github.com/purcell/exec-path-from-shell
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
@@ -86,14 +90,6 @@ This package provides a major mode for editing markdown files. It requires the =
     :init (setq markdown-command "/usr/local/bin/markdown"))
 #+END_SRC
 
-*** Install & use =ido-vertical-mode=
-This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
-#+BEGIN_SRC emacs-lisp
-  (use-package ido-vertical-mode
-    :ensure t
-    :init (setq ido-vertical-define-keys 'C-n-and-C-p-only)
-	  (ido-vertical-mode 1))
-#+END_SRC
 *** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
 on-demand: =M-x presentation-mode=. See https://github.com/zonuexe/emacs-presentation-mode.
@@ -255,6 +251,14 @@ work better.
   (setq ido-enable-flex-matching nil)
   (setq ido-create-new-buffer 'always)
   (setq ido-everywhere t)
+#+END_SRC
+*** Install & use =ido-vertical-mode=
+This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
+#+BEGIN_SRC emacs-lisp
+  (use-package ido-vertical-mode
+    :ensure t
+    :init (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+	  (ido-vertical-mode 1))
 #+END_SRC
 * Config edit/reload
 *** Edit this config file
