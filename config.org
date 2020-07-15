@@ -65,6 +65,10 @@ Bind it to some difficult key combination to press by accident =C-M-s-k=
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
 #+END_SRC
+*** Bind my function =halve-other-window-height=
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-c v") 'halve-other-window-height)
+#+END_SRC
 * Installed Packages
 These packages are installed via =use-package=
 *** Install & run =exec-path-from-shell=
@@ -125,9 +129,9 @@ Use the =C-x C-/= key combination to return to the last edit location
 #+END_SRC
 * Installed Modes
 These modes are installed like packages via =use-package=
-*** Add =which-keys= package
+*** Add =which-key= package
 This package provides a pop-up menu of command key completions when keys are pressed interactively
-in the minibuffer. We also suppress it from showing up in the modeline.
+in the minibuffer. We also suppress it from showing up in the modeline. See https://github.com/justbur/emacs-which-key.
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
@@ -357,7 +361,7 @@ to confirm.
     (interactive)
     (mapc 'kill-buffer (buffer-list)))
 #+END_SRC
-* Window Splitting
+* Windows
 *** Split window horizontally & put point in new window
 #+BEGIN_SRC emacs-lisp
   (defun split-and-follow-horizontally ()
@@ -374,6 +378,21 @@ to confirm.
     (split-window-right)
     (balance-windows)
     (other-window 1))
+#+END_SRC
+*** Halve other window height
+    Tip given at https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows.
+#+BEGIN_SRC emacs-lisp
+  (defun halve-other-window-height ()
+    "Expand current window to use half of the other window's lines."
+    (interactive)
+    (enlarge-window (/ (window-height (next-window)) 2)))
+#+END_SRC
+*** Bind more convenient keys to resize windows
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "<C-M-up>") 'shrink-window)
+  (global-set-key (kbd "<C-M-down>") 'enlarge-window)
+  (global-set-key (kbd "<C-M-left>") 'shrink-window-horizontally)
+  (global-set-key (kbd "<C-M-right>") 'enlarge-window-horizontally)
 #+END_SRC
 * Text Mode
 *** =text-mode=
