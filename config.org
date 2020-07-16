@@ -382,12 +382,13 @@ Bind it to a key.
   (global-set-key (kbd "C-c v") 'halve-other-window-height)
 #+END_SRC
 *** Bind more convenient keys to resize windows
-These only work in GUI mode in Mac OS.
+*Note:* These override the default bindings for scroll window up/down, etc., but I don't care
+because I use =C-v=, =M-v= for that. The arrow keys on Mac keyboards are given below.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<C-M-up>") 'shrink-window)
-  (global-set-key (kbd "<C-M-down>") 'enlarge-window)
-  (global-set-key (kbd "<C-M-left>") 'shrink-window-horizontally)
-  (global-set-key (kbd "<C-M-right>") 'enlarge-window-horizontally)
+  (global-set-key (kbd "<next>") 'shrink-window) ; Fn-down-arrow
+  (global-set-key (kbd "<prior>") 'enlarge-window) ; Fn-up-arrow
+  (global-set-key (kbd "<home>") 'shrink-window-horizontally) ; Fn-left-arrow
+  (global-set-key (kbd "<end>") 'enlarge-window-horizontally)  ; Fn-rigt-arrow
 #+END_SRC
 * Text Mode
 *** =text-mode=
@@ -486,6 +487,12 @@ to =C-c C-l= key. Also set the following defaults:
   buffer is not part of a leiningen project.
 - =nrepl-log-messages= Log all request/response messages between cider and the =nrepl= server to a
   special buffer for debugging purposes
+- =cider-use-overlays= controls whether evaluated results are shown in the original
+  buffer. Here, we disable in TTY mode, because the fonts & colors are messy. Results will be on the
+  status line.
+- =cider-prompt-for-symbol= Here, we set this variable to only prompt for the symbol if the lookup
+  for the symbol at point fails.
+- =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to it.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :ensure t
@@ -495,13 +502,10 @@ to =C-c C-l= key. Also set the following defaults:
     (setq cider-allow-jack-in-without-project t)
     (setq nrepl-log-messages t)
     (setq cider-repl-result-prefix "=> ")
+    (unless window-system (setq cider-use-overlays nil))
+    (setq cider-prompt-for-symbol nil)
+    (setq cider-repl-pop-to-buffer-on-connect 'display-only)
     :bind ("C-c C-l" . cider-repl-clear-buffer))
-#+END_SRC
-
-*** =cider-mode= used for .clj files
-Configure clojure buffers (buffers tied to .clj files) to use =cider-mode= minor mode.
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'clojure-mode-hook 'cider-mode)
 #+END_SRC
 
 *** =cider-repl-mode=
