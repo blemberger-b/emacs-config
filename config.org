@@ -478,8 +478,8 @@ https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
 (https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
-Initialize the REPL to , and bind clear the REPL screen
-to =C-c C-l= key. Also set the following defaults:
+Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l= key. Also set
+the following defaults:
 - =cider-repl-display-help-banner= suppress the verbose help banner when opened
 - =cider-eldoc-display-context-dependent-info= try to auto-complete function calls with in-scope
   parameters
