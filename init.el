@@ -42,7 +42,7 @@
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (geiser goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package))))
+    (mwim geiser goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -50,7 +50,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :height 140 :foundry "nil" :family "Monaco"))))
- '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
- (unless window-system '(show-paren-match ((t (:background "blue" :foreground "white"))))))
+ '(minibuffer-prompt ((t (:foreground "white" :weight bold)))))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)

@@ -5,37 +5,8 @@ git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
 When Emacs is opened, it will download the specified packages (with their dependencies) and
 apply the customizations from *init.el* and this file.
-* Installed Packages
+* Custom Packages & Modes
 These packages are installed via =use-package=
-*** Install & run =exec-path-from-shell=
-On OS X, an Emacs instance started from the graphical user interface will have a different
-environment than a shell in a terminal window, because OS X does not run a shell during the login.
-Obviously this will lead to unexpected results when calling external utilities like *make* from
-Emacs. This library works around this problem by copying important environment variables from the
-user's shell.
-See https://github.com/purcell/exec-path-from-shell
-#+BEGIN_SRC emacs-lisp
-  (use-package exec-path-from-shell
-    :ensure t
-    :init (when (memq window-system '(mac ns x))
-	    (exec-path-from-shell-initialize)))
-#+END_SRC
-*** Install & use =smex= (from MELPA)
-This package provides command completion in the minibuffer after typing =M-x=.
-#+BEGIN_SRC emacs-lisp
-  (use-package smex
-       :ensure t
-       :init (smex-initialize)
-       :bind
-       ("M-x" . smex))
-#+END_SRC
-*** Install & use =avy= (from MELPA)
-This package provides a way to quickly go to a character in the visible buffer by typing =M-s=.
-#+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :ensure t
-    :bind ("M-s" . avy-goto-char))
-#+END_SRC
 *** Install & use =sudo-edit= (from MELPA)
 =sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
 #+BEGIN_SRC emacs-lisp
@@ -59,25 +30,6 @@ are excluding files from the recent files list that get treated as edited by the
     (setq dashboard-set-footer nil)
     (setq recentf-exclude '(".*autoloads\.el" ".*\.gz")))
 #+END_SRC
-*** Go To Last Change
-Use the =C-x C-/= key combination to return to the last edit location
-#+BEGIN_SRC emacs-lisp
-  (use-package goto-last-change
-    :ensure t
-    :pin melpa-stable
-    :bind ("C-x C-/" . goto-last-change))
-#+END_SRC
-* Installed Modes
-These modes are installed like packages via =use-package=
-*** Add =which-key= package
-This package provides a pop-up menu of command key completions when keys are pressed interactively
-in the minibuffer. We also suppress it from showing up in the modeline. See https://github.com/justbur/emacs-which-key.
-#+BEGIN_SRC emacs-lisp
-  (use-package which-key
-    :ensure t
-    :init (which-key-mode)
-    :diminish which-key-mode)
-#+END_SRC
 *** Install & use =markdown-mode= (from MELPA)
 This package provides a major mode for editing markdown files. It requires the =markdown= command be installed via homebrew.
 #+BEGIN_SRC emacs-lisp
@@ -99,6 +51,20 @@ on-demand: =M-x presentation-mode=. See https://github.com/zonuexe/emacs-present
     :pin melpa-stable)
 #+END_SRC
 * Global Settings
+*** Install & run =exec-path-from-shell=
+On OS X, an Emacs instance started from the graphical user interface will have a different
+environment than a shell in a terminal window, because OS X does not run a shell during the login.
+Obviously this will lead to unexpected results when calling external utilities like *make* from
+Emacs. This library works around this problem by copying important environment variables from the
+user's shell.
+See https://github.com/purcell/exec-path-from-shell
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :init (when (memq window-system '(mac ns x))
+	    (exec-path-from-shell-initialize)))
+#+END_SRC
+
 *** Turn off emacs start screen
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
@@ -181,6 +147,25 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
 *** Turn on line highlight mode only in GUI mode
 #+BEGIN_SRC emacs-lisp
   (when window-system (global-hl-line-mode))
+#+END_SRC
+* Minibuffer
+*** Install & use =smex= (from MELPA)
+This package provides command completion in the minibuffer after typing =M-x=.
+#+BEGIN_SRC emacs-lisp
+  (use-package smex
+       :ensure t
+       :init (smex-initialize)
+       :bind
+       ("M-x" . smex))
+#+END_SRC
+*** Add =which-key= package
+This package provides a pop-up menu of command key completions when keys are pressed interactively
+in the minibuffer. We also suppress it from showing up in the modeline. See https://github.com/justbur/emacs-which-key.
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :ensure t
+    :init (which-key-mode)
+    :diminish which-key-mode)
 #+END_SRC
 * Mode Line
 *** Turn on column mode display of (line,col) in mode line
@@ -283,6 +268,36 @@ Bind it to a key:
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-c r") 'config-reload)
 #+END_SRC
+* Moving Point
+*** Move the point to where I really mean to (MWIM)
+This package overrides the default beginning/end of line motion actions to more convenient
+motion actions for programming modes. It's always on, so hopefully it doesn't interfere with
+non-programming modes too much.
+#+BEGIN_SRC emacs-lisp
+  (use-package mwim
+    :ensure t
+    :pin melpa-stable
+    :bind (("C-a" . mwim-beginning)
+	   ("C-e" . mwim-end)))
+#+END_SRC
+
+*** Go To Last Change
+Use the =C-x C-/= key combination to return to the last edit location
+#+BEGIN_SRC emacs-lisp
+  (use-package goto-last-change
+    :ensure t
+    :pin melpa-stable
+    :bind ("C-x C-/" . goto-last-change))
+#+END_SRC
+
+*** Install & use =avy= (from MELPA)
+This package provides a way to quickly go to a character in the visible buffer by typing a key
+binding defined below.
+#+BEGIN_SRC emacs-lisp
+  (use-package avy
+    :ensure t)
+#+END_SRC
+
 * Line Manipulation
 *** Copy whole line
 Copy the line containing the point to the kill ring.
@@ -391,14 +406,16 @@ because I use =C-v=, =M-v= for that. The arrow keys on Mac keyboards are given b
   (global-set-key (kbd "<end>") 'enlarge-window-horizontally)  ; Fn-rigt-arrow
 #+END_SRC
 * Text Mode
-*** =text-mode=
+*** COMMENT =text-mode=
 In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
-happen but only in =text-mode= and its derivatives. Also, enable =flyspell-mode= minor mode in all
-text modes to get spellchecking functionality. 
+happen but only in =text-mode= and its derivatives. We also enable =flyspell-mode= minor mode in all
+text modes to get spellchecking functionality, and we bind =M-s= to the go to character function in
+the =avy= package (because we don't want to use =avy= in non-text modes).
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'text-mode-hook (lambda () (turn-on-auto-fill)
-			      (flyspell-mode)))
+			      (flyspell-mode)
+			      (local-set-key (kbd "M-s") 'avy-goto-char)))
 #+END_SRC
 **** Note: This requires that the =ispell= program be installed in the path of the local system.
 * Programming Modes
@@ -450,7 +467,7 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
 	   ("C-c M-(" . paredit-backward-barf-sexp)))
 #+END_SRC
 
-*** Install & use =rainbow-delimiters= (from MELPA)
+*** Colorful matching delimiters
 This package changes the color of corresponding pairs of parenthesis and brackets. Here, we enable
 it only in prog-mode and its descendants, and in =cider-repl-mode=.
 #+BEGIN_SRC emacs-lisp
