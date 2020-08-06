@@ -6,7 +6,7 @@ git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 When Emacs is opened, it will download the specified packages (with their dependencies) and
 apply the customizations from *init.el* and this file.
 * Custom Packages & Modes
-These packages are installed via =use-package=
+These packages here and elsewhere are installed via =use-package= (https://github.com/jwiegley/use-package)
 *** Install & use =sudo-edit= (from MELPA)
 =sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
 #+BEGIN_SRC emacs-lisp
@@ -244,6 +244,14 @@ This package makes the IDO mode completions in the minibuffer vertical rather th
     :ensure t
     :init (setq ido-vertical-define-keys 'C-n-and-C-p-only)
 	  (ido-vertical-mode 1))
+#+END_SRC
+* Dired
+For directory editing & file system operations within emacs.
+*** Enable =dired-x=
+Extensions for =dired-mode= that are pre-installed, but not enabled by default, so enable them. For
+example, to open all marked files in a dired buffer, type *F* (shift-f).
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'dired-load-hook (lambda () (load "dired-x")))
 #+END_SRC
 * Config edit/reload
 *** Edit this config file
@@ -490,8 +498,10 @@ https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
 #+END_SRC
 *** =clojure-mode= customizations
 - =comment-add= only use one =;= when creating block clojure comments
+- turn on =eldoc-mode= (for some reason, this is necessary to get ELDoc to work in clojure buffers)
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'clojure-mode-hook (lambda () (setq-local comment-add 0)))
+  (add-hook 'clojure-mode-hook (lambda () (setq-local comment-add 0)
+				 (turn-on-eldoc-mode)))
 #+END_SRC
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
