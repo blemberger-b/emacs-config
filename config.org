@@ -117,6 +117,17 @@ See https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error
   (add-hook 'term-setup-hook
 	    (lambda () (define-key input-decode-map "\e[Z" [backtab])))
 #+END_SRC
+*** iterm2 Mac OS console mode fixes
+Emacs generally has problems with the Control-Meta-Shift combination key bindings in console
+mode. This is due to terminal emulators on all systems, not just Mac OS, not able to process the
+escape sequences and pass them through to emacs. Some of these problems can be fixed by modifying
+the terminal emulator program to send the expected escape sequences for the desired key-presses that
+emacs is expecting. A writeup for how to fix some of these key bindings in Mac OS iterm2 is discussed here:
+https://emacs.stackexchange.com/a/45624. The decimal ASCII codes to be used for whatever bindings
+are desired can be looked up in any standard ASCII table.
+
+For example, to map =C-,= in *iterm2* so that it works when emacs is run in console mode, I
+configured my iterm2 profile to map *^,* to the escape sequence =[44;5u=, since *,* is ASCII code 44.
 
 * UI Customizations
 *** Set geometry of all emacs frames
