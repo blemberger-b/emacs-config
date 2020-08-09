@@ -126,8 +126,8 @@ emacs is expecting. A writeup for how to fix some of these key bindings in Mac O
 https://emacs.stackexchange.com/a/45624. The decimal ASCII codes to be used for whatever bindings
 are desired can be looked up in any standard ASCII table.
 
-For example, to map =C-,= in *iterm2* so that it works when emacs is run in console mode, I
-configured my iterm2 profile to map *^,* to the escape sequence =[44;5u=, since *,* is ASCII code 44.
+For example, to map =C-comma= in *iterm2* so that it works when emacs is run in console mode, I
+configured my iterm2 profile to map *^,* to the escape sequence =[44;5u= since comma is ASCII code 44.
 
 * UI Customizations
 *** Set geometry of all emacs frames
