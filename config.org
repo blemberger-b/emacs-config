@@ -568,10 +568,16 @@ Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
 installed via *homebrew* or downloaded otherwise. The =guile= command must be included in the
 *PATH*.
 
+- =geiser-active-implementations= sets only *guile* to be the scheme language system used by geiser.
+- =geiser-repl-query-on-exit-p= sets the REPL to not ask for confirmation on REPL exit.
+- =geiser-guile-load-init-file-p= toggles on the option to load the =~/.guile= file before starting
+  a guile REPL.
+
 Start a scheme REPL by running the command =M-x run-geiser=.
 #+BEGIN_SRC emacs-lisp
-    (use-package geiser
-      :ensure t
-      :init (setq geiser-active-implementations '(guile))
-      (setq geiser-repl-query-on-exit-p nil))
+  (use-package geiser
+    :ensure t
+    :init (setq geiser-active-implementations '(guile))
+    (setq geiser-repl-query-on-exit-p nil)
+    (setq geiser-guile-load-init-file-p t))
 #+END_SRC
