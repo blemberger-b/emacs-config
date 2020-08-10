@@ -1,0 +1,1555 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2020-08-09 Sun 20:34 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Brian Lemberger" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3b0072c">1. Installation</a></li>
+<li><a href="#org51abf0e">2. Custom Packages &amp; Modes</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgb9b495c">2.0.1. Install &amp; use <code>sudo-edit</code> (from MELPA)</a></li>
+<li><a href="#org1b18887">2.0.2. Dashboard</a></li>
+<li><a href="#org4f4e1ff">2.0.3. Install &amp; use <code>markdown-mode</code> (from MELPA)</a></li>
+<li><a href="#org4356c20">2.0.4. Presentation Mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgcb8b4e0">3. Global Settings</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org53b618d">3.0.1. Install &amp; run <code>exec-path-from-shell</code></a></li>
+<li><a href="#orgcd26581">3.0.2. Turn off emacs start screen</a></li>
+<li><a href="#orgfa07b0e">3.0.3. Turn off aggressive vertical scrolling</a></li>
+<li><a href="#org1b949ea">3.0.4. Turn off annoying bell</a></li>
+<li><a href="#org9161a45">3.0.5. Turn off auto-saving</a></li>
+<li><a href="#orgf15cb25">3.0.6. Turn off stupid auto-backups</a></li>
+<li><a href="#orgf965599">3.0.7. Set default fill column</a></li>
+<li><a href="#orgeab8ad9">3.0.8. Cursor blink</a></li>
+<li><a href="#org1adc991">3.0.9. Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts</a></li>
+<li><a href="#org45ba470">3.0.10. Remap Mac Fn key to super key <code>(s- )</code></a></li>
+<li><a href="#org4f1e927">3.0.11. Fix some stupid failed binding to <code>backtab</code> key in Mac OS console mode</a></li>
+<li><a href="#org14e655b">3.0.12. iterm2 Mac OS console mode fixes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgde1aaea">4. UI Customizations</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org1d651e7">4.0.1. Set geometry of all emacs frames</a></li>
+<li><a href="#orgb3060d3">4.0.2. Turn off graphical tool-bar</a></li>
+<li><a href="#org8a80c90">4.0.3. Turn off right scroll-bar</a></li>
+<li><a href="#orga1f0723">4.0.4. Turn off top menu bar</a></li>
+<li><a href="#org444ec98">4.0.5. Turn on line numbering in all buffers that support it</a></li>
+<li><a href="#orga5a37be">4.0.6. Turn on line highlight mode only in GUI mode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgcbfb6fd">5. Minibuffer</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org42660d3">5.0.1. Install &amp; use <code>smex</code> (from MELPA)</a></li>
+<li><a href="#org1d7feb5">5.0.2. Add <code>which-key</code> package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgdf3edea">6. Mode Line</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org6e8246a">6.0.1. Turn on column mode display of (line,col) in mode line</a></li>
+<li><a href="#org541bf5a">6.0.2. Spaceline</a></li>
+<li><a href="#org92322ec">6.0.3. Diminish minor modes from the modeline</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgc21cfd2">7. Kill Ring</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orged0a393">7.0.1. Turn on helpful kill ring pop-up menu and bind it to <code>M-y</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgd7d2087">8. Terminal</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgacfe80a">8.0.1. Make bash the default shell for ansi-term</a></li>
+<li><a href="#org83666c7">8.0.2. Bind ansi-term command to <code>s-t</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org31dfed9">9. Org Mode</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgaab94a6">9.0.1. Edit src snippets in same window</a></li>
+<li><a href="#org98cd383">9.0.2. Source snippet for emacs-lisp</a></li>
+<li><a href="#orgc3450aa">9.0.3. Htmlize</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgd9951cf">10. IDO Mode</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgc4ba228">10.0.1. Enable <code>ido-mode</code></a></li>
+<li><a href="#orgbbeecdc">10.0.2. Set some default preferences</a></li>
+<li><a href="#org439896a">10.0.3. Install &amp; use <code>ido-vertical-mode</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org2dec8f3">11. Dired</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgb750882">11.0.1. Enable <code>dired-x</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org5555319">12. Config edit/reload</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org581124b">12.0.1. Edit this config file</a></li>
+<li><a href="#org7c60477">12.0.2. Reload configs on demand</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgcfdfa7e">13. Moving Point</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgfb35c55">13.0.1. Move the point to where I really mean to (MWIM)</a></li>
+<li><a href="#orgac1c1a8">13.0.2. Go To Last Change</a></li>
+<li><a href="#orgf2699b0">13.0.3. Install &amp; use <code>avy</code> (from MELPA)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orge7e9b77">14. Line Manipulation</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org03e04be">14.0.1. Copy whole line</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org91fc570">15. Buffers</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org0062ef2">15.0.1. Bind <code>ibuffer</code> to the normal buffer list key</a></li>
+<li><a href="#orge5359be">15.0.2. Buffer Move</a></li>
+<li><a href="#org928212a">15.0.3. Always kill the current buffer</a></li>
+<li><a href="#orgb914aa2">15.0.4. Kill all buffers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgb6a7e64">16. Windows</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgb08fdfd">16.0.1. Split window horizontally &amp; put point in new window</a></li>
+<li><a href="#org7048a40">16.0.2. Split window vertically &amp; put point in new window</a></li>
+<li><a href="#org0ed7b78">16.0.3. Halve other window height</a></li>
+<li><a href="#orgc2b46ed">16.0.4. Bind more convenient keys to resize windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org05c1777">17. Text Mode</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orge1c459f">17.0.1. <code>text-mode</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org91cc19c">18. Programming Modes</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org1e09852">18.0.1. <code>prog-mode</code> hook</a></li>
+<li><a href="#org258abb3">18.0.2. Auto-complete</a></li>
+<li><a href="#org0835ece">18.0.3. Turn on parenthesis matching mode</a></li>
+<li><a href="#orgb556cc4">18.0.4. Paredit</a></li>
+<li><a href="#org4d7f80d">18.0.5. Colorful matching delimiters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7177c3a">19. Clojure</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org31baf5d">19.0.1. Set indent mode for clojure buffers</a></li>
+<li><a href="#orgdbe5cc7">19.0.2. <code>clojure-mode</code> customizations</a></li>
+<li><a href="#org97f01d2">19.0.3. Install &amp; use <code>cider</code> (from MELPA)</a></li>
+<li><a href="#org5889529">19.0.4. <code>cider-repl-mode</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org779599d">20. Scheme</a>
+<ul>
+<li>
+<ul>
+<li><a href="#orgeee0baf">20.0.1. Install &amp; use <code>geiser</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org3b0072c" class="outline-2">
+<h2 id="org3b0072c"><span class="section-number-2">1</span> Installation</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Clone into the <code>.emacs.d</code> folder created by Emacs
+</p>
+<pre class="example">
+git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
+</pre>
+<p>
+When Emacs is opened, it will download the specified packages (with their dependencies) and
+apply the customizations from <b>init.el</b> and this file.
+</p>
+</div>
+</div>
+<div id="outline-container-org51abf0e" class="outline-2">
+<h2 id="org51abf0e"><span class="section-number-2">2</span> Custom Packages &amp; Modes</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+These packages here and elsewhere are installed via <code>use-package</code> (<a href="https://github.com/jwiegley/use-package">https://github.com/jwiegley/use-package</a>)
+</p>
+</div>
+<div id="outline-container-orgb9b495c" class="outline-4">
+<h4 id="orgb9b495c"><span class="section-number-4">2.0.1</span> Install &amp; use <code>sudo-edit</code> (from MELPA)</h4>
+<div class="outline-text-4" id="text-2-0-1">
+<p>
+<code>sudo-edit</code> allows editing write protected files by first doing <code>sudo</code> before visting the file
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">sudo-edit</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:bind</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"s-e"</span> . sudo-edit<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1b18887" class="outline-4">
+<h4 id="org1b18887"><span class="section-number-4">2.0.2</span> Dashboard</h4>
+<div class="outline-text-4" id="text-2-0-2">
+<p>
+The <code>dashboard</code> package allows setting a better initial buffer when Emacs opens. See
+<a href="https://github.com/emacs-dashboard/emacs-dashboard">https://github.com/emacs-dashboard/emacs-dashboard</a> for info and configuration values. Also, here we
+are excluding files from the recent files list that get treated as edited by the package manager for some reason.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">dashboard</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:config</span>
+  <span style="color: #bc6ec5;">(</span>dashboard-setup-startup-hook<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> dashboard-items '<span style="color: #2d9574;">(</span><span style="color: #67b11d;">(</span>recents . 10<span style="color: #67b11d;">)</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> dashboard-banner-logo-title
+        <span style="color: #2d9574;">"The more I learn about people, the more I like my dog\n\t\t\t\t\t\t\t\t\t--Mark Twain"</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> dashboard-set-footer nil<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> recentf-exclude '<span style="color: #2d9574;">(</span><span style="color: #2d9574;">".*autoloads</span><span style="color: #dc752f; background-color: #292b2e;">\</span><span style="color: #2d9574;">.el"</span> <span style="color: #2d9574;">".*</span><span style="color: #dc752f; background-color: #292b2e;">\</span><span style="color: #2d9574;">.gz"</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4f4e1ff" class="outline-4">
+<h4 id="org4f4e1ff"><span class="section-number-4">2.0.3</span> Install &amp; use <code>markdown-mode</code> (from MELPA)</h4>
+<div class="outline-text-4" id="text-2-0-3">
+<p>
+This package provides a major mode for editing markdown files. It requires the <code>markdown</code> command be installed via homebrew.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">markdown-mode</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:commands</span> <span style="color: #bc6ec5;">(</span>markdown-mode gfm-mode<span style="color: #bc6ec5;">)</span>
+  <span style="color: #4f97d7;">:mode</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span><span style="color: #2d9574;">"README\\.md\\'"</span> . gfm-mode<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"\\.md\\'"</span> . markdown-mode<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"\\.markdown\\'"</span> . markdown-mode<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #4f97d7;">:init</span> <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> markdown-command <span style="color: #2d9574;">"/usr/local/bin/markdown"</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4356c20" class="outline-4">
+<h4 id="org4356c20"><span class="section-number-4">2.0.4</span> Presentation Mode</h4>
+<div class="outline-text-4" id="text-2-0-4">
+<p>
+This minor mode allows increasing/decreasing the font size in <i>all</i> buffers. It can be run
+on-demand: <code>M-x presentation-mode</code>. See <a href="https://github.com/zonuexe/emacs-presentation-mode">https://github.com/zonuexe/emacs-presentation-mode</a>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">presentation</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcb8b4e0" class="outline-2">
+<h2 id="orgcb8b4e0"><span class="section-number-2">3</span> Global Settings</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org53b618d" class="outline-4">
+<h4 id="org53b618d"><span class="section-number-4">3.0.1</span> Install &amp; run <code>exec-path-from-shell</code></h4>
+<div class="outline-text-4" id="text-3-0-1">
+<p>
+On OS X, an Emacs instance started from the graphical user interface will have a different
+environment than a shell in a terminal window, because OS X does not run a shell during the login.
+Obviously this will lead to unexpected results when calling external utilities like <b>make</b> from
+Emacs. This library works around this problem by copying important environment variables from the
+user's shell.
+See <a href="https://github.com/purcell/exec-path-from-shell">https://github.com/purcell/exec-path-from-shell</a>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">exec-path-from-shell</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:init</span> <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">when</span> <span style="color: #2d9574;">(</span>memq window-system '<span style="color: #67b11d;">(</span>mac ns x<span style="color: #67b11d;">)</span><span style="color: #2d9574;">)</span>
+          <span style="color: #2d9574;">(</span>exec-path-from-shell-initialize<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcd26581" class="outline-4">
+<h4 id="orgcd26581"><span class="section-number-4">3.0.2</span> Turn off emacs start screen</h4>
+<div class="outline-text-4" id="text-3-0-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> inhibit-startup-message t<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfa07b0e" class="outline-4">
+<h4 id="orgfa07b0e"><span class="section-number-4">3.0.3</span> Turn off aggressive vertical scrolling</h4>
+<div class="outline-text-4" id="text-3-0-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> scroll-conservatively 100<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b949ea" class="outline-4">
+<h4 id="org1b949ea"><span class="section-number-4">3.0.4</span> Turn off annoying bell</h4>
+<div class="outline-text-4" id="text-3-0-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> ring-bell-function 'ignore<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9161a45" class="outline-4">
+<h4 id="org9161a45"><span class="section-number-4">3.0.5</span> Turn off auto-saving</h4>
+<div class="outline-text-4" id="text-3-0-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> auto-save-default nil<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf15cb25" class="outline-4">
+<h4 id="orgf15cb25"><span class="section-number-4">3.0.6</span> Turn off stupid auto-backups</h4>
+<div class="outline-text-4" id="text-3-0-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> make-backup-files nil<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf965599" class="outline-4">
+<h4 id="orgf965599"><span class="section-number-4">3.0.7</span> Set default fill column</h4>
+<div class="outline-text-4" id="text-3-0-7">
+<p>
+Set the default column to 100 where emacs will attempt to auto-fill in those modes that support it.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq-default</span> fill-column 100<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgeab8ad9" class="outline-4">
+<h4 id="orgeab8ad9"><span class="section-number-4">3.0.8</span> Cursor blink</h4>
+<div class="outline-text-4" id="text-3-0-8">
+<p>
+Set the cursor to always blink. This setting has no effect in TTY mode (the cursor always blinks
+there).
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> blink-cursor-blinks 0<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1adc991" class="outline-4">
+<h4 id="org1adc991"><span class="section-number-4">3.0.9</span> Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts</h4>
+<div class="outline-text-4" id="text-3-0-9">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defalias</span> '<span style="color: #bc6ec5; font-weight: bold;">yes-or-no-p</span> 'y-or-n-p<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org45ba470" class="outline-4">
+<h4 id="org45ba470"><span class="section-number-4">3.0.10</span> Remap Mac Fn key to super key <code>(s- )</code></h4>
+<div class="outline-text-4" id="text-3-0-10">
+<p>
+Doesn't work in tty mode, must use <code>C-x @ s</code> and then the key.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> mac-function-modifier 'super<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org4f1e927" class="outline-4">
+<h4 id="org4f1e927"><span class="section-number-4">3.0.11</span> Fix some stupid failed binding to <code>backtab</code> key in Mac OS console mode</h4>
+<div class="outline-text-4" id="text-3-0-11">
+<p>
+See <a href="https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs">https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs</a>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>add-hook 'term-setup-hook
+          <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">lambda</span> <span style="color: #2d9574;">()</span> <span style="color: #2d9574;">(</span>define-key input-decode-map <span style="color: #2d9574;">"\e[Z"</span> <span style="color: #67b11d;">[</span>backtab<span style="color: #67b11d;">]</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org14e655b" class="outline-4">
+<h4 id="org14e655b"><span class="section-number-4">3.0.12</span> iterm2 Mac OS console mode fixes</h4>
+<div class="outline-text-4" id="text-3-0-12">
+<p>
+Emacs generally has problems with the Control-Meta-Shift combination key bindings in console
+mode. This is due to terminal emulators on all systems, not just Mac OS, not able to process the
+escape sequences and pass them through to emacs. Some of these problems can be fixed by modifying
+the terminal emulator program to send the expected escape sequences for the desired key-presses that
+emacs is expecting. A writeup for how to fix some of these key bindings in Mac OS iterm2 is discussed here:
+<a href="https://emacs.stackexchange.com/a/45624">https://emacs.stackexchange.com/a/45624</a>. The decimal ASCII codes to be used for whatever bindings
+are desired can be looked up in any standard ASCII table.
+</p>
+
+<p>
+For example, to map <code>C-,</code> in <b>iterm2</b> so that it works when emacs is run in console mode, I
+configured my iterm2 profile to map <code>^​,</code> to the escape sequence <code>[44;5u</code> since comma is ASCII code 44.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgde1aaea" class="outline-2">
+<h2 id="orgde1aaea"><span class="section-number-2">4</span> UI Customizations</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org1d651e7" class="outline-4">
+<h4 id="org1d651e7"><span class="section-number-4">4.0.1</span> Set geometry of all emacs frames</h4>
+<div class="outline-text-4" id="text-4-0-1">
+<p>
+Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> default-frame-alist '<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span>top . 50<span style="color: #2d9574;">)</span> <span style="color: #2d9574;">(</span>left . 250<span style="color: #2d9574;">)</span> <span style="color: #2d9574;">(</span>width . 112<span style="color: #2d9574;">)</span> <span style="color: #2d9574;">(</span>height . 45<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb3060d3" class="outline-4">
+<h4 id="orgb3060d3"><span class="section-number-4">4.0.2</span> Turn off graphical tool-bar</h4>
+<div class="outline-text-4" id="text-4-0-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>tool-bar-mode -1<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8a80c90" class="outline-4">
+<h4 id="org8a80c90"><span class="section-number-4">4.0.3</span> Turn off right scroll-bar</h4>
+<div class="outline-text-4" id="text-4-0-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>scroll-bar-mode -1<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga1f0723" class="outline-4">
+<h4 id="orga1f0723"><span class="section-number-4">4.0.4</span> Turn off top menu bar</h4>
+<div class="outline-text-4" id="text-4-0-4">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>menu-bar-mode -1<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org444ec98" class="outline-4">
+<h4 id="org444ec98"><span class="section-number-4">4.0.5</span> Turn on line numbering in all buffers that support it</h4>
+<div class="outline-text-4" id="text-4-0-5">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-display-line-numbers-mode<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga5a37be" class="outline-4">
+<h4 id="orga5a37be"><span class="section-number-4">4.0.6</span> Turn on line highlight mode only in GUI mode</h4>
+<div class="outline-text-4" id="text-4-0-6">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">when</span> window-system <span style="color: #bc6ec5;">(</span>global-hl-line-mode<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcbfb6fd" class="outline-2">
+<h2 id="orgcbfb6fd"><span class="section-number-2">5</span> Minibuffer</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org42660d3" class="outline-4">
+<h4 id="org42660d3"><span class="section-number-4">5.0.1</span> Install &amp; use <code>smex</code> (from MELPA)</h4>
+<div class="outline-text-4" id="text-5-0-1">
+<p>
+This package provides command completion in the minibuffer after typing <code>M-x</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">smex</span>
+     <span style="color: #4f97d7;">:ensure</span> t
+     <span style="color: #4f97d7;">:init</span> <span style="color: #bc6ec5;">(</span>smex-initialize<span style="color: #bc6ec5;">)</span>
+     <span style="color: #4f97d7;">:bind</span>
+     <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"M-x"</span> . smex<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org1d7feb5" class="outline-4">
+<h4 id="org1d7feb5"><span class="section-number-4">5.0.2</span> Add <code>which-key</code> package</h4>
+<div class="outline-text-4" id="text-5-0-2">
+<p>
+This package provides a pop-up menu of command key completions when keys are pressed interactively
+in the minibuffer. We also suppress it from showing up in the modeline. See <a href="https://github.com/justbur/emacs-which-key">https://github.com/justbur/emacs-which-key</a>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">which-key</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:init</span> <span style="color: #bc6ec5;">(</span>which-key-mode<span style="color: #bc6ec5;">)</span>
+  <span style="color: #4f97d7;">:diminish</span> which-key-mode<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdf3edea" class="outline-2">
+<h2 id="orgdf3edea"><span class="section-number-2">6</span> Mode Line</h2>
+<div class="outline-text-2" id="text-6">
+</div>
+<div id="outline-container-org6e8246a" class="outline-4">
+<h4 id="org6e8246a"><span class="section-number-4">6.0.1</span> Turn on column mode display of (line,col) in mode line</h4>
+<div class="outline-text-4" id="text-6-0-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>column-number-mode 1<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org541bf5a" class="outline-4">
+<h4 id="org541bf5a"><span class="section-number-4">6.0.2</span> Spaceline</h4>
+<div class="outline-text-4" id="text-6-0-2">
+<p>
+<code>spaceline</code> is a better mode line from the spacemacs distribution (<a href="https://www.spacemacs.org/">https://www.spacemacs.org/</a>)
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">spaceline</span>
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:config</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">require</span> '<span style="color: #a45bad;">spaceline-config</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>spaceline-spacemacs-theme<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org92322ec" class="outline-4">
+<h4 id="org92322ec"><span class="section-number-4">6.0.3</span> Diminish minor modes from the modeline</h4>
+<div class="outline-text-4" id="text-6-0-3">
+<p>
+<code>diminish</code> allows us to list the mode names that we don't want displayed in the modeline. We do
+that here by using the <code>:diminish</code> keyword in <code>use-package</code> declarations that we want to
+suppress, or by specifing them in the <code>config:</code> section. See <a href="https://github.com/myrjola/diminish.el">https://github.com/myrjola/diminish.el</a>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">diminish</span>
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:config</span> <span style="color: #bc6ec5;">(</span>diminish 'eldoc-mode<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc21cfd2" class="outline-2">
+<h2 id="orgc21cfd2"><span class="section-number-2">7</span> Kill Ring</h2>
+<div class="outline-text-2" id="text-7">
+</div>
+<div id="outline-container-orged0a393" class="outline-4">
+<h4 id="orged0a393"><span class="section-number-4">7.0.1</span> Turn on helpful kill ring pop-up menu and bind it to <code>M-y</code></h4>
+<div class="outline-text-4" id="text-7-0-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">popup-kill-ring</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:bind</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"M-y"</span> . popup-kill-ring<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd7d2087" class="outline-2">
+<h2 id="orgd7d2087"><span class="section-number-2">8</span> Terminal</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-orgacfe80a" class="outline-4">
+<h4 id="orgacfe80a"><span class="section-number-4">8.0.1</span> Make bash the default shell for ansi-term</h4>
+<div class="outline-text-4" id="text-8-0-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defvar</span> <span style="color: #7590db;">my-term-shell</span> <span style="color: #2d9574;">"/bin/bash"</span><span style="color: #4f97d7;">)</span>
+<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defadvice</span> <span style="color: #bc6ec5; font-weight: bold;">ansi-term</span> <span style="color: #bc6ec5;">(</span>before force-bash<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span> <span style="color: #2d9574;">(</span>list my-term-shell<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+<span style="color: #4f97d7;">(</span>ad-activate 'ansi-term<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org83666c7" class="outline-4">
+<h4 id="org83666c7"><span class="section-number-4">8.0.2</span> Bind ansi-term command to <code>s-t</code></h4>
+<div class="outline-text-4" id="text-8-0-2">
+<p>
+Doesn't work in tty mode, must use <code>C-x @ s t</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"s-t"</span><span style="color: #bc6ec5;">)</span> 'ansi-term<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org31dfed9" class="outline-2">
+<h2 id="org31dfed9"><span class="section-number-2">9</span> Org Mode</h2>
+<div class="outline-text-2" id="text-9">
+</div>
+<div id="outline-container-orgaab94a6" class="outline-4">
+<h4 id="orgaab94a6"><span class="section-number-4">9.0.1</span> Edit src snippets in same window</h4>
+<div class="outline-text-4" id="text-9-0-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> org-src-window-setup 'current-window<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org98cd383" class="outline-4">
+<h4 id="org98cd383"><span class="section-number-4">9.0.2</span> Source snippet for emacs-lisp</h4>
+<div class="outline-text-4" id="text-9-0-2">
+<p>
+In <code>org-mode</code>, the key combination <code>&lt;el TAB</code> will insert an <b>emacs-lisp</b> block.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>add-to-list 'org-structure-template-alist
+             '<span style="color: #bc6ec5;">(</span> <span style="color: #2d9574;">"el"</span> <span style="color: #2d9574;">"#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc3450aa" class="outline-4">
+<h4 id="orgc3450aa"><span class="section-number-4">9.0.3</span> Htmlize</h4>
+<div class="outline-text-4" id="text-9-0-3">
+<p>
+Install <code>htmlize</code> package to allow exporting <code>org-mode</code> files in html format
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">htmlize</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd9951cf" class="outline-2">
+<h2 id="orgd9951cf"><span class="section-number-2">10</span> IDO Mode</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+<code>ido-mode</code> is a built-in minor mode that makes the minibuffer and most completion buffer features
+work better.
+</p>
+</div>
+<div id="outline-container-orgc4ba228" class="outline-4">
+<h4 id="orgc4ba228"><span class="section-number-4">10.0.1</span> Enable <code>ido-mode</code></h4>
+<div class="outline-text-4" id="text-10-0-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>ido-mode 1<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbbeecdc" class="outline-4">
+<h4 id="orgbbeecdc"><span class="section-number-4">10.0.2</span> Set some default preferences</h4>
+<div class="outline-text-4" id="text-10-0-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> ido-enable-flex-matching nil<span style="color: #4f97d7;">)</span>
+<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> ido-create-new-buffer 'always<span style="color: #4f97d7;">)</span>
+<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> ido-everywhere t<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org439896a" class="outline-4">
+<h4 id="org439896a"><span class="section-number-4">10.0.3</span> Install &amp; use <code>ido-vertical-mode</code></h4>
+<div class="outline-text-4" id="text-10-0-3">
+<p>
+This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">ido-vertical-mode</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:init</span> <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> ido-vertical-define-keys 'C-n-and-C-p-only<span style="color: #bc6ec5;">)</span>
+        <span style="color: #bc6ec5;">(</span>ido-vertical-mode 1<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2dec8f3" class="outline-2">
+<h2 id="org2dec8f3"><span class="section-number-2">11</span> Dired</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+For directory editing &amp; file system operations within emacs.
+</p>
+</div>
+<div id="outline-container-orgb750882" class="outline-4">
+<h4 id="orgb750882"><span class="section-number-4">11.0.1</span> Enable <code>dired-x</code></h4>
+<div class="outline-text-4" id="text-11-0-1">
+<p>
+Extensions for <code>dired-mode</code> that are pre-installed, but not enabled by default, so enable them. For
+example, to open all marked files in a dired buffer, type <b>F</b> (shift-f).
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>add-hook 'dired-load-hook <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">lambda</span> <span style="color: #2d9574;">()</span> <span style="color: #2d9574;">(</span>load <span style="color: #2d9574;">"dired-x"</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org5555319" class="outline-2">
+<h2 id="org5555319"><span class="section-number-2">12</span> Config edit/reload</h2>
+<div class="outline-text-2" id="text-12">
+</div>
+<div id="outline-container-org581124b" class="outline-4">
+<h4 id="org581124b"><span class="section-number-4">12.0.1</span> Edit this config file</h4>
+<div class="outline-text-4" id="text-12-0-1">
+<p>
+Define a custom function to do this.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">config-visit</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>find-file <span style="color: #2d9574;">"~/.emacs.d/config.org"</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind it to a key:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-c e"</span><span style="color: #bc6ec5;">)</span> 'config-visit<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7c60477" class="outline-4">
+<h4 id="org7c60477"><span class="section-number-4">12.0.2</span> Reload configs on demand</h4>
+<div class="outline-text-4" id="text-12-0-2">
+<p>
+Define a custom function to do this.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">config-reload</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>org-babel-load-file <span style="color: #2d9574;">(</span>expand-file-name <span style="color: #2d9574;">"~/.emacs.d/config.org"</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind it to a key:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-c r"</span><span style="color: #bc6ec5;">)</span> 'config-reload<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcfdfa7e" class="outline-2">
+<h2 id="orgcfdfa7e"><span class="section-number-2">13</span> Moving Point</h2>
+<div class="outline-text-2" id="text-13">
+</div>
+<div id="outline-container-orgfb35c55" class="outline-4">
+<h4 id="orgfb35c55"><span class="section-number-4">13.0.1</span> Move the point to where I really mean to (MWIM)</h4>
+<div class="outline-text-4" id="text-13-0-1">
+<p>
+This package overrides the default beginning/end of line motion actions to more convenient
+motion actions for programming modes. It's always on, so hopefully it doesn't interfere with
+non-programming modes too much.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">mwim</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:bind</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span><span style="color: #2d9574;">"C-a"</span> . mwim-beginning<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"C-e"</span> . mwim-end<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgac1c1a8" class="outline-4">
+<h4 id="orgac1c1a8"><span class="section-number-4">13.0.2</span> Go To Last Change</h4>
+<div class="outline-text-4" id="text-13-0-2">
+<p>
+Use the <code>C-x C-/</code> key combination to return to the last edit location
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">goto-last-change</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:bind</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"C-x C-/"</span> . goto-last-change<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf2699b0" class="outline-4">
+<h4 id="orgf2699b0"><span class="section-number-4">13.0.3</span> Install &amp; use <code>avy</code> (from MELPA)</h4>
+<div class="outline-text-4" id="text-13-0-3">
+<p>
+This package provides a way to quickly go to a character in the visible buffer by typing a key
+binding defined below.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">avy</span>
+  <span style="color: #4f97d7;">:ensure</span> t<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge7e9b77" class="outline-2">
+<h2 id="orge7e9b77"><span class="section-number-2">14</span> Line Manipulation</h2>
+<div class="outline-text-2" id="text-14">
+</div>
+<div id="outline-container-org03e04be" class="outline-4">
+<h4 id="org03e04be"><span class="section-number-4">14.0.1</span> Copy whole line</h4>
+<div class="outline-text-4" id="text-14-0-1">
+<p>
+Copy the line containing the point to the kill ring.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">copy-whole-line</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">save-excursion</span>
+    <span style="color: #2d9574;">(</span>kill-new
+     <span style="color: #67b11d;">(</span>buffer-substring
+      <span style="color: #b1951d;">(</span>point-at-bol<span style="color: #b1951d;">)</span>
+      <span style="color: #b1951d;">(</span>point-at-eol<span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind it to a key:
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-c l"</span><span style="color: #bc6ec5;">)</span> 'copy-whole-line<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org91fc570" class="outline-2">
+<h2 id="org91fc570"><span class="section-number-2">15</span> Buffers</h2>
+<div class="outline-text-2" id="text-15">
+</div>
+<div id="outline-container-org0062ef2" class="outline-4">
+<h4 id="org0062ef2"><span class="section-number-4">15.0.1</span> Bind <code>ibuffer</code> to the normal buffer list key</h4>
+<div class="outline-text-4" id="text-15-0-1">
+<p>
+ibuffer is a <i>better</i> interactive buffer list that allows deleting buffers and switching buffers in the same window.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-x C-b"</span><span style="color: #bc6ec5;">)</span> 'ibuffer<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge5359be" class="outline-4">
+<h4 id="orge5359be"><span class="section-number-4">15.0.2</span> Buffer Move</h4>
+<div class="outline-text-4" id="text-15-0-2">
+<p>
+Package <code>buffer-move</code> allows re-arranging buffers within multiple windows in a frame. The
+keybindings below conflict with <code>org-mode</code>, but they are too damn convenient, so just use
+them when not in <code>org-mode</code>. "&lt;C-S-&gt;" here means Ctrl+Shift+whatever.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">buffer-move</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:bind</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span><span style="color: #2d9574;">"&lt;C-S-up&gt;"</span> . buf-move-up<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"&lt;C-S-down&gt;"</span> . buf-move-down<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"&lt;C-S-right&gt;"</span> . buf-move-right<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"&lt;C-S-left&gt;"</span> . buf-move-left<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org928212a" class="outline-4">
+<h4 id="org928212a"><span class="section-number-4">15.0.3</span> Always kill the current buffer</h4>
+<div class="outline-text-4" id="text-15-0-3">
+<p>
+Override default emacs and <code>ido-mode</code> functionality to prompt for the buffer to kill, and just go
+ahead and kill the current one. It will still prompt for confirmation if the buffer is unsaved.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">kill-current-buffer</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>kill-buffer <span style="color: #2d9574;">(</span>current-buffer<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind it to the default <code>kill-buffer</code> keybinding <code>C-x k</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-x k"</span><span style="color: #bc6ec5;">)</span> 'kill-current-buffer<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb914aa2" class="outline-4">
+<h4 id="orgb914aa2"><span class="section-number-4">15.0.4</span> Kill all buffers</h4>
+<div class="outline-text-4" id="text-15-0-4">
+<p>
+This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
+to confirm.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">kill-all-buffers</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>mapc 'kill-buffer <span style="color: #2d9574;">(</span>buffer-list<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind it to some difficult key combination to press by accident: <code>C-M-s-k</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-M-s-k"</span><span style="color: #bc6ec5;">)</span> 'kill-all-buffers<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb6a7e64" class="outline-2">
+<h2 id="orgb6a7e64"><span class="section-number-2">16</span> Windows</h2>
+<div class="outline-text-2" id="text-16">
+</div>
+<div id="outline-container-orgb08fdfd" class="outline-4">
+<h4 id="orgb08fdfd"><span class="section-number-4">16.0.1</span> Split window horizontally &amp; put point in new window</h4>
+<div class="outline-text-4" id="text-16-0-1">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">split-and-follow-horizontally</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>split-window-below<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>balance-windows<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>other-window 1<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind to the default split horizontally key <code>C-x 2</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-x 2"</span><span style="color: #bc6ec5;">)</span> 'split-and-follow-horizontally<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org7048a40" class="outline-4">
+<h4 id="org7048a40"><span class="section-number-4">16.0.2</span> Split window vertically &amp; put point in new window</h4>
+<div class="outline-text-4" id="text-16-0-2">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">split-and-follow-vertically</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>split-window-right<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>balance-windows<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>other-window 1<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind to the default split vertically key <code>C-x 3</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-x 3"</span><span style="color: #bc6ec5;">)</span> 'split-and-follow-vertically<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org0ed7b78" class="outline-4">
+<h4 id="org0ed7b78"><span class="section-number-4">16.0.3</span> Halve other window height</h4>
+<div class="outline-text-4" id="text-16-0-3">
+<p>
+Tip given at <a href="https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows">https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows</a>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">halve-other-window-height</span> <span style="color: #bc6ec5;">()</span>
+  <span style="color: #9f8766;">"Expand current window to use half of the other window's lines."</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span>enlarge-window <span style="color: #2d9574;">(</span>/ <span style="color: #67b11d;">(</span>window-height <span style="color: #b1951d;">(</span>next-window<span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span> 2<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+<p>
+Bind it to a key.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"C-c v"</span><span style="color: #bc6ec5;">)</span> 'halve-other-window-height<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc2b46ed" class="outline-4">
+<h4 id="orgc2b46ed"><span class="section-number-4">16.0.4</span> Bind more convenient keys to resize windows</h4>
+<div class="outline-text-4" id="text-16-0-4">
+<p>
+<b>Note:</b> These override the default bindings for scroll window up/down, etc., but I don't care
+because I use <code>C-v</code>, <code>M-v</code> for that. The arrow keys on Mac keyboards are given in comments next to
+each definition below.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"&lt;next&gt;"</span><span style="color: #bc6ec5;">)</span> 'shrink-window<span style="color: #4f97d7;">)</span> <span style="color: #2aa1ae; background-color: #292e34;">; </span><span style="color: #2aa1ae; background-color: #292e34;">Fn-down-arrow</span>
+<span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"&lt;prior&gt;"</span><span style="color: #bc6ec5;">)</span> 'enlarge-window<span style="color: #4f97d7;">)</span> <span style="color: #2aa1ae; background-color: #292e34;">; </span><span style="color: #2aa1ae; background-color: #292e34;">Fn-up-arrow</span>
+<span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"&lt;home&gt;"</span><span style="color: #bc6ec5;">)</span> 'shrink-window-horizontally<span style="color: #4f97d7;">)</span> <span style="color: #2aa1ae; background-color: #292e34;">; </span><span style="color: #2aa1ae; background-color: #292e34;">Fn-left-arrow</span>
+<span style="color: #4f97d7;">(</span>global-set-key <span style="color: #bc6ec5;">(</span>kbd <span style="color: #2d9574;">"&lt;end&gt;"</span><span style="color: #bc6ec5;">)</span> 'enlarge-window-horizontally<span style="color: #4f97d7;">)</span>  <span style="color: #2aa1ae; background-color: #292e34;">; </span><span style="color: #2aa1ae; background-color: #292e34;">Fn-rigt-arrow</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org05c1777" class="outline-2">
+<h2 id="org05c1777"><span class="section-number-2">17</span> Text Mode</h2>
+<div class="outline-text-2" id="text-17">
+</div>
+<div id="outline-container-orge1c459f" class="outline-4">
+<h4 id="orge1c459f"><span class="section-number-4">17.0.1</span> <code>text-mode</code></h4>
+<div class="outline-text-4" id="text-17-0-1">
+<p>
+In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
+happen but only in <code>text-mode</code> and its derivatives. We also enable <code>flyspell-mode</code> minor mode in all
+text modes to get spellchecking functionality, and we bind <code>M-s</code> to the go to character function in
+the <code>avy</code> package (because we don't want to use <code>avy</code> in non-text modes).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>add-hook 'text-mode-hook <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">lambda</span> <span style="color: #2d9574;">()</span> <span style="color: #2d9574;">(</span>turn-on-auto-fill<span style="color: #2d9574;">)</span>
+                            <span style="color: #2d9574;">(</span>flyspell-mode<span style="color: #2d9574;">)</span>
+                            <span style="color: #2d9574;">(</span>local-set-key <span style="color: #67b11d;">(</span>kbd <span style="color: #2d9574;">"M-s"</span><span style="color: #67b11d;">)</span> 'avy-goto-char<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+<ol class="org-ol">
+<li><a id="org67114f6"></a>Note: This requires that the <code>ispell</code> program be installed in the path of the local system.<br /></li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org91cc19c" class="outline-2">
+<h2 id="org91cc19c"><span class="section-number-2">18</span> Programming Modes</h2>
+<div class="outline-text-2" id="text-18">
+</div>
+<div id="outline-container-org1e09852" class="outline-4">
+<h4 id="org1e09852"><span class="section-number-4">18.0.1</span> <code>prog-mode</code> hook</h4>
+<div class="outline-text-4" id="text-18-0-1">
+<p>
+The parent major mode for all programming language modes is <code>prog-mode</code>. Here we add the <code>subword-mode</code> minor mode to
+this mode, which will allow navigation by word commands to respect camel-case words. In other words, camel-case boundaries
+of identifiers will form "word" boundaries in all programming language files with this setting
+enabled. Also, turn on spell-checking in comments and literal strings using <code>flyspell-prog-mode</code> (This requires that the <code>ispell</code>
+program be installed in the path of the local system).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>add-hook 'prog-mode-hook <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">lambda</span> <span style="color: #2d9574;">()</span>
+                            <span style="color: #2d9574;">(</span>subword-mode 1<span style="color: #2d9574;">)</span>
+                            <span style="color: #2d9574;">(</span>diminish 'subword-mode<span style="color: #2d9574;">)</span>
+                            <span style="color: #2d9574;">(</span>flyspell-prog-mode<span style="color: #2d9574;">)</span>
+                            <span style="color: #2d9574;">(</span>diminish 'flyspell-mode<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org258abb3" class="outline-4">
+<h4 id="org258abb3"><span class="section-number-4">18.0.2</span> Auto-complete</h4>
+<div class="outline-text-4" id="text-18-0-2">
+<p>
+For auto-complete in programming modes, we'll use the <code>company</code> package (<a href="https://company-mode.github.io/">https://company-mode.github.io/</a>).
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">company</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> gnu
+  <span style="color: #4f97d7;">:hook</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span>'prog-mode . company-mode<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span>'cider-repl-mode . company-mode<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0835ece" class="outline-4">
+<h4 id="org0835ece"><span class="section-number-4">18.0.3</span> Turn on parenthesis matching mode</h4>
+<div class="outline-text-4" id="text-18-0-3">
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>show-paren-mode 1<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb556cc4" class="outline-4">
+<h4 id="orgb556cc4"><span class="section-number-4">18.0.4</span> Paredit</h4>
+<div class="outline-text-4" id="text-18-0-4">
+<p>
+This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
+for some lisp major modes only. Also remap the s-expression <i>slurp</i>
+and <i>barf</i> commands to keybindings that work in both GUI and TTY.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">paredit</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:hook</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span>clojure-mode
+          emacs-lisp-mode
+          scheme-mode
+          geiser-repl-mode
+          cider-repl-mode<span style="color: #2d9574;">)</span> <span style="color: #dc752f; background-color: #292b2e;">. enable-paredit-mode</span><span style="color: #bc6ec5; background-color: #292b2e;">)</span>
+  <span style="color: #4f97d7;">:bind</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span><span style="color: #2d9574;">"C-c )"</span> . paredit-forward-slurp-sexp<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"C-c ("</span> . paredit-backward-slurp-sexp<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"C-c M-)"</span> . paredit-forward-barf-sexp<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span><span style="color: #2d9574;">"C-c M-("</span> . paredit-backward-barf-sexp<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4d7f80d" class="outline-4">
+<h4 id="org4d7f80d"><span class="section-number-4">18.0.5</span> Colorful matching delimiters</h4>
+<div class="outline-text-4" id="text-18-0-5">
+<p>
+This package changes the color of corresponding pairs of parenthesis and brackets. Here, we enable
+it only in prog-mode and its descendants, and in <code>cider-repl-mode</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">rainbow-delimiters</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:hook</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">(</span>'prog-mode . rainbow-delimiters-mode-enable<span style="color: #2d9574;">)</span>
+         <span style="color: #2d9574;">(</span>'cider-repl-mode . rainbow-delimiters-mode-enable<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7177c3a" class="outline-2">
+<h2 id="org7177c3a"><span class="section-number-2">19</span> Clojure</h2>
+<div class="outline-text-2" id="text-19">
+<p>
+In addition to the above settings, the following settings apply only to editing clojure files and buffers.
+</p>
+</div>
+<div id="outline-container-org31baf5d" class="outline-4">
+<h4 id="org31baf5d"><span class="section-number-4">19.0.1</span> Set indent mode for clojure buffers</h4>
+<div class="outline-text-4" id="text-19-0-1">
+<p>
+Set the variable <code>clojure-indent-style</code> to the value <code>always-indent</code>. See
+<a href="https://github.com/clojure-emacs/clojure-mode#indentation-options">https://github.com/clojure-emacs/clojure-mode#indentation-options</a> for more info.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> clojure-indent-style 'always-indent<span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgdbe5cc7" class="outline-4">
+<h4 id="orgdbe5cc7"><span class="section-number-4">19.0.2</span> <code>clojure-mode</code> customizations</h4>
+<div class="outline-text-4" id="text-19-0-2">
+<ul class="org-ul">
+<li><code>comment-add</code> only use one <code>;</code> when creating block clojure comments</li>
+<li>turn on <code>eldoc-mode</code> (for some reason, this is necessary to get ELDoc to work in clojure buffers)</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>add-hook 'clojure-mode-hook <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">lambda</span> <span style="color: #2d9574;">()</span> <span style="color: #2d9574;">(</span><span style="color: #4f97d7; font-weight: bold;">setq-local</span> comment-add 0<span style="color: #2d9574;">)</span>
+                               <span style="color: #2d9574;">(</span>turn-on-eldoc-mode<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org97f01d2" class="outline-4">
+<h4 id="org97f01d2"><span class="section-number-4">19.0.3</span> Install &amp; use <code>cider</code> (from MELPA)</h4>
+<div class="outline-text-4" id="text-19-0-3">
+<p>
+<code>cider</code> is the <i>clojure integrated development environment</i>
+(<a href="https://github.com/clojure-emacs/cider">https://github.com/clojure-emacs/cider</a>). We're only going to use the melpa stable version.
+Initialize some settings, and bind the command to clear the REPL screen to <code>C-c C-l</code> key. Also set
+the following defaults:
+</p>
+<ul class="org-ul">
+<li><code>cider-repl-display-help-banner</code> suppress the verbose help banner when opened</li>
+<li><code>cider-eldoc-display-context-dependent-info</code> try to auto-complete function calls with in-scope
+parameters</li>
+<li><code>cider-allow-jack-in-without-project</code> Suppress warning that the REPL gives when you're current
+buffer is not part of a leiningen project.</li>
+<li><code>nrepl-log-messages</code> Log all request/response messages between cider and the <code>nrepl</code> server to a
+special buffer for debugging purposes</li>
+<li><code>cider-use-overlays</code> controls whether evaluated results are shown in the original
+buffer. Here, we disable in TTY mode, because the fonts &amp; colors are messy. Results will be on the
+status line.</li>
+<li><code>cider-prompt-for-symbol</code> Here, we set this variable to only prompt for the symbol if the lookup
+for the symbol at point fails.</li>
+<li><code>cider-repl-pop-to-buffer-on-connect</code> Display the REPL buffer on connect, but don't move focus to it.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">cider</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:pin</span> melpa-stable
+  <span style="color: #4f97d7;">:init</span> <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> cider-repl-display-help-banner nil<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> cider-eldoc-display-context-dependent-info t<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> cider-allow-jack-in-without-project t<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> nrepl-log-messages t<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> cider-repl-result-prefix <span style="color: #2d9574;">"=&gt; "</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">unless</span> window-system <span style="color: #2d9574;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> cider-use-overlays nil<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> cider-prompt-for-symbol nil<span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> cider-repl-pop-to-buffer-on-connect 'display-only<span style="color: #bc6ec5;">)</span>
+  <span style="color: #4f97d7;">:bind</span> <span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"C-c C-l"</span> . cider-repl-clear-buffer<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5889529" class="outline-4">
+<h4 id="org5889529"><span class="section-number-4">19.0.4</span> <code>cider-repl-mode</code></h4>
+<div class="outline-text-4" id="text-19-0-4">
+<p>
+Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>add-hook 'cider-repl-mode-hook <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">lambda</span> <span style="color: #2d9574;">()</span>
+                            <span style="color: #2d9574;">(</span>subword-mode 1<span style="color: #2d9574;">)</span>
+                            <span style="color: #2d9574;">(</span>diminish 'subword-mode<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org779599d" class="outline-2">
+<h2 id="org779599d"><span class="section-number-2">20</span> Scheme</h2>
+<div class="outline-text-2" id="text-20">
+</div>
+<div id="outline-container-orgeee0baf" class="outline-4">
+<h4 id="orgeee0baf"><span class="section-number-4">20.0.1</span> Install &amp; use <code>geiser</code></h4>
+<div class="outline-text-4" id="text-20-0-1">
+<p>
+<code>geiser</code> is a better scheme mode than the built-in <code>scheme-mode</code>. Specify <code>guile</code> command as the name of the scheme REPL
+(<a href="https://www.gnu.org/software/guile/manual/html_node/index.html#SEC_Contents">https://www.gnu.org/software/guile/manual/html_node/index.html#SEC_Contents</a>). <code>guile</code> can be
+installed via <b>homebrew</b> or downloaded otherwise. The <code>guile</code> command must be included in the
+<b>PATH</b>.
+</p>
+
+<p>
+Start a scheme REPL by running the command <code>M-x run-geiser</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">use-package</span> <span style="color: #a45bad;">geiser</span>
+  <span style="color: #4f97d7;">:ensure</span> t
+  <span style="color: #4f97d7;">:init</span> <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> geiser-active-implementations '<span style="color: #2d9574;">(</span>guile<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+  <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> geiser-repl-query-on-exit-p nil<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Brian Lemberger</p>
+<p class="date">Created: 2020-08-09 Sun 20:34</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
