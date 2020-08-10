@@ -516,10 +516,8 @@ https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
 #+END_SRC
 *** =clojure-mode= customizations
 - =comment-add= only use one =;= when creating block clojure comments
-- turn on =eldoc-mode= (for some reason, this is necessary to get ELDoc to work in clojure buffers)
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'clojure-mode-hook (lambda () (setq-local comment-add 0)
-				 (turn-on-eldoc-mode)))
+  (add-hook 'clojure-mode-hook (lambda () (setq-local comment-add 0)))
 #+END_SRC
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
