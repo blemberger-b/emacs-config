@@ -133,8 +133,7 @@ configured my iterm2 profile to map =^​,= to the escape sequence =[44;5u= sinc
 *** Set geometry of all emacs frames on Mac
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
 #+BEGIN_SRC emacs-lisp
-  (when (memq window-system '(mac ns))
-    (setq default-frame-alist '((top . 50) (left . 250) (width . 112) (height . 45))))
+  (setq default-frame-alist '((top . 50) (left . 250) (width . 112) (height . 45)))
 #+END_SRC
 *** Turn off graphical tool-bar
 #+BEGIN_SRC emacs-lisp
