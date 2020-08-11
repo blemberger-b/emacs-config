@@ -49,6 +49,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ (when (memq window-system '(mac ns))	; on Mac OS GUI mode only, increasing font size
+   '(default ((t (:inherit nil :height 140 :foundry "nil" :family "Monaco")))))
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
  (unless window-system
    '(show-paren-match ((t (:background "blue" :foreground "white")))))
