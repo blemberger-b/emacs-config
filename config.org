@@ -515,9 +515,9 @@ https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
   (setq clojure-indent-style 'always-indent)
 #+END_SRC
 *** =clojure-mode= customizations
-- =comment-add= only use one =;= when creating block clojure comments
+- =comment-column= set to 0 to not force adding extra space after inline *";"*
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'clojure-mode-hook (lambda () (setq-local comment-add 0)))
+  (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 #+END_SRC
 *** Install & use =cider= (from MELPA)
 =cider= is the /clojure integrated development environment/
