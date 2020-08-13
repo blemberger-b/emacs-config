@@ -515,7 +515,7 @@ https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
   (setq clojure-indent-style 'always-indent)
 #+END_SRC
 *** =clojure-mode= customizations
-- =comment-column= set to 0 to not force adding extra space after inline *";"*
+- =comment-column= set to 0 to not force adding extra space after inline *;*
 #+BEGIN_SRC emacs-lisp
   (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 #+END_SRC
