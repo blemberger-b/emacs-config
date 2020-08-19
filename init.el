@@ -58,3 +58,4 @@
    '(font-lock-comment-face ((t (:foreground "grey"))))))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(put 'set-goal-column 'disabled nil)
