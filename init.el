@@ -4,6 +4,9 @@
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
 
+;; Turn off key signature checking (KINDA DANGEROUS?)
+(setq package-check-signature nil)
+
 ;; Add melpa stable to package provider list
 (add-to-list 'package-archives
 	     '("melpa-stable" . "https://stable.melpa.org/packages/"))

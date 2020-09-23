@@ -128,7 +128,12 @@ are desired can be looked up in any standard ASCII table.
 
 For example, to map =C-,= in *iterm2* so that it works when emacs is run in console mode, I
 configured my iterm2 profile to map =^​,= to the escape sequence =[44;5u= since comma is ASCII code 44.
-
+*** Disable 'cl is deprecated warning'
+Stupid warning is shown because =cl= is a transitive dependency from other packages. Nothing we can
+do until those packages migrate to another cl, so we'll just suppress the warning. See https://github.com/kiwanami/emacs-epc/issues/35.
+#+begin_src emacs-lisp
+  (setq byte-compile-warnings '(cl-functions))
+#+end_src
 * UI Customizations
 *** Set geometry of all emacs frames on Mac
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
@@ -233,7 +238,7 @@ Doesn't work in tty mode, must use =C-x @ s t=.
 In =org-mode=, the key combination =<el TAB= will insert an *emacs-lisp* block.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'org-structure-template-alist
-	       '( "el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC"))
+	       '( "el" . "src emacs-lisp"))
 #+END_SRC
 *** Htmlize
 Install =htmlize= package to allow exporting =org-mode= files in html format
