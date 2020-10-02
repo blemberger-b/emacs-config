@@ -450,6 +450,13 @@ the =avy= package (because we don't want to use =avy= in non-text modes).
 			      (local-set-key (kbd "M-s") 'avy-goto-char)))
 #+END_SRC
 **** Note: This requires that the =ispell= program be installed in the path of the local system.
+* XML Mode
+=nxml-mode= is the modern major mode for editing xml structured documents. It inherits from
+=text-mode=, so turning off =flyspell-mode= in order to get completion at point functionality.
+#+begin_src emacs-lisp
+  (add-hook 'nxml-mode-hook (lambda () (flyspell-mode 0)))
+#+end_src
+
 * Programming Modes
 *** =prog-mode= hook
 The parent major mode for all programming language modes is =prog-mode=. Here we add the =subword-mode= minor mode to
