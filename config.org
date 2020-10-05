@@ -95,6 +95,12 @@ Set the default column to 100 where emacs will attempt to auto-fill in those mod
 #+BEGIN_SRC emacs-lisp
   (setq-default fill-column 100)
 #+END_SRC
+
+*** Set default tab width
+Set the number of spaces corresponding to a tab character, unless overridden by buffers or modes.
+#+begin_src emacs-lisp
+  (setq-default tab-width 3)
+#+end_src
 *** Cursor blink
 Set the cursor to always blink. This setting has no effect in TTY mode (the cursor always blinks
 there).
