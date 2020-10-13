@@ -112,6 +112,13 @@ there).
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
+*** Set directory listing options
+Both verbose and brief directory listings using =C-x C-d= should list hidden as well as visible
+files.
+#+begin_src emacs-lisp
+  (setq list-directory-brief-switches "-la")
+  (setq list-directory-verbose-switches "-CFa")
+#+end_src
 *** Remap Mac Fn key to super key =(s- )=
 Doesn't work in tty mode, must use =C-x @ s= and then the key.
 #+BEGIN_SRC emacs-lisp
