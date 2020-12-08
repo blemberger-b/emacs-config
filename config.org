@@ -464,10 +464,20 @@ the =avy= package (because we don't want to use =avy= in non-text modes).
 #+END_SRC
 **** Note: This requires that the =ispell= program be installed in the path of the local system.
 * XML Mode
+*** Turn off flyspell
 =nxml-mode= is the modern major mode for editing xml structured documents. It inherits from
 =text-mode=, so turning off =flyspell-mode= in order to get completion at point functionality.
 #+begin_src emacs-lisp
   (add-hook 'nxml-mode-hook (lambda () (flyspell-mode 0)))
+#+end_src
+*** Prettify
+This creates a keyboard macro that "prettifies" (i.e. re-indents and refomats) XML documents. To run
+it, enter =M-x xml-prettify=.
+*Note:* This command requires that the *xmllint* command is installed and available in the local
+PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
+#+begin_src emacs-lisp
+  (fset 'xml-prettify
+	  (kmacro-lambda-form [?\C-x ?h ?\C-u ?\M-| ?x ?m ?l ?l ?i ?n ?t ?  ?- ?- ?f ?o ?r ?m ?a ?t ?  ?- return] 0 "%d"))
 #+end_src
 
 * Programming Modes
