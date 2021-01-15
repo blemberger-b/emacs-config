@@ -6,7 +6,10 @@ git clone https://github.com/blemberger-b/emacs-config.git ~/.emacs.d
 When Emacs is opened, it will download the specified packages (with their dependencies) and
 apply the customizations from *init.el* and this file.
 * Custom Packages & Modes
-These packages here and elsewhere are installed via =use-package= (https://github.com/jwiegley/use-package)
+These packages here and elsewhere are installed via =use-package=
+(https://github.com/jwiegley/use-package). From time to time, you should check for updates using the
+command =M-x package-list-packages=, which will tell you which packages have updates available and
+prompt to upgrade them.
 *** Install & use =sudo-edit= (from MELPA)
 =sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
 #+BEGIN_SRC emacs-lisp
@@ -41,7 +44,13 @@ This package provides a major mode for editing markdown files. It requires the =
 	   ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "/usr/local/bin/markdown"))
 #+END_SRC
-
+*** Install & use =yaml-mode=
+Allows efficient editing of YAML files.
+#+begin_src emacs-lisp
+	 (use-package yaml-mode
+		:ensure t
+		:commands (yaml-mode))
+#+end_src
 *** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
 on-demand: =M-x presentation-mode=. See https://github.com/zonuexe/emacs-presentation-mode.
