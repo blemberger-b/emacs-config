@@ -33,3 +33,6 @@ recentf
 
 # exported config org html file
 config.html
+
+# some kind of transient no-gooder files put there by emacs
+transient/
