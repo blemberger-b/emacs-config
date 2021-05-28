@@ -631,3 +631,11 @@ Start a scheme REPL by running the command =M-x run-geiser=.
 	 :ensure t
 	 :pin melpa-stable)
 #+end_src
+* Git
+*** Install & use =magit=
+	 =magit= is a major mode that provides a porcelain layer of tools for the =git= SCM.
+	 #+begin_src emacs-lisp
+		(use-package magit
+		  :ensure t
+		  :pin melpa-stable)
+	 #+end_src
