@@ -1,4 +1,4 @@
-w* Installation
+* Installation
 Clone into the =.emacs.d= folder created by Emacs
 #+BEGIN_SRC 
 git clone git@github.com:blemberger-b/emacs-config.git ~/.emacs.d
