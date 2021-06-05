@@ -50,13 +50,29 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- (when (memq window-system '(mac ns))	; on Mac OS GUI mode only, increasing font size
-   '(default ((t (:inherit nil :height 140 :foundry "nil" :family "Monaco")))))
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
- (unless window-system
-   '(show-paren-match ((t (:background "blue" :foreground "white")))))
- (unless window-system
-   '(font-lock-comment-face ((t (:foreground "grey"))))))
+ 
+ ;; BSL - Mac only font definitions
+ '(default ((((type ns)) (:inherit nil :height 140 :foundry "nil" :family "Monaco"))))
+
+ ;; BSL - Console only font definitions
+ '(font-lock-comment-face ((((type tty)) (:foreground "grey"))))
+ '(mode-line ((((type tty)) (:background "white" :foreground "magenta" :inverse-video t :weight bold))))
+ '(mode-line-inactive ((((type tty)) (:inherit mode-line :background "black" :foreground "green"))))
+ '(powerline-active1 ((((type tty)) (:inherit mode-line))))
+ '(powerline-active2 ((((type tty)) (:inherit mode-line))))
+ '(powerline-inactive1 ((((type tty)) (:inherit mode-line-inactive :background "black"))))
+ '(powerline-inactive2 ((((type tty)) (:inherit mode-line-inactive :background "black"))))
+ '(show-paren-match ((((type tty))(:background "blue" :foreground "white")))))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
+
+
+
+
+
+
+
+
+
