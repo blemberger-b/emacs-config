@@ -10,6 +10,14 @@ These packages here and elsewhere are installed via =use-package=
 (https://github.com/jwiegley/use-package). From time to time, you should check for updates using the
 command =M-x package-list-packages=, which will tell you which packages have updates available and
 prompt to upgrade them.
+*** Install & use =paradox= for package listing
+	 A better tool to use for listing and updating packages than the default =list-packages=. See the
+	 [[https://github.com/Malabarba/paradox][project page]] for more info.
+	 #+begin_src emacs-lisp
+		(use-package paradox
+		  :ensure t
+		  :config (paradox-enable))
+	 #+end_src
 *** Install & use =sudo-edit= (from MELPA)
 =sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
 #+BEGIN_SRC emacs-lisp

@@ -43,7 +43,8 @@
  '(custom-safe-themes
 	'("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(package-selected-packages
-	'(magit gnu-elpa-keyring-update htmlize mwim geiser goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package)))
+	'(magit gnu-elpa-keyring-update htmlize mwim geiser goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package))
+ '(paradox-github-token t))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -63,7 +64,7 @@
  '(powerline-active2 ((((type tty)) (:inherit mode-line))))
  '(powerline-inactive1 ((((type tty)) (:inherit mode-line-inactive :background "black"))))
  '(powerline-inactive2 ((((type tty)) (:inherit mode-line-inactive :background "black"))))
- '(show-paren-match ((((type tty))(:background "blue" :foreground "white")))))
+ '(show-paren-match ((((type tty)) (:background "blue" :foreground "white")))))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 (put 'set-goal-column 'disabled nil)
