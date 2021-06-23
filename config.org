@@ -25,6 +25,17 @@ prompt to upgrade them.
     :ensure t
     :bind ("s-e" . sudo-edit))
 #+END_SRC
+*** Recent Files
+	 Emacs does not keep track of recently found files by default, so turn it on, and set some
+	 reasonable defaults.
+	 #+begin_src emacs-lisp
+		(use-package recentf
+		  :ensure t
+		  :config
+		  (setq recentf-max-saved-items 100
+				  recentf-exclude '("ido.last"))
+		  (recentf-mode 1))
+	 #+end_src
 *** Dashboard
 The =dashboard= package allows setting a better initial buffer when Emacs opens. See
 https://github.com/emacs-dashboard/emacs-dashboard for info and configuration values. Also, here we
