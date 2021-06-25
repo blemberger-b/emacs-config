@@ -36,3 +36,6 @@ config.html
 
 # some kind of transient no-gooder files put there by emacs
 transient/
+
+# projectile project bookmarks file
+projectile-bookmarks.eld

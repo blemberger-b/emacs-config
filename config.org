@@ -48,7 +48,7 @@ are excluding files from the recent files list that get treated as edited by the
     (dashboard-setup-startup-hook)
     (setq dashboard-items '((recents . 10)))
     (setq dashboard-banner-logo-title
-	  "The more I learn about people, the more I like my dog\n\t\t\t\t\t\t\t\t\t--Mark Twain")
+	  "The more I learn about people, the more I like my dog\t--Mark Twain")
     (setq dashboard-set-footer nil)
     (setq recentf-exclude '(".*autoloads\.el" ".*\.gz")))
 #+END_SRC
@@ -175,6 +175,12 @@ do until those packages migrate to another cl, so we'll just suppress the warnin
 #+begin_src emacs-lisp
   (setq byte-compile-warnings '(cl-functions))
 #+end_src
+*** Save clipboard strings into kill ring before replacing them
+	 When one selects something in another program to paste it into Emacs, but kills something in
+	 Emacs before actually pasting it, this selection is gone unless this variable is non-nil.
+	 #+begin_src emacs-lisp
+		(setq save-interprogram-paste-before-kill t)
+	 #+end_src
 * UI Customizations
 *** Set geometry of all emacs frames on Mac
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
@@ -186,9 +192,10 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
   (tool-bar-mode -1)
 #+END_SRC
 
-*** Turn off right scroll-bar
+*** Turn off native OS scroll bars on window frames
 #+BEGIN_SRC emacs-lisp
-  (scroll-bar-mode -1)
+  (when (fboundp 'scroll-bar-mode)
+	 (scroll-bar-mode -1))
 #+END_SRC
 
 *** Turn off top menu bar
@@ -196,6 +203,10 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
   (menu-bar-mode -1)
 #+END_SRC
 
+*** Full path in title bar
+	 #+begin_src emacs-lisp
+		(setq frame-title-format "%b (%f)")
+	 #+end_src
 *** Turn on line numbering in all buffers that support it
 #+BEGIN_SRC emacs-lisp
   (global-display-line-numbers-mode)
@@ -205,6 +216,7 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
 #+BEGIN_SRC emacs-lisp
   (when window-system (global-hl-line-mode))
 #+END_SRC
+
 * Minibuffer
 *** Install & use =smex= (from MELPA)
 This package provides command completion in the minibuffer after typing =M-x=.
@@ -660,3 +672,17 @@ Start a scheme REPL by running the command =M-x run-geiser=.
 	:ensure t
 	:pin melpa-stable)
 #+end_src
+* Projects
+*** Install & use =projectile=
+  [[https://docs.projectile.mx/projectile/index.html]projectile] is a major mode that allows for managing sets of files & buffers that constitute some
+  type of /project/, such as git, maven, leiningen, etc. It can auto-discover these types of
+  projects, or you can define them yourself.
+  #+begin_src emacs-lisp
+	 (use-package projectile
+		:ensure t
+		:pin melpa-stable
+		:init (projectile-mode 1)
+		:bind (:map projectile-mode-map
+						("s-p" . projectile-command-map)
+						("C-c p" . projectile-command-map)))
+  #+end_src
