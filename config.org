@@ -288,18 +288,20 @@ Install =htmlize= package to allow exporting =org-mode= files in html format
     :ensure t
     :pin melpa-stable)
 #+END_SRC
-* IDO Mode
-=ido-mode= is a built-in minor mode that makes the minibuffer and most completion buffer features
-work better.
+* Ido Mode
+=ido-mode= is a built-in minor mode that lets you "interactively do" things & makes the minibuffer
+and most completion buffer features work better.
 *** Enable =ido-mode=
 #+BEGIN_SRC emacs-lisp
-  (ido-mode 1)
+  (ido-mode t)
 #+END_SRC
 *** Set some default preferences
 #+BEGIN_SRC emacs-lisp
-  (setq ido-enable-flex-matching nil)
+  (ido-everywhere t)
+  (setq ido-use-faces t)
+  (setq ido-enable-flex-matching t)
   (setq ido-create-new-buffer 'always)
-  (setq ido-everywhere t)
+  (setq ido-use-filename-at-point nil)
 #+END_SRC
 *** Install & use =ido-vertical-mode=
 This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
