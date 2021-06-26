@@ -551,11 +551,12 @@ PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
 
 * Programming Modes
 *** =prog-mode= hook
-The parent major mode for all programming language modes is =prog-mode=. Here we add the =subword-mode= minor mode to
-this mode, which will allow navigation by word commands to respect camel-case words. In other words, camel-case boundaries
-of identifiers will form "word" boundaries in all programming language files with this setting
-enabled. Also, turn on spell-checking in comments and literal strings using =flyspell-prog-mode= (This requires that the =ispell=
-program be installed in the path of the local system).
+The parent major mode for all programming language modes is =prog-mode=. Here we add the
+=subword-mode= minor mode to this mode, which will allow navigation by word commands to respect
+camel-case words. In other words, camel-case boundaries of identifiers will form "word" boundaries
+in all programming language files with this setting enabled. Also, turn on spell-checking in
+comments and literal strings using =flyspell-prog-mode= (This requires that the =ispell= program be
+installed in the path of the local system).
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook (lambda ()
@@ -602,12 +603,12 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
 This package changes the color of corresponding pairs of parenthesis and brackets. Here, we enable
 it only in prog-mode and its descendants, and in =cider-repl-mode=.
 #+BEGIN_SRC emacs-lisp
-  (use-package rainbow-delimiters
-    :ensure t
-    :pin melpa-stable
-    :hook (('prog-mode . rainbow-delimiters-mode-enable)
-	   ('cider-repl-mode . rainbow-delimiters-mode-enable))
-    )
+	(use-package rainbow-delimiters
+		:ensure t
+		:pin melpa-stable
+		:hook (('prog-mode . rainbow-delimiters-mode-enable)
+		 ('cider-repl-mode . rainbow-delimiters-mode-enable))
+		)
 #+END_SRC
 
 * Clojure
@@ -622,6 +623,7 @@ Set the variable =clojure-indent-style= to the value =always-indent=. See [[http
 #+BEGIN_SRC emacs-lisp
   (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 #+END_SRC
+
 *** Install & use =cider= (from MELPA)
 [[https://github.com/clojure-emacs/cider][cider]] is the /clojure integrated development environment/. We're only going to use the melpa stable version.
 Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l= key. Also set
@@ -640,18 +642,19 @@ the following defaults:
   for the symbol at point fails.
 - =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to it.
 #+BEGIN_SRC emacs-lisp
-  (use-package cider
-    :ensure t
-    :pin melpa-stable
-    :init (setq cider-repl-display-help-banner nil)
-    (setq cider-eldoc-display-context-dependent-info t)
-    (setq cider-allow-jack-in-without-project t)
-    (setq nrepl-log-messages t)
-    (setq cider-repl-result-prefix "=> ")
-    (unless window-system (setq cider-use-overlays nil))
-    (setq cider-prompt-for-symbol nil)
-    (setq cider-repl-pop-to-buffer-on-connect 'display-only)
-    :bind ("C-c C-l" . cider-repl-clear-buffer))
+	(use-package cider
+		:ensure t
+		:pin melpa-stable
+		:init (setq cider-repl-display-help-banner nil)
+		(setq cider-eldoc-display-context-dependent-info t)
+		(setq cider-allow-jack-in-without-project t)
+		(setq nrepl-log-messages t)
+		(setq cider-repl-result-prefix "=> ")
+		(unless window-system (setq cider-use-overlays nil))
+		(setq cider-prompt-for-symbol nil)
+		(setq cider-repl-pop-to-buffer-on-connect 'display-only)
+		(setq cider-repl-wrap-history t)
+		:bind ("C-c C-l" . cider-repl-clear-buffer))
 #+END_SRC
 
 *** =cider-repl-mode=
