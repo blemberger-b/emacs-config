@@ -640,7 +640,9 @@ the following defaults:
   status line.
 - =cider-prompt-for-symbol= Here, we set this variable to only prompt for the symbol if the lookup
   for the symbol at point fails.
-- =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to it.
+- =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to
+  it.
+- =cider-repl-wrap-history= Wrap when navigating history.
 #+BEGIN_SRC emacs-lisp
 	(use-package cider
 		:ensure t
