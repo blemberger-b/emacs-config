@@ -39,3 +39,6 @@ transient/
 
 # projectile project bookmarks file
 projectile-bookmarks.eld
+
+# saved-places saves file locations in this file
+/places
