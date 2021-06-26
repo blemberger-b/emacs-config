@@ -6,10 +6,9 @@ git clone git@github.com:blemberger-b/emacs-config.git ~/.emacs.d
 When Emacs is opened, it will download the specified packages (with their dependencies) and
 apply the customizations from *init.el* and this file.
 * Custom Packages & Modes
-These packages here and elsewhere are installed via =use-package=
-(https://github.com/jwiegley/use-package). From time to time, you should check for updates using the
-command =M-x package-list-packages=, which will tell you which packages have updates available and
-prompt to upgrade them.
+These packages here and elsewhere are installed via [[https://github.com/jwiegley/use-package][use-package]]. From time to time, you should check
+for updates using the command =M-x package-list-packages=, which will tell you which packages have
+updates available and prompt to upgrade them.
 *** Install & use =paradox= for package listing
 	 A better tool to use for listing and updating packages than the default =list-packages=. See the
 	 [[https://github.com/Malabarba/paradox][project page]] for more info.
@@ -38,7 +37,7 @@ prompt to upgrade them.
 	 #+end_src
 *** Dashboard
 The =dashboard= package allows setting a better initial buffer when Emacs opens. See
-https://github.com/emacs-dashboard/emacs-dashboard for info and configuration values. Also, here we
+[[https://github.com/emacs-dashboard/emacs-dashboard][here]] for info and configuration values. Also, here we
 are excluding files from the recent files list that get treated as edited by the package manager for some reason.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
@@ -72,7 +71,7 @@ Allows efficient editing of YAML files.
 #+end_src
 *** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
-on-demand: =M-x presentation-mode=. See https://github.com/zonuexe/emacs-presentation-mode.
+on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-presentation-mode][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package presentation
     :ensure t
@@ -84,8 +83,7 @@ On OS X, an Emacs instance started from the graphical user interface will have a
 environment than a shell in a terminal window, because OS X does not run a shell during the login.
 Obviously this will lead to unexpected results when calling external utilities like *make* from
 Emacs. This library works around this problem by copying important environment variables from the
-user's shell.
-See https://github.com/purcell/exec-path-from-shell
+user's shell. See [[https://github.com/purcell/exec-path-from-shell][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :ensure t
@@ -153,7 +151,7 @@ Doesn't work in tty mode, must use =C-x @ s= and then the key.
   (setq mac-function-modifier 'super)
 #+END_SRC
 *** Fix some stupid failed binding to =backtab= key in Mac OS console mode
-See https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs.
+See [[https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs][this explanation]].
 #+BEGIN_SRC emacs-lisp
   (add-hook 'term-setup-hook
 	    (lambda () (define-key input-decode-map "\e[Z" [backtab])))
@@ -163,15 +161,15 @@ Emacs generally has problems with the Control-Meta-Shift combination key binding
 mode. This is due to terminal emulators on all systems, not just Mac OS, not able to process the
 escape sequences and pass them through to emacs. Some of these problems can be fixed by modifying
 the terminal emulator program to send the expected escape sequences for the desired key-presses that
-emacs is expecting. A writeup for how to fix some of these key bindings in Mac OS iterm2 is discussed here:
-https://emacs.stackexchange.com/a/45624. The decimal ASCII codes to be used for whatever bindings
+emacs is expecting. A writeup for how to fix some of these key bindings in Mac OS iterm2 is discussed
+[[https://emacs.stackexchange.com/a/45624][here]]. The decimal ASCII codes to be used for whatever bindings
 are desired can be looked up in any standard ASCII table.
 
 For example, to map =C-,= in *iterm2* so that it works when emacs is run in console mode, I
 configured my iterm2 profile to map =^,= to the escape sequence =[44;5u= since comma is ASCII code 44.
 *** Disable 'cl is deprecated warning'
 Stupid warning is shown because =cl= is a transitive dependency from other packages. Nothing we can
-do until those packages migrate to another cl, so we'll just suppress the warning. See https://github.com/kiwanami/emacs-epc/issues/35.
+do until those packages migrate to another cl, so we'll just suppress the warning. See [[https://github.com/kiwanami/emacs-epc/issues/35][this]].
 #+begin_src emacs-lisp
   (setq byte-compile-warnings '(cl-functions))
 #+end_src
@@ -229,7 +227,7 @@ This package provides command completion in the minibuffer after typing =M-x=.
 #+END_SRC
 *** Add =which-key= package
 This package provides a pop-up menu of command key completions when keys are pressed interactively
-in the minibuffer. We also suppress it from showing up in the modeline. See https://github.com/justbur/emacs-which-key.
+in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :ensure t
@@ -242,7 +240,7 @@ in the minibuffer. We also suppress it from showing up in the modeline. See http
   (column-number-mode 1)
 #+END_SRC
 *** Spaceline
-=spaceline= is a better mode line from the spacemacs distribution (https://www.spacemacs.org/)
+=spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]].
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
     :pin melpa-stable
@@ -252,9 +250,9 @@ in the minibuffer. We also suppress it from showing up in the modeline. See http
     (spaceline-spacemacs-theme))
 #+END_SRC
 *** Diminish minor modes from the modeline
-    =diminish= allows us to list the mode names that we don't want displayed in the modeline. We do
+    [[https://github.com/myrjola/diminish.el][diminish]] allows us to list the mode names that we don't want displayed in the modeline. We do
     that here by using the =:diminish= keyword in =use-package= declarations that we want to
-    suppress, or by specifing them in the =config:= section. See https://github.com/myrjola/diminish.el.
+    suppress, or by specifing them in the =config:= section.
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :pin melpa-stable
@@ -368,7 +366,7 @@ non-programming modes too much.
 #+END_SRC
 
 *** Go To Last Change
-Use the =C-x C-/= key combination to return to the last edit location
+Use the =C-x C-/= key combination to return to the last edit location in the active buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package goto-last-change
     :ensure t
@@ -471,7 +469,7 @@ Bind to the default split vertically key =C-x 3=.
   (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
 #+END_SRC
 *** Halve other window height
-    Tip given at https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows.
+    Tip from [[https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows][here]].
 #+BEGIN_SRC emacs-lisp
   (defun halve-other-window-height ()
     "Expand current window to use half of the other window's lines."
@@ -539,7 +537,7 @@ program be installed in the path of the local system).
 #+END_SRC
 
 *** Auto-complete
-For auto-complete in programming modes, we'll use the =company= package (https://company-mode.github.io/).
+For auto-complete in programming modes, we'll use the [[https://company-mode.github.io/][company package]].
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :ensure t
@@ -586,8 +584,7 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
 * Clojure
 In addition to the above settings, the following settings apply only to editing clojure files and buffers.
 *** Set indent mode for clojure buffers
-Set the variable =clojure-indent-style= to the value =always-indent=. See
-https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
+Set the variable =clojure-indent-style= to the value =always-indent=. See [[https://github.com/clojure-emacs/clojure-mode#indentation-options][here]] for more info.
 #+BEGIN_SRC emacs-lisp
   (setq clojure-indent-style 'always-indent)
 #+END_SRC
@@ -597,8 +594,7 @@ https://github.com/clojure-emacs/clojure-mode#indentation-options for more info.
   (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 #+END_SRC
 *** Install & use =cider= (from MELPA)
-=cider= is the /clojure integrated development environment/
-(https://github.com/clojure-emacs/cider). We're only going to use the melpa stable version.
+[[https://github.com/clojure-emacs/cider][cider]] is the /clojure integrated development environment/. We're only going to use the melpa stable version.
 Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l= key. Also set
 the following defaults:
 - =cider-repl-display-help-banner= suppress the verbose help banner when opened
@@ -638,10 +634,9 @@ Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
 #+END_SRC
 * Scheme
 *** Install & use =geiser=
-=geiser= is a better scheme mode than the built-in =scheme-mode=. Specify =guile= command as the name of the scheme REPL
-(https://www.gnu.org/software/guile/manual/html_node/index.html#SEC_Contents). =guile= can be
-installed via *homebrew* or downloaded otherwise. The =guile= command must be included in the
-*PATH*.
+=geiser= is a better scheme mode than the built-in =scheme-mode=. Specify =guile= command as the
+name of the scheme REPL. [[https://www.gnu.org/software/guile/manual/html_node/index.html#SEC_Contents][guile]] can be installed via *homebrew* or downloaded otherwise. The =guile=
+command must be included in the *PATH*.
 
 - =geiser-active-implementations= sets only *guile* to be the scheme language system used by geiser.
 - =geiser-repl-query-on-exit-p= sets the REPL to not ask for confirmation on REPL exit.
@@ -674,7 +669,7 @@ Start a scheme REPL by running the command =M-x run-geiser=.
 #+end_src
 * Projects
 *** Install & use =projectile=
-  [[https://docs.projectile.mx/projectile/index.html]projectile] is a major mode that allows for managing sets of files & buffers that constitute some
+  [[https://docs.projectile.mx/projectile/index.html][projectile]] is a major mode that allows for managing sets of files & buffers that constitute some
   type of /project/, such as git, maven, leiningen, etc. It can auto-discover these types of
   projects, or you can define them yourself.
   #+begin_src emacs-lisp
