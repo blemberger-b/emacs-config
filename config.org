@@ -137,10 +137,29 @@ Set the number of spaces corresponding to a tab character, unless overridden by 
 #+begin_src emacs-lisp
   (setq-default tab-width 2)
 #+end_src
+
+*** Set fill column
+Set the column at which auto-fill behavior for lines in a buffer happens. Some modes override this
+value.
+#+begin_src emacs-lisp
+  (setq-default fill-column 100)
+#+end_src
+*** Set =whitespace-mode= highlighting column
+The value of this variable determines the column number for lines in buffers viewed in
+=whitespace-mode= are shown in highlighted color. =nil= means to use the value of =fill-column=.
+ #+begin_src emacs-lisp
+   (setq whitespace-line-column nil)
+ #+end_src
 *** Turn off =electric-indent-mode=
 	 #+begin_src emacs-lisp
 		(setq electric-indent-mode nil)
 	 #+end_src
+*** Tab key behavior regarding indentation
+The value of this variable determines how the tab key behaves when struck. This setting only does
+indentation when the point is at the beginning of a line.
+#+begin_src emacs-lisp
+  (setq-default tab-always-indent nil)
+#+end_src
 *** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
@@ -333,6 +352,12 @@ Install =htmlize= package to allow exporting =org-mode= files in html format
   (use-package htmlize
     :ensure t
     :pin melpa-stable)
+#+END_SRC
+*** Source snippet for emacs-lisp
+In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* block.
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist
+              '( "el" . "src emacs-lisp"))
 #+END_SRC
 * Ido Mode
 =ido-mode= is a built-in minor mode that lets you "interactively do" things & makes the minibuffer
