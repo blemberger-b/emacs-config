@@ -138,12 +138,6 @@ Set the number of spaces corresponding to a tab character, unless overridden by 
   (setq-default tab-width 2)
 #+end_src
 
-*** Set fill column
-Set the column at which auto-fill behavior for lines in a buffer happens. Some modes override this
-value.
-#+begin_src emacs-lisp
-  (setq-default fill-column 100)
-#+end_src
 *** Set =whitespace-mode= highlighting column
 The value of this variable determines the column number for lines in buffers viewed in
 =whitespace-mode= are shown in highlighted color. =nil= means to use the value of =fill-column=.
