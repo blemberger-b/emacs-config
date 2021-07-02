@@ -324,8 +324,9 @@ in the minibuffer. We also suppress it from showing up in the modeline. See [[ht
 #+END_SRC
 * Terminal
 *** Make bash the default shell for ansi-term
+    =bash= command will be located based on the =PATH= in the user's environment.
 #+BEGIN_SRC emacs-lisp
-  (defvar my-term-shell "/bin/bash")
+  (defvar my-term-shell "bash")
   (defadvice ansi-term (before force-bash)
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
