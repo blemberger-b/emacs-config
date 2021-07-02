@@ -571,8 +571,15 @@ it, enter =M-x xml-prettify=.
 *Note:* This command requires that the *xmllint* command is installed and available in the local
 PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
 #+begin_src emacs-lisp
-  (fset 'xml-prettify
-    (kmacro-lambda-form [?\C-x ?h ?\C-u ?\M-| ?x ?m ?l ?l ?i ?n ?t ?  ?- ?- ?f ?o ?r ?m ?a ?t ?  ?- return] 0 "%d"))
+  (defun xml-prettify ()
+    (interactive)
+    (shell-command-on-region
+      (buffer-end 0)
+      (buffer-end 1)
+      "xmllint --format -"
+      t
+      t)
+    )
 #+end_src
 
 * Programming Modes
