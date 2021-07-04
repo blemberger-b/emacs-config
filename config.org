@@ -11,7 +11,8 @@ for updates using the command =M-x package-list-packages=, which will tell you w
 updates available and prompt to upgrade them.
 *** Install & use =paradox= for package listing
    A better tool to use for listing and updating packages than the default =list-packages=. See the
-   [[https://github.com/Malabarba/paradox][project page]] for more info.
+   [[https://github.com/Malabarba/paradox][project page]] for more info. Setting =paradox-github-token= supposedly turns off the
+   starring/unstarring of github repos functionality.
    #+begin_src emacs-lisp
      (use-package paradox
        :ensure t
@@ -66,9 +67,10 @@ This package provides a major mode for editing markdown files. It requires the =
 *** Install & use =yaml-mode=
 Allows efficient editing of YAML files.
 #+begin_src emacs-lisp
-   (use-package yaml-mode
-    :ensure t
-    :commands (yaml-mode))
+  (use-package yaml-mode
+   :ensure t
+   :defer t
+   :commands (yaml-mode))
 #+end_src
 *** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
@@ -76,6 +78,7 @@ on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-prese
 #+BEGIN_SRC emacs-lisp
   (use-package presentation
     :ensure t
+    :defer t
     :pin melpa-stable)
 #+END_SRC
 *** Golden ratio screen scrolling
@@ -356,6 +359,7 @@ Install =htmlize= package to allow exporting =org-mode= files in html format
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
     :ensure t
+    :defer t
     :pin melpa-stable)
 #+END_SRC
 *** Source snippet for emacs-lisp
@@ -725,6 +729,7 @@ Start a scheme REPL by running the command =M-x run-geiser=.
 #+BEGIN_SRC emacs-lisp
   (use-package geiser
     :ensure t
+    :defer t
     :init (setq geiser-active-implementations '(guile))
     (setq geiser-repl-query-on-exit-p nil)
     (setq geiser-guile-load-init-file-p t))
@@ -735,15 +740,17 @@ Start a scheme REPL by running the command =M-x run-geiser=.
 #+begin_src emacs-lisp
   (use-package dockerfile-mode
    :ensure t
+   :defer t
    :pin melpa-stable)
 #+end_src
 * Git
 *** Install & use =magit=
    =magit= is a major mode that provides a porcelain layer of tools for the =git= SCM.
 #+begin_src emacs-lisp
- (use-package magit
-  :ensure t
-  :pin melpa-stable)
+  (use-package magit
+   :ensure t
+   :defer t
+   :pin melpa-stable)
 #+end_src
 * Projects
 *** Install & use =projectile=
