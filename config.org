@@ -731,8 +731,12 @@ Start a scheme REPL by running the command =M-x run-geiser=.
     :ensure t
     :defer t
     :init (setq geiser-active-implementations '(guile))
-    (setq geiser-repl-query-on-exit-p nil)
-    (setq geiser-guile-load-init-file-p t))
+    (setq geiser-repl-query-on-exit-p nil))
+
+  (use-package geiser-guile
+    :ensure t
+    :after (geiser)
+    :init (setq geiser-guile-load-init-file-p t))
 #+END_SRC
 * Docker
 *** Install & use =dockerfile-mode=

@@ -40,21 +40,16 @@
  '(custom-safe-themes
    '("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
  '(package-selected-packages
-   '(golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim geiser goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package))
- '(paradox-github-token t))
+   '(geiser-guile golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim geiser goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
- 
- ;; BSL - Mac only font definitions
  '(default ((((type ns)) (:inherit nil :height 140 :foundry "nil" :family "Monaco"))))
-
- ;; BSL - Console only font definitions
  '(font-lock-comment-face ((((type tty)) (:foreground "grey"))))
+ '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
  '(mode-line ((((type tty)) (:background "white" :foreground "magenta" :inverse-video t :weight bold))))
  '(mode-line-inactive ((((type tty)) (:inherit mode-line :background "black" :foreground "green"))))
  '(powerline-active1 ((((type tty)) (:inherit mode-line))))
