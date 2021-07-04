@@ -13,9 +13,10 @@ updates available and prompt to upgrade them.
    A better tool to use for listing and updating packages than the default =list-packages=. See the
    [[https://github.com/Malabarba/paradox][project page]] for more info.
    #+begin_src emacs-lisp
-    (use-package paradox
-      :ensure t
-      :config (paradox-enable))
+     (use-package paradox
+       :ensure t
+       :config (paradox-enable)
+       :custom (paradox-github-token t))
    #+end_src
 *** Install & use =sudo-edit= (from MELPA)
 =sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
@@ -77,6 +78,15 @@ on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-prese
     :ensure t
     :pin melpa-stable)
 #+END_SRC
+*** Golden ratio screen scrolling
+Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
+#+begin_src emacs-lisp
+  (use-package golden-ratio-scroll-screen
+    :ensure t
+    :pin melpa
+    :bind (([remap scroll-down-command] . 'golden-ratio-scroll-screen-down)
+           ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
+#+end_src
 * Global Settings
 *** Install & run =exec-path-from-shell=
 On OS X, an Emacs instance started from the graphical user interface will have a different
@@ -331,7 +341,7 @@ in the minibuffer. We also suppress it from showing up in the modeline. See [[ht
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
-*** Bind ansi-term command to =s-t=
+*** Bind ansi-tedrm command to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-t") 'ansi-term)
