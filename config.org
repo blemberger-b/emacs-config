@@ -244,7 +244,7 @@ do until those packages migrate to something other than cl, so we'll just suppre
 *** Set geometry of all emacs frames on Mac
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
 #+BEGIN_SRC emacs-lisp
-  (setq default-frame-alist '((top . 50) (left . 250) (width . 112) (height . 45)))
+  (setq default-frame-alist '((top . 0) (left . 250) (width . 108) (height . 50)))
 #+END_SRC
 *** Turn off graphical tool-bar
 #+BEGIN_SRC emacs-lisp
@@ -263,8 +263,8 @@ Top-left corner of initial frame will be 50 pixels down from the top margin and 
 #+END_SRC
 
 *** Cursor blink
-Set the cursor to always blink. This setting has no effect in TTY mode (the cursor always blinks
-there).
+Set the cursor to always blink. This setting has no effect in TTY mode (the cursor is controlled
+only by the terminal settings).
 #+BEGIN_SRC emacs-lisp
   (setq blink-cursor-blinks 0)
 #+END_SRC

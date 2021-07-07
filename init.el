@@ -64,7 +64,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((((type ns)) (:inherit nil :height 140 :foundry "nil" :family "Monaco"))))
+ '(default ((((type ns)) (:inherit nil :height 180 :foundry "nil" :family "Monaco"))))
  '(font-lock-comment-face ((((type tty)) (:foreground "grey"))))
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
  '(mode-line ((((type tty)) (:background "white" :foreground "magenta" :inverse-video t :weight bold))))
