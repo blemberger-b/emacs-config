@@ -370,7 +370,7 @@ In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* bloc
               '( "el" . "src emacs-lisp"))
 #+END_SRC
 * Ido Mode
-[[https://www.gnu.org/software/emacs/manual/html_mono/ido.html][=ido-mode=]] is a built-in minor mode that lets you "interactively do" things & makes the minibuffer
+[[https://www.gnu.org/software/emacs/manual/html_mono/ido.html][ido-mode]] is a built-in minor mode that lets you "interactively do" things & makes the minibuffer
 and most completion buffer features work better.
 *** Enable =ido-mode=
 #+BEGIN_SRC emacs-lisp
