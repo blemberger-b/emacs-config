@@ -1,3 +1,8 @@
+#+TITLE: BSL's Customized Emacs
+#+AUTHOR: Brian S. Lemberger
+#+OPTIONS: toc:1
+#+OPTIONS: num:nil
+
 * Installation
 Clone into the =.emacs.d= folder created by Emacs
 #+BEGIN_SRC 
