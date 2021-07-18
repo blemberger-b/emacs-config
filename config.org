@@ -284,11 +284,6 @@ only by the terminal settings).
   (global-display-line-numbers-mode)
 #+END_SRC
 
-*** Turn on line highlight mode only in GUI mode
-#+BEGIN_SRC emacs-lisp
-  (when window-system (global-hl-line-mode))
-#+END_SRC
-
 * Minibuffer
 *** Install & use =smex= (from MELPA)
 This package provides command completion in the minibuffer after typing =M-x=.
