@@ -314,14 +314,16 @@ in the minibuffer. We also suppress it from showing up in the modeline. See [[ht
   (column-number-mode 1)
 #+END_SRC
 *** Spaceline
-=spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]].
+=spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]]. Use the spacemacs theme, but turn
+off the file line-endings info segment in the mode line, which I don't find very useful.
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
     :pin melpa-stable
     :ensure t
     :config
     (require 'spaceline-config)
-    (spaceline-spacemacs-theme))
+    (spaceline-spacemacs-theme)
+    (spaceline-toggle-buffer-encoding-abbrev-off))
 #+END_SRC
 *** Diminish minor modes from the modeline
     [[https://github.com/myrjola/diminish.el][diminish]] allows us to list the mode names that we don't want displayed in the modeline. We do
