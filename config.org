@@ -639,14 +639,13 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
     :ensure t
     :pin melpa-stable
     :hook ((clojure-mode
-      emacs-lisp-mode
-      scheme-mode
-      geiser-repl-mode
-      cider-repl-mode) . enable-paredit-mode)
+            emacs-lisp-mode
+            scheme-mode
+            cider-repl-mode) . enable-paredit-mode)
     :bind (("C-c )" . paredit-forward-slurp-sexp)
-     ("C-c (" . paredit-backward-slurp-sexp)
-     ("C-c M-)" . paredit-forward-barf-sexp)
-     ("C-c M-(" . paredit-backward-barf-sexp)))
+           ("C-c (" . paredit-backward-slurp-sexp)
+           ("C-c M-)" . paredit-forward-barf-sexp)
+           ("C-c M-(" . paredit-backward-barf-sexp)))
 #+END_SRC
 
 *** Colorful matching delimiters
@@ -717,29 +716,26 @@ Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
             (diminish 'subword-mode)))
 #+END_SRC
 * Scheme
-*** Install & use =geiser=
-=geiser= is a better scheme mode than the built-in =scheme-mode=. Specify =guile= command as the
-name of the scheme REPL. [[https://www.gnu.org/software/guile/manual/html_node/index.html#SEC_Contents][guile]] can be installed via *homebrew* or downloaded otherwise. The =guile=
-command must be included in the *PATH*.
-
-- =geiser-active-implementations= sets only *guile* to be the scheme language system used by geiser.
-- =geiser-repl-query-on-exit-p= sets the REPL to not ask for confirmation on REPL exit.
-- =geiser-guile-load-init-file-p= toggles on the option to load the =~/.guile= file before starting
-  a guile REPL.
-
-Start a scheme REPL by running the command =M-x run-geiser=.
-#+BEGIN_SRC emacs-lisp
-  (use-package geiser
-    :ensure t
-    :defer t
-    :init (setq geiser-active-implementations '(guile))
-    (setq geiser-repl-query-on-exit-p nil))
-
-  (use-package geiser-guile
-    :ensure t
-    :after (geiser)
-    :init (setq geiser-guile-load-init-file-p t))
-#+END_SRC
+*** Install & use =xscheme=
+=xscheme= is a small, simple library that is recommended for interacting with the equally small and
+simple *MIT scheme* implementation of the scheme language. Use of this library requires separate installation
+of the MIT scheme interpreter binary, and the presence of that library in the PATH. It can be
+installed on Mac OS with =brew install mit-scheme=.
+#+begin_src emacs-lisp
+  (require 'xscheme)
+#+end_src
+Define a function to start a scheme process in the current buffer. Run it with =M-x xscheme=.
+#+begin_src emacs-lisp
+  (defun scheme-repl ()
+    "Starts a scheme process in new window next to the current window."
+    (interactive)
+    (let ((new-buff-name "*scheme*"))
+      (switch-to-buffer-other-window new-buff-name)
+      (xscheme-start "scheme -emacs"
+                 new-buff-name
+                 (get-buffer-create new-buff-name)))
+    (scroll-down-command))
+#+end_src
 * Docker
 *** Install & use =dockerfile-mode=
 =dockerfile-mode= is a major mode helpful for editing Dockerfiles.
