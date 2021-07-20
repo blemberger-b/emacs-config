@@ -734,7 +734,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
       (xscheme-start "scheme -emacs"
                  new-buff-name
                  (get-buffer-create new-buff-name)))
-    (scroll-down-command))
+    (reposition-window))
 #+end_src
 * Docker
 *** Install & use =dockerfile-mode=
@@ -747,12 +747,14 @@ Define a function to start a scheme process in the current buffer. Run it with =
 #+end_src
 * Git
 *** Install & use =magit=
-   =magit= is a major mode that provides a porcelain layer of tools for the =git= SCM.
+   =magit= is a major mode that provides a porcelain layer of tools for the =git= SCM. Map =C-c g=
+   to a magit command that shows the current log (commits) for the file in the current buffer.
 #+begin_src emacs-lisp
   (use-package magit
    :ensure t
    :defer t
-   :pin melpa-stable)
+   :pin melpa-stable
+   :bind ("C-c g" . magit-log-buffer-file))
 #+end_src
 * Projects
 *** Install & use =projectile=
