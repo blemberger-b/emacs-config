@@ -564,6 +564,7 @@ each definition below.
 #+END_SRC
 * Frames
 The functions in this section where excerpted from the [[https://www.emacswiki.org/emacs/frame-cmds.el][*frame-cmds*]] Emacs Wiki library.
+*Note:* These keybindings use /<super>+<shift>/ key combinations.
 *** Enlarge Frame Vertically
 Makes the current frame vertically bigger incrementally.
 #+begin_src emacs-lisp
@@ -573,8 +574,8 @@ Makes the current frame vertically bigger incrementally.
   Interactively, it is given by the prefix argument."
     (interactive "p")
     (set-frame-height frame (+ (frame-height frame) increment)))
-   ; Suggested binding: `s-down'.
-  (global-set-key (kbd "s-<down>") 'enlarge-frame)
+
+  (global-set-key (kbd "s-?") 'enlarge-frame)
 #+end_src
 *** Enlarge Frame Horizontally
 Makes the current frame horizontally bigger incrementally.
@@ -585,8 +586,8 @@ Makes the current frame horizontally bigger incrementally.
   Interactively, it is given by the prefix argument."
     (interactive "p")
     (set-frame-width frame (+ (frame-width frame) increment)))
-   ; Suggested binding: `s-right'.
-  (global-set-key (kbd "s-<right>") 'enlarge-frame-horizontally)
+
+  (global-set-key (kbd "s->") 'enlarge-frame-horizontally)
 #+end_src
 *** Shrink Frame Vertically
 Makes the current frame vertically smaller incrementally.
@@ -597,20 +598,20 @@ Makes the current frame vertically smaller incrementally.
   Interactively, it is given by the prefix argument."
     (interactive "p")
     (set-frame-height frame (- (frame-height frame) increment)))
-     ; Suggested binding: `s-up'.
-  (global-set-key (kbd "s-<up>") 'shrink-frame)
+  ;;; Bind to <super> + <shift> + M
+  (global-set-key (kbd "s-M") 'shrink-frame)
 #+end_src
 *** Shrink Frame Horizontally
 Makes the current frame horizontally smaller incrementally.
 #+begin_src emacs-lisp
-    (defun shrink-frame-horizontally (&optional increment frame)
-      "Decrease the width of FRAME (default: selected-frame) by INCREMENT.
-    INCREMENT is in columns (characters).
-    Interactively, it is given by the prefix argument."
-      (interactive "p")
-      (set-frame-width frame (- (frame-width frame) increment)))
-     ; Suggested binding: `s-left'.
-    (global-set-key (kbd "s-<left>") 'shrink-frame-horizontally)
+  (defun shrink-frame-horizontally (&optional increment frame)
+    "Decrease the width of FRAME (default: selected-frame) by INCREMENT.
+  INCREMENT is in columns (characters).
+  Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-width frame (- (frame-width frame) increment)))
+
+  (global-set-key (kbd "s-<") 'shrink-frame-horizontally)
 #+end_src
 *** Double Frame Width
 Makes the current frame twice as wide. I wrote this.
