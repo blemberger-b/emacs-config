@@ -563,7 +563,7 @@ each definition below.
   (global-set-key (kbd "<end>") 'enlarge-window-horizontally)  ; Fn-rigt-arrow
 #+END_SRC
 * Frames
-The functions in this section where excerpted from the [[https://www.emacswiki.org/emacs/frame-cmds.el][*frame-cmds*]] Emacs Wiki library.
+The functions in this section where excerpted from the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
 *Note:* These keybindings use /<super>+<shift>/ key combinations.
 *** Enlarge Frame Vertically
 Makes the current frame vertically bigger incrementally.
