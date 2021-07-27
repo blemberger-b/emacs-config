@@ -40,5 +40,8 @@ transient/
 # projectile project bookmarks file
 projectile-bookmarks.eld
 
+# regular emacs bookmarks file
+/bookmarks
+
 # saved-places saves file locations in this file
 /places

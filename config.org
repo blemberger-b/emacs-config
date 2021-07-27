@@ -562,6 +562,76 @@ each definition below.
   (global-set-key (kbd "<home>") 'shrink-window-horizontally) ; Fn-left-arrow
   (global-set-key (kbd "<end>") 'enlarge-window-horizontally)  ; Fn-rigt-arrow
 #+END_SRC
+* Frames
+The functions in this section where excerpted from the [[https://www.emacswiki.org/emacs/frame-cmds.el][*frame-cmds*]] Emacs Wiki library.
+*** Enlarge Frame Vertically
+Makes the current frame vertically bigger incrementally.
+#+begin_src emacs-lisp
+  (defun enlarge-frame (&optional increment frame)
+    "Increase the height of FRAME (default: selected-frame) by INCREMENT.
+  INCREMENT is in lines (characters).
+  Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-height frame (+ (frame-height frame) increment)))
+   ; Suggested binding: `s-down'.
+  (global-set-key (kbd "s-<down>") 'enlarge-frame)
+#+end_src
+*** Enlarge Frame Horizontally
+Makes the current frame horizontally bigger incrementally.
+#+begin_src emacs-lisp
+  (defun enlarge-frame-horizontally (&optional increment frame)
+    "Increase the width of FRAME (default: selected-frame) by INCREMENT.
+  INCREMENT is in columns (characters).
+  Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-width frame (+ (frame-width frame) increment)))
+   ; Suggested binding: `s-right'.
+  (global-set-key (kbd "s-<right>") 'enlarge-frame-horizontally)
+#+end_src
+*** Shrink Frame Vertically
+Makes the current frame vertically smaller incrementally.
+#+begin_src emacs-lisp
+  (defun shrink-frame (&optional increment frame)
+    "Decrease the height of FRAME (default: selected-frame) by INCREMENT.
+  INCREMENT is in lines (characters).
+  Interactively, it is given by the prefix argument."
+    (interactive "p")
+    (set-frame-height frame (- (frame-height frame) increment)))
+     ; Suggested binding: `s-up'.
+  (global-set-key (kbd "s-<up>") 'shrink-frame)
+#+end_src
+*** Shrink Frame Horizontally
+Makes the current frame horizontally smaller incrementally.
+#+begin_src emacs-lisp
+    (defun shrink-frame-horizontally (&optional increment frame)
+      "Decrease the width of FRAME (default: selected-frame) by INCREMENT.
+    INCREMENT is in columns (characters).
+    Interactively, it is given by the prefix argument."
+      (interactive "p")
+      (set-frame-width frame (- (frame-width frame) increment)))
+     ; Suggested binding: `s-left'.
+    (global-set-key (kbd "s-<left>") 'shrink-frame-horizontally)
+#+end_src
+*** Double Frame Width
+Makes the current frame twice as wide. I wrote this.
+#+begin_src emacs-lisp
+  (defun double-frame-width (&optional frame)
+    "Double the width of FRAME (default: selected-frame)."
+    (interactive)
+    (set-frame-width frame (* (frame-width frame) 2)))
+
+   (global-set-key (kbd "s-}") 'double-frame-width)
+#+end_src
+*** Halve Frame Width
+Makes the current frame half as wide. I wrote this.
+#+begin_src emacs-lisp
+  (defun halve-frame-width (&optional frame)
+    "Halve the width of FRAME (default: selected-frame)."
+    (interactive)
+    (set-frame-width frame (/ (frame-width frame) 2)))
+
+  (global-set-key (kbd "s-{") 'halve-frame-width)
+#+end_src
 * Text Mode
 *** =text-mode=
 In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
