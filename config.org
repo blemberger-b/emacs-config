@@ -283,7 +283,16 @@ only by the terminal settings).
 #+BEGIN_SRC emacs-lisp
   (global-display-line-numbers-mode)
 #+END_SRC
-
+*** Beacon mode
+Install and enable =beacon-mode= for better indicator when changing windows. See [[https://github.com/Malabarba/beacon][here]].
+#+begin_src emacs-lisp
+  (use-package beacon
+    :ensure t
+    :pin melpa-stable
+    :init (beacon-mode 1)
+    :custom
+    (beacon-blink-when-window-scrolls nil))
+#+end_src
 * Minibuffer
 *** Install & use =smex= (from MELPA)
 This package provides command completion in the minibuffer after typing =M-x=.
@@ -347,7 +356,7 @@ off the file line-endings info segment in the mode line, which I don't find very
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
-*** Bind ansi-tedrm command to =s-t=
+*** Bind ansi-term command to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-t") 'ansi-term)
@@ -855,13 +864,18 @@ Define a function to start a scheme process in the current buffer. Run it with =
 *** Install & use =projectile=
   [[https://docs.projectile.mx/projectile/index.html][projectile]] is a major mode that allows for managing sets of files & buffers that constitute some
   type of /project/, such as git, maven, leiningen, etc. It can auto-discover these types of
-  projects, or you can define them yourself.
+  projects, or you can define them yourself. The functionality of searching by symbol is
+  accomplished by the third-party tool =ctags=. It is recommended to install the better version of
+  this than the one that ships with Emacs, called /Universal ctags/, which is available via
+  homebrew, etc.
   #+begin_src emacs-lisp
-   (use-package projectile
-    :ensure t
-    :pin melpa-stable
-    :init (projectile-mode 1)
-    :bind (:map projectile-mode-map
-            ("s-p" . projectile-command-map)
-            ("C-c p" . projectile-command-map)))
+    (use-package projectile
+     :ensure t
+     :pin melpa-stable
+     :diminish projectile-mode
+     :init (projectile-mode 1)
+     :custom (projectile-switch-project-action #'projectile-dired)
+     :bind (:map projectile-mode-map
+                 ("s-p" . projectile-command-map)
+                 ("C-c p" . projectile-command-map)))
   #+end_src
