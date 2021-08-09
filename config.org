@@ -43,16 +43,18 @@ updates available and prompt to upgrade them.
       (recentf-mode 1))
    #+end_src
 *** Dashboard
-The =dashboard= package allows setting a better initial buffer when Emacs opens. See
-[[https://github.com/emacs-dashboard/emacs-dashboard][here]] for info and configuration values. Also, here we
-are excluding files from the recent files list that get treated as edited by the package manager for some reason.
+The =dashboard= package allows setting a better initial buffer when Emacs opens. See [[https://github.com/emacs-dashboard/emacs-dashboard][here]] for info
+and configuration values. We display recent *projectile* projects and recent files. We exclude files
+from the recent files list that get treated as edited by the package manager for some reason.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :ensure t
     :pin melpa-stable
     :config
     (dashboard-setup-startup-hook)
-    (setq dashboard-items '((recents . 10)))
+    (setq dashboard-projects-backend 'projectile)
+    (setq dashboard-items '((projects . 5)
+                            (recents . 10)))
     (setq dashboard-banner-logo-title
     "The more I learn about people, the more I like my dog\t--Mark Twain")
     (setq dashboard-set-footer nil)
@@ -870,12 +872,12 @@ Define a function to start a scheme process in the current buffer. Run it with =
   homebrew, etc.
   #+begin_src emacs-lisp
     (use-package projectile
-     :ensure t
-     :pin melpa-stable
-     :diminish projectile-mode
-     :init (projectile-mode 1)
-     :custom (projectile-switch-project-action #'projectile-dired)
-     :bind (:map projectile-mode-map
-                 ("s-p" . projectile-command-map)
-                 ("C-c p" . projectile-command-map)))
+      :ensure t
+      :pin melpa-stable
+      :diminish projectile-mode
+      :init (projectile-mode 1)
+      :custom (projectile-switch-project-action #'projectile-dired)
+      :bind (:map projectile-mode-map
+                  ("s-p" . projectile-command-map)
+                  ("C-c p" . projectile-command-map)))
   #+end_src
