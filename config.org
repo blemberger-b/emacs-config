@@ -49,16 +49,17 @@ from the recent files list that get treated as edited by the package manager for
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :ensure t
-    :pin melpa-stable
     :config
+    (setq recentf-exclude '(".*autoloads\.el" ".*\.gz" "TAGS"))
     (dashboard-setup-startup-hook)
-    (setq dashboard-projects-backend 'projectile)
-    (setq dashboard-items '((projects . 5)
-                            (recents . 10)))
-    (setq dashboard-banner-logo-title
-    "The more I learn about people, the more I like my dog\t--Mark Twain")
-    (setq dashboard-set-footer nil)
-    (setq recentf-exclude '(".*autoloads\.el" ".*\.gz")))
+    :custom
+    (dashboard-page-separator "\n\f\n")
+    (dashboard-projects-backend 'projectile)
+    (dashboard-items '((projects . 5)
+                       (recents . 10)))
+    (dashboard-banner-logo-title
+     "The more I learn about people, the more I like my dog\t--Mark Twain")
+    (dashboard-set-footer nil))
 #+END_SRC
 *** Install & use =markdown-mode= (from MELPA)
 This package provides a major mode for editing markdown files. It requires the =markdown= command be
