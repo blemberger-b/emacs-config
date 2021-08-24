@@ -426,6 +426,10 @@ example, to open all marked files in a dired buffer, type *F* (shift-f).
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-load-hook (lambda () (load "dired-x")))
 #+END_SRC
+Force isearch operations in dired buffers to only search in filenames.
+#+begin_src emacs-lisp
+  (setq dired-isearch-filenames t)
+#+end_src
 * Config edit/reload
 *** Edit this config file
 Define a custom function to do this.
