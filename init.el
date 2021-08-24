@@ -65,6 +65,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((((type ns)) (:inherit nil :height 160 :foundry "nil" :family "Monaco"))))
+ '(dashboard-items-face ((t (:inherit widget-button :underline nil))))
  '(font-lock-comment-face ((((type tty)) (:foreground "grey"))))
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
  '(mode-line ((((type tty)) (:background "white" :foreground "magenta" :inverse-video t :weight bold))))
