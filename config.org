@@ -243,6 +243,14 @@ do until those packages migrate to something other than cl, so we'll just suppre
           try-complete-lisp-symbol-partially
           try-complete-lisp-symbol))
    #+end_src
+*** Regular Expression Builder
+    =re-builder= is a built-in emacs major mode for interactively building Regular Expressions. Set
+    the regexp syntax support to the better *string* syntax setting that prevents the need for
+    escaping so many backslashes.
+    #+begin_src emacs-lisp
+      (require 're-builder)
+      (setq reb-re-syntax 'string)
+    #+end_src
 *** Toggle whitespace-mode
     =whitespace-mode= is useful for showing whitespace characters on the screen. Togging it on or
     off using =C-c w=.
