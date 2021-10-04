@@ -895,3 +895,22 @@ Define a function to start a scheme process in the current buffer. Run it with =
                   ("s-p" . projectile-command-map)
                   ("C-c p" . projectile-command-map)))
   #+end_src
+
+* Diff
+  Use built-in =ediff= for viewing and editing file differences. Bind the function to diff two files
+  which are prompted for to a useful custom key (=C-c d=).
+  #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-c d") 'ediff-files)
+  #+END_SRC
+  Bind the function to diff to buffers to a custom key (=C-c C-d=).
+  #+begin_src emacs-lisp
+    (global-set-key (kbd "C-c C-d") 'ediff-buffers)
+  #+end_src
+  Put the "control panel" in the same frame as everything else.
+  #+begin_src emacs-lisp
+    (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  #+end_src
+  Make ediff horizontally split the buffers to compare
+  #+begin_src emacs-lisp
+    (setq ediff-split-window-function 'split-window-horizontally)
+  #+end_src
