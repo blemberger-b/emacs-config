@@ -902,9 +902,9 @@ Define a function to start a scheme process in the current buffer. Run it with =
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-c d") 'ediff-files)
   #+END_SRC
-  Bind the function to diff to buffers to a custom key (=C-c C-d=).
+  Bind the function to diff to buffers to a custom key (=C-c b=).
   #+begin_src emacs-lisp
-    (global-set-key (kbd "C-c C-d") 'ediff-buffers)
+    (global-set-key (kbd "C-c b") 'ediff-buffers)
   #+end_src
   Put the "control panel" in the same frame as everything else.
   #+begin_src emacs-lisp
