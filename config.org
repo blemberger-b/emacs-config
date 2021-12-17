@@ -735,6 +735,17 @@ PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
       t)
     )
 #+end_src
+* LaTeX
+=LaTeX= mode comes built-in to emacs as a major mode that is automatically active for files ending
+with =.tex= and that have =LaTeX= specific header information in them.
+
+The =latex= command to create a =.dvi= file can be invoked on a buffer with the *tex-buffer* =C-c C-b=
+command. The subsequent =.dvi= file can be converted to =.pdf= by using the *tex-view* =C-c C-v=
+command. Here we configure *tex-view* to convert to PDF format.
+#+begin_src emacs-lisp
+  (setq tex-dvi-view-command "pdflatex")
+  (setq tex-print-file-extension ".pdf")
+#+end_src
 
 * Programming Modes
 *** =prog-mode= hook
