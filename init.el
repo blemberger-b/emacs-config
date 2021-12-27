@@ -64,7 +64,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((((type ns)) (:inherit nil :height 160 :foundry "nil" :family "Monaco"))))
+ '(default ((((type ns)) (:inherit nil :height 180 :foundry "nil" :family "Fira Code"))))
  '(dashboard-items-face ((t (:inherit widget-button :underline nil))))
  '(ediff-current-diff-A ((t (:extend t :background "#003f8e" :foreground "#7285b7"))))
  '(ediff-current-diff-B ((t (:extend t :background "#003f8e" :foreground "#7285b7"))))
