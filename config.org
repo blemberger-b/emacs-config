@@ -307,7 +307,7 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
 #+end_src
 * Minibuffer
 *** Install & use =smex= (from MELPA)
-This package provides command completion in the minibuffer after typing =M-x=.
+This package provides command completion using =ido= in the minibuffer after typing =M-x=.
 #+BEGIN_SRC emacs-lisp
   (use-package smex
        :ensure t
@@ -423,7 +423,8 @@ presentation, do =M-x org-tree-slide-mode=.
 #+end_src
 * Ido Mode
 [[https://www.gnu.org/software/emacs/manual/html_mono/ido.html][ido-mode]] is a built-in minor mode that lets you "interactively do" things & makes the minibuffer
-and most completion buffer features work better.
+and most completion buffer features work better. It replaces many default emacs keybindings with new
+ido-enabled functions that do similar things.
 *** Enable =ido-mode=
 #+BEGIN_SRC emacs-lisp
   (ido-mode t)

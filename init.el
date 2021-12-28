@@ -14,16 +14,18 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+;; BSL - Using logic inspired by SystemCrafters to refresh packages only when they are
+;; not found locally.
+(unless package-archive-contents
+  (package-refresh-contents))
+
 ;; BSL - added this expression to install use-package package if its not
 ;; installed. See https://github.com/jwiegley/use-package.
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
   (package-install 'use-package))
 
-;; BSL - install spacemacs-theme if not installed
-;; when I did this spacemacs-theme was not yet available from melpa stable
+;; BSL - install tomorrow-theme if not installed
 (unless (package-installed-p 'color-theme-sanityinc-tomorrow)
-  (package-refresh-contents)
   (package-install 'color-theme-sanityinc-tomorrow))
 
 ;; BSL - use org-babel to source my config.org file for further configurations
