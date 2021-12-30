@@ -368,11 +368,16 @@ off the file line-endings info segment in the mode line, which I don't find very
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
-*** Bind ansi-term command to =s-t=
+*** Bind ansi-term command
+    to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-t") 'ansi-term)
 #+END_SRC
+*** Turn off line numbers for shell terminals
+    #+begin_src emacs-lisp
+      (add-hook 'term-mode-hook (lambda () (display-line-numbers-mode 0)))
+    #+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]].
 *** Disable =org-mode= keybindings
@@ -897,12 +902,14 @@ Define a function to start a scheme process in the current buffer. Run it with =
 * Git
 *** Install & use =magit=
    =magit= is a major mode that provides a porcelain layer of tools for the =git= SCM. Map =C-c g=
-   to a magit command that shows the current log (commits) for the file in the current buffer.
+   to a magit command that shows the current log (commits) for the file in the current
+   buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for files in git projects.
 #+begin_src emacs-lisp
   (use-package magit
    :ensure t
    :defer t
    :pin melpa-stable
+   :diminish auto-revert-mode
    :bind ("C-c g" . magit-log-buffer-file))
 #+end_src
 * Projects
