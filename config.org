@@ -308,12 +308,14 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
 *** Prettify Control L
     Emacs by default displays the form-feed (=C-l=) character as a literal "^L" character
     sequence. Since this is ugly, this package changes it to a horizonal line. The package used here
-    is [[https://github.com/purcell/page-break-lines][page-break-lines]] because it works well with =dashboard-mode=.
+    is [[https://github.com/purcell/page-break-lines][page-break-lines]] because it works well with =dashboard-mode=. For some reason, it's not
+    enabled globally for text modes, so we enable it.
     #+begin_src emacs-lisp
       (use-package page-break-lines
         :pin melpa-stable
         :ensure t
-        :config (global-page-break-lines-mode)
+        :config (add-to-list 'page-break-lines-modes 'text-mode)
+                (global-page-break-lines-mode)
         :diminish page-break-lines-mode)
     #+end_src
 * Minibuffer
