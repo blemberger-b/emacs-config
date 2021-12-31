@@ -305,6 +305,17 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
     :custom
     (beacon-blink-when-window-scrolls nil))
 #+end_src
+*** Prettify Control L
+    Emacs by default displays the form-feed (=C-l=) character as a literal "^L" character
+    sequence. Since this is ugly, this package changes it to a horizonal line. The package used here
+    is [[https://github.com/purcell/page-break-lines][page-break-lines]] because it works well with =dashboard-mode=.
+    #+begin_src emacs-lisp
+      (use-package page-break-lines
+        :pin melpa-stable
+        :ensure t
+        :config (global-page-break-lines-mode)
+        :diminish page-break-lines-mode)
+    #+end_src
 * Minibuffer
 *** Install & use =smex= (from MELPA)
 This package provides command completion using =ido= in the minibuffer after typing =M-x=.
@@ -504,14 +515,6 @@ Use the =C-x C-/= key combination to return to the last edit location in the act
     :ensure t
     :pin melpa-stable
     :bind ("C-x C-/" . goto-last-change))
-#+END_SRC
-
-*** Install & use =avy= (from MELPA)
-This package provides a way to quickly go to a character in the visible buffer by typing a key
-binding defined below.
-#+BEGIN_SRC emacs-lisp
-  (use-package avy
-    :ensure t)
 #+END_SRC
 
 * Line Manipulation
