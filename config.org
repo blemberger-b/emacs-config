@@ -99,6 +99,18 @@ Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
     :bind (([remap scroll-down-command] . 'golden-ratio-scroll-screen-down)
            ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
 #+end_src
+*** Better Help
+    #+begin_src emacs-lisp
+      (use-package helpful
+        :pin melpa-stable
+        :ensure t
+        :bind
+        (("C-h f" . helpful-callable) ;; functions & macros
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key)
+         ("C-h F" . helpful-function) ;; functions only, no macros
+         ("C-h C" . helpful-command))) ;; interactive functions only
+    #+end_src
 * Global Settings
 *** Install & run =exec-path-from-shell=
 On OS X, an Emacs instance started from the graphical user interface will have a different
@@ -167,9 +179,9 @@ The value of this variable determines the column number for lines in buffers vie
    (setq whitespace-line-column nil)
  #+end_src
 *** Turn off =electric-indent-mode=
-   #+begin_src emacs-lisp
-     ;; (setq electric-indent-mode nil)
-   #+end_src
+ #+begin_src emacs-lisp
+   (setq electric-indent-mode nil)
+ #+end_src
 *** Tab key behavior regarding indentation
 The value of this variable determines how the tab key behaves when struck. This setting only does
 indentation when the point is at the beginning of a line.
