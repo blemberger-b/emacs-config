@@ -443,7 +443,7 @@ In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* bloc
               '( "el" . "src emacs-lisp"))
 #+END_SRC
 *** Presentations
-[[https://github.com/takaxp/org-tree-slide][=org-tree-slide=]] mode can be used to create an interactive slide show in =org-mode=. To start a
+[[https://github.com/takaxp/org-tree-slide][org-tree-slide]] mode can be used to create an interactive slide show in =org-mode=. To start a
 presentation, do =M-x org-tree-slide-mode=.
 #+begin_src emacs-lisp
   (use-package org-tree-slide
