@@ -937,7 +937,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
       :ensure t
       :diminish projectile-mode
       :pin melpa-stable
-      :config (projectile-mode)
+      :init (projectile-mode 1)
       :custom (projectile-switch-project-action #'projectile-dired)
               (projectile-mode-line-prefix "")
       :bind (:map projectile-mode-map
