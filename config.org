@@ -562,19 +562,6 @@ ibuffer is a /better/ interactive buffer list that allows deleting buffers and s
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
-*** Buffer Move
-Package =buffer-move= allows re-arranging buffers within multiple windows in a frame. The
-keybindings below conflict with =org-mode=, but they are too damn convenient, so just use
-them when not in =org-mode=. "<C-S->" here means Ctrl+Shift+whatever.
-#+BEGIN_SRC emacs-lisp
-  (use-package buffer-move
-    :ensure t
-    :pin melpa-stable
-    :bind (("<C-S-up>" . buf-move-up)
-     ("<C-S-down>" . buf-move-down)
-     ("<C-S-right>" . buf-move-right)
-     ("<C-S-left>" . buf-move-left)))
-#+END_SRC
 *** Always kill the current buffer
 Override default emacs and =ido-mode= functionality to prompt for the buffer to kill, and just go
 ahead and kill the current one. It will still prompt for confirmation if the buffer is unsaved.
