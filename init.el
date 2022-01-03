@@ -58,7 +58,7 @@
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(helpful page-break-lines org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package))
+   '(elisp-refs helpful page-break-lines org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider avy ido-vertical-mode which-key use-package))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 
 (custom-set-faces
