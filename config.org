@@ -558,7 +558,8 @@ Bind it to a key:
 
 * Buffers
 *** Bind =ibuffer= to the normal buffer list key
-ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in the same window.
+ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in
+the same window.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
@@ -721,13 +722,11 @@ Makes the current frame half as wide. I wrote this.
 *** =text-mode=
 In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
 happen but only in =text-mode= and its derivatives. We also enable =flyspell-mode= minor mode in all
-text modes to get spellchecking functionality, and we bind =M-s= to the go to character function in
-the =avy= package (because we don't want to use =avy= in non-text modes).
+text modes to get spellchecking functionality.
 
 #+BEGIN_SRC emacs-lisp
   (add-hook 'text-mode-hook (lambda () (turn-on-auto-fill)
-            (flyspell-mode)
-            (local-set-key (kbd "M-s") 'avy-goto-char)))
+            (flyspell-mode)))
 #+END_SRC
 **** Note: This requires that the =ispell= program be installed in the path of the local system.
 * XML Mode
