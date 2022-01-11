@@ -14,6 +14,30 @@ apply the customizations from *init.el* and this file.
 These packages here and elsewhere are installed via [[https://github.com/jwiegley/use-package][use-package]]. From time to time, you should check
 for updates using the command =M-x package-list-packages=, which will tell you which packages have
 updates available and prompt to upgrade them.
+*** Completion
+=ivy= is a better way than default emacs to handle command, filename, and buffer completion. To
+install it, install the =counsel= package, which requires =ivy= as well as =swiper=.
+#+begin_src emacs-lisp
+  (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+           :map ivy-minibuffer-map
+           ("TAB" . ivy-alt-done)
+           ("C-k" . ivy-previous-line)
+           :map ivy-switch-buffer-map
+           ("C-l" . ivy-done)
+           ("C-d" . ivy-switch-buffer-kill)
+           :map ivy-reverse-i-search-map
+           ("C-d" . ivy-reverse-i-search-kill))
+    :custom (ivy-use-virtual-buffers t)
+    (ivy-count-format "(%d/%d) ")
+    :config
+    (ivy-mode 1))
+
+  (use-package counsel
+    :ensure t
+    :pin gnu)
+#+end_src
 *** Install & use =paradox= for package listing
    A better tool to use for listing and updating packages than the default =list-packages=. See the
    [[https://github.com/Malabarba/paradox][project page]] for more info. Setting =paradox-github-token= supposedly turns off the
@@ -906,7 +930,8 @@ Define a function to start a scheme process in the current buffer. Run it with =
       :pin melpa-stable
       :init (projectile-mode 1)
       :custom (projectile-switch-project-action #'projectile-dired)
-              (projectile-mode-line-prefix "")
+      (projectile-mode-line-prefix "")
+      (projectile-completion-system 'ivy)
       :bind (:map projectile-mode-map
                   ("C-c p" . projectile-command-map)))
   #+end_src
