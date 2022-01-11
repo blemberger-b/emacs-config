@@ -339,15 +339,6 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
         :diminish page-break-lines-mode)
     #+end_src
 * Minibuffer
-*** Install & use =smex= (from MELPA)
-This package provides command completion using =ido= in the minibuffer after typing =M-x=.
-#+BEGIN_SRC emacs-lisp
-  (use-package smex
-       :ensure t
-       :init (smex-initialize)
-       :bind
-       ("M-x" . smex))
-#+END_SRC
 *** Add =which-key= package
 This package provides a pop-up menu of command key completions when keys are pressed interactively
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
@@ -459,29 +450,6 @@ presentation, do =M-x org-tree-slide-mode=.
     (org-image-actual-width nil)
     (org-tree-slide-simple-profile))
 #+end_src
-* Ido Mode
-[[https://www.gnu.org/software/emacs/manual/html_mono/ido.html][ido-mode]] is a built-in minor mode that lets you "interactively do" things & makes the minibuffer
-and most completion buffer features work better. It replaces many default emacs keybindings with new
-ido-enabled functions that do similar things.
-*** Enable =ido-mode=
-#+BEGIN_SRC emacs-lisp
-  (ido-mode t)
-#+END_SRC
-*** Set some default preferences
-#+BEGIN_SRC emacs-lisp
-  (ido-everywhere t)
-  (setq ido-use-faces t)
-  (setq ido-create-new-buffer 'always)
-  (setq ido-use-filename-at-point nil)
-#+END_SRC
-*** Install & use =ido-vertical-mode=
-This package makes the IDO mode completions in the minibuffer vertical rather than the default horizontal.
-#+BEGIN_SRC emacs-lisp
-  (use-package ido-vertical-mode
-    :ensure t
-    :init (setq ido-vertical-define-keys 'C-n-and-C-p-only)
-    (ido-vertical-mode 1))
-#+END_SRC
 * Dired
 For directory editing & file system operations within emacs.
 *** Enable =dired-x=
