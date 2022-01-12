@@ -22,8 +22,7 @@ install it, install the =counsel= package, which requires =ivy= as well as =swip
     :diminish
     :bind (("C-s" . swiper)
            :map ivy-minibuffer-map
-           ("TAB" . ivy-alt-done)
-           ("C-k" . ivy-previous-line)
+           ("RET" . ivy-alt-done)
            :map ivy-switch-buffer-map
            ("C-l" . ivy-done)
            ("C-d" . ivy-switch-buffer-kill)
@@ -478,9 +477,11 @@ presentation, do =M-x org-tree-slide-mode=.
 For directory editing & file system operations within emacs.
 *** Enable =dired-x=
 Extensions for =dired-mode= that are pre-installed, but not enabled by default, so enable them. For
-example, to open all marked files in a dired buffer, type *F* (shift-f).
+example, to jump to the currently open file in dired-x, type =C-x C-j=.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-load-hook (lambda () (load "dired-x")))
+  (define-key global-map "\C-x\C-j" 'dired-jump)
+  (define-key global-map "\C-x4\C-j" 'dired-jump-other-window)
 #+END_SRC
 Force isearch operations in dired buffers to only search in filenames.
 #+begin_src emacs-lisp
