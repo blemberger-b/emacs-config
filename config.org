@@ -17,12 +17,13 @@ updates available and prompt to upgrade them.
 *** Completion
 =ivy= is a better way than default emacs to handle command, filename, and buffer completion. To
 install it, install the =counsel= package, which requires =ivy= as well as =swiper=.
+
+Additionally, install [[https://github.com/Yevgnen/ivy-rich][ivy-rich]], which among other things, provides command descriptions in the
+minibuffer when using =counsel-M-x= to run commands.
 #+begin_src emacs-lisp
   (use-package ivy
     :diminish
     :bind (("C-s" . swiper)
-           :map ivy-minibuffer-map
-           ("RET" . ivy-alt-done)
            :map ivy-switch-buffer-map
            ("C-l" . ivy-done)
            ("C-d" . ivy-switch-buffer-kill)
@@ -30,12 +31,23 @@ install it, install the =counsel= package, which requires =ivy= as well as =swip
            ("C-d" . ivy-reverse-i-search-kill))
     :custom (ivy-use-virtual-buffers t)
     (ivy-count-format "(%d/%d) ")
-    :config
-    (ivy-mode 1))
+    :init
+    (ivy-mode 1)
+    :config (setq ivy-initial-inputs-alist nil)) ; Don't start searches with ^
+
+  (use-package ivy-rich
+    :ensure t
+    :requires ivy
+    :pin melpa ; melpa-stable version currently has a bug
+    :init
+    (ivy-rich-mode 1))
 
   (use-package counsel
     :ensure t
-    :pin gnu)
+    :pin gnu
+    :bind (("M-x" . counsel-M-x)
+           ("C-x b" . counsel-ibuffer)
+           ("C-x C-f" . counsel-find-file)))
 #+end_src
 *** Install & use =paradox= for package listing
    A better tool to use for listing and updating packages than the default =list-packages=. See the
@@ -122,21 +134,9 @@ Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
     :bind (([remap scroll-down-command] . 'golden-ratio-scroll-screen-down)
            ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
 #+end_src
-*** Better Help
-    #+begin_src emacs-lisp
-      (use-package helpful
-        :pin melpa-stable
-        :ensure t
-        :bind
-        (("C-h f" . helpful-callable) ;; functions & macros
-         ("C-h v" . helpful-variable)
-         ("C-h k" . helpful-key)
-         ("C-h F" . helpful-function) ;; functions only, no macros
-         ("C-h C" . helpful-command))) ;; interactive functions only
-    #+end_src
 * Global Settings
 *** Install & run =exec-path-from-shell=
-On OS X, an Emacs instance started from the graphical user interface will have a different
+On Mac OS, an Emacs instance started from the graphical user interface will have a different
 environment than a shell in a terminal window, because OS X does not run a shell during the login.
 Obviously this will lead to unexpected results when calling external utilities like *make* from
 Emacs. This library works around this problem by copying important environment variables from the
@@ -147,7 +147,15 @@ user's shell. See [[https://github.com/purcell/exec-path-from-shell][here]].
     :init (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize)))
 #+END_SRC
-
+*** Default to TLS 1.3
+Apparently, Emacs 27.2 on Mac OS does not use the correct version of TLS for https connections that
+the =package-list-package= command needs, leading to errors described [[https://emacs.stackexchange.com/questions/68288/error-retrieving-https-elpa-gnu-org-packages-archive-contents][here]]. This is the fix
+described there.
+ #+begin_src emacs-lisp
+   (when (and (equal emacs-version "27.2")
+              (eql system-type 'darwin))
+     (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
+ #+end_src
 *** Turn off emacs start screen
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
@@ -181,7 +189,6 @@ Set the default column to 100 where emacs will attempt to auto-fill in those mod
 #+BEGIN_SRC emacs-lisp
   (setq-default fill-column 100)
 #+END_SRC
-
 *** No tab characters
 Make indentation use space characters only and not tab characters. Note that some major modes
 override this behavior.
