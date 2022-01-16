@@ -344,6 +344,8 @@ minibuffer when using =counsel-M-x= to run commands.
   (use-package ivy
     :diminish
     :bind (("C-s" . swiper)
+           :map ivy-minibuffer-map
+           ("RET" . ivy-alt-done)
            :map ivy-switch-buffer-map
            ("C-l" . ivy-done)
            ("C-d" . ivy-switch-buffer-kill)
