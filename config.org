@@ -14,41 +14,6 @@ apply the customizations from *init.el* and this file.
 These packages here and elsewhere are installed via [[https://github.com/jwiegley/use-package][use-package]]. From time to time, you should check
 for updates using the command =M-x package-list-packages=, which will tell you which packages have
 updates available and prompt to upgrade them.
-*** Completion
-=ivy= is a better way than default emacs to handle command, filename, and buffer completion. To
-install it, install the =counsel= package, which requires =ivy= as well as =swiper=.
-
-Additionally, install [[https://github.com/Yevgnen/ivy-rich][ivy-rich]], which among other things, provides command descriptions in the
-minibuffer when using =counsel-M-x= to run commands.
-#+begin_src emacs-lisp
-  (use-package ivy
-    :diminish
-    :bind (("C-s" . swiper)
-           :map ivy-switch-buffer-map
-           ("C-l" . ivy-done)
-           ("C-d" . ivy-switch-buffer-kill)
-           :map ivy-reverse-i-search-map
-           ("C-d" . ivy-reverse-i-search-kill))
-    :custom (ivy-use-virtual-buffers t)
-    (ivy-count-format "(%d/%d) ")
-    :init
-    (ivy-mode 1)
-    :config (setq ivy-initial-inputs-alist nil)) ; Don't start searches with ^
-
-  (use-package ivy-rich
-    :ensure t
-    :requires ivy
-    :pin melpa ; melpa-stable version currently has a bug
-    :init
-    (ivy-rich-mode 1))
-
-  (use-package counsel
-    :ensure t
-    :pin gnu
-    :bind (("M-x" . counsel-M-x)
-           ("C-x b" . counsel-ibuffer)
-           ("C-x C-f" . counsel-find-file)))
-#+end_src
 *** Install & use =paradox= for package listing
    A better tool to use for listing and updating packages than the default =list-packages=. See the
    [[https://github.com/Malabarba/paradox][project page]] for more info. Setting =paradox-github-token= supposedly turns off the
@@ -369,6 +334,52 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
         :diminish page-break-lines-mode)
     #+end_src
 * Minibuffer
+*** Completion
+=ivy= is a better way than default emacs to handle command, filename, and buffer completion. To
+install it, install the =counsel= package, which requires =ivy= as well as =swiper=.
+
+Additionally, install [[https://github.com/Yevgnen/ivy-rich][ivy-rich]], which among other things, provides command descriptions in the
+minibuffer when using =counsel-M-x= to run commands.
+#+begin_src emacs-lisp
+  (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+           :map ivy-switch-buffer-map
+           ("C-l" . ivy-done)
+           ("C-d" . ivy-switch-buffer-kill)
+           :map ivy-reverse-i-search-map
+           ("C-d" . ivy-reverse-i-search-kill))
+    :custom (ivy-use-virtual-buffers t)
+    (ivy-count-format "(%d/%d) ")
+    :init
+    (ivy-mode 1)
+    :config (setq ivy-initial-inputs-alist nil)) ; Don't start searches with ^
+
+  (use-package ivy-rich
+    :ensure t
+    :requires ivy
+    :pin melpa ; melpa-stable version currently has a bug
+    :init
+    (ivy-rich-mode 1))
+
+  (use-package counsel
+    :ensure t
+    :pin gnu
+    :bind (("M-x" . counsel-M-x)
+           ("C-x b" . counsel-ibuffer)
+           ("C-x C-f" . counsel-find-file)
+           :map minibuffer-local-map
+           ("C-r" . counsel-minibuffer-history)))
+#+end_src
+*** M-x Enhancement
+Emacs uses the  =M-x= keybinding to execute commands. This installs [[https://github.com/nonsequitur/smex][smex]], which works well with
+=consel-M-x= to show recent commands run in the minibuffer.
+#+begin_src emacs-lisp
+  (use-package smex
+    :ensure t
+    :pin melpa-stable
+    :init (smex-initialize))
+#+end_src
 *** Add =which-key= package
 This package provides a pop-up menu of command key completions when keys are pressed interactively
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
