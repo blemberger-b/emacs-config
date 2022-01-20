@@ -259,7 +259,7 @@ do until those packages migrate to something other than cl, so we'll just suppre
       (setq reb-re-syntax 'string)
     #+end_src
 *** Toggle whitespace-mode
-    =whitespace-mode= is useful for showing whitespace characters on the screen. Togging it on or
+    =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
     off using =C-c w=.
 * Custom Keybindings
 *** General
@@ -289,7 +289,23 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "b" 'ediff-buffers)
 
   (bsl/control-c-control-j-definer
-    "/" 'goto-last-change)
+    "/" 'goto-last-change
+    "C-k" 'kill-all-buffers
+    ;; Buffer move commands
+    "u" 'buf-move-up
+    "d" 'buf-move-down
+    "." 'buf-move-left
+    "," 'buf-move-right
+    "j" 'shrink-window
+    "k" 'enlarge-window
+    "h" 'shrink-window-horizontally
+    ";" 'enlarge-window-horizontally
+    "M" 'shrink-frame
+    "?" 'enlarge-frame
+    "<" 'shrink-frame-horizontally
+    ">" 'enlarge-frame-horizontally
+    "]" 'double-frame-width
+    "[" 'halve-frame-width)
 #+end_src
 
 * UI Customizations
@@ -361,6 +377,7 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
                 (global-page-break-lines-mode)
         :diminish page-break-lines-mode)
     #+end_src
+
 * Minibuffer
 *** Completion
 =ivy= is a better way than default emacs to handle command, filename, and buffer completion. To
@@ -410,6 +427,7 @@ Emacs uses the  =M-x= keybinding to execute commands. This installs [[https://gi
     :pin melpa-stable
     :init (smex-initialize))
 #+end_src
+
 *** Add =which-key= package
 This package provides a pop-up menu of command key completions when keys are pressed interactively
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
@@ -424,6 +442,7 @@ in the minibuffer. We also suppress it from showing up in the modeline. See [[ht
 #+BEGIN_SRC emacs-lisp
   (column-number-mode 1)
 #+END_SRC
+
 *** Spaceline
 =spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]]. Use the spacemacs theme, but turn
 off the file line-endings info segment in the mode line, which I don't find very useful.
@@ -475,17 +494,6 @@ Doesn't work in tty mode, must use =C-x @ s t=.
     #+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]].
-*** Disable =org-mode= keybindings
-These keybindings interfere with some I define below when emacs is in =org-mode=, so disable them
-because I don't use the org-mode functions they are tied to much.
- #+begin_src emacs-lisp
-   (eval-after-load 'org
-     (progn
-       (define-key org-mode-map (kbd "<C-S-right>") nil)
-       (define-key org-mode-map (kbd "<C-S-left>") nil)
-       (define-key org-mode-map (kbd "<C-S-up>") nil)
-       (define-key org-mode-map (kbd "<C-S-down>") nil)))
- #+end_src
 *** Edit src snippets in same window
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
@@ -605,16 +613,15 @@ Bind it to the default =kill-buffer= keybinding =C-x k=.
 
 *** Kill all buffers
 This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
-to confirm.
+to confirm. It will then open the =*dashboard*= buffer.
 #+BEGIN_SRC emacs-lisp
   (defun kill-all-buffers ()
     (interactive)
-    (mapc 'kill-buffer (buffer-list)))
+    (mapc 'kill-buffer (buffer-list))
+    (dashboard-refresh-buffer)
+    (delete-other-windows))
 #+END_SRC
-Bind it to some difficult key combination to press by accident: =C-M-s-k=
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-M-s-k") 'kill-all-buffers)
-#+END_SRC
+Bind it to some difficult key combination to press by accident: =C-c C-j C-k=
 * Windows
 *** Split window horizontally & put point in new window
 #+BEGIN_SRC emacs-lisp
@@ -648,31 +655,18 @@ Bind to the default split vertically key =C-x 3=.
     (interactive)
     (enlarge-window (/ (window-height (next-window)) 2)))
 #+END_SRC
-*** Bind more convenient keys to resize windows
-*Note:* These override the default bindings for scroll window up/down, etc., but I don't care
-because I use =C-v=, =M-v= for that. The arrow keys on Mac keyboards are given in comments next to
-each definition below.
-#+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "<next>") 'shrink-window) ; Fn-down-arrow
-  (global-set-key (kbd "<prior>") 'enlarge-window) ; Fn-up-arrow
-  (global-set-key (kbd "<home>") 'shrink-window-horizontally) ; Fn-left-arrow
-  (global-set-key (kbd "<end>") 'enlarge-window-horizontally)  ; Fn-rigt-arrow
-#+END_SRC
 *** Buffer Move
 =buffer-move= is a package that allows buffers to be rotated and moved when multiple windows are
 open. Require it here and set some keybindings.
 #+begin_src emacs-lisp
   (use-package buffer-move
     :ensure t
-    :pin melpa-stable
-    :bind (("<C-S-up>" . buf-move-up)
-             ("<C-S-down>" . buf-move-down)
-             ("<C-S-left>" . buf-move-left)
-             ("<C-S-right>" . buf-move-right)))
+    :pin melpa-stable)
 #+end_src
+
 * Frames
 The functions in this section where excerpted from the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
-*Note:* These keybindings use /<super>+<shift>/ key combinations.
+
 *** Enlarge Frame Vertically
 Makes the current frame vertically bigger incrementally.
 #+begin_src emacs-lisp
@@ -682,9 +676,8 @@ Makes the current frame vertically bigger incrementally.
   Interactively, it is given by the prefix argument."
     (interactive "p")
     (set-frame-height frame (+ (frame-height frame) increment)))
-
-  (global-set-key (kbd "s-?") 'enlarge-frame)
 #+end_src
+
 *** Enlarge Frame Horizontally
 Makes the current frame horizontally bigger incrementally.
 #+begin_src emacs-lisp
@@ -694,9 +687,8 @@ Makes the current frame horizontally bigger incrementally.
   Interactively, it is given by the prefix argument."
     (interactive "p")
     (set-frame-width frame (+ (frame-width frame) increment)))
-
-  (global-set-key (kbd "s->") 'enlarge-frame-horizontally)
 #+end_src
+
 *** Shrink Frame Vertically
 Makes the current frame vertically smaller incrementally.
 #+begin_src emacs-lisp
@@ -706,9 +698,8 @@ Makes the current frame vertically smaller incrementally.
   Interactively, it is given by the prefix argument."
     (interactive "p")
     (set-frame-height frame (- (frame-height frame) increment)))
-  ;;; Bind to <super> + <shift> + M
-  (global-set-key (kbd "s-M") 'shrink-frame)
 #+end_src
+
 *** Shrink Frame Horizontally
 Makes the current frame horizontally smaller incrementally.
 #+begin_src emacs-lisp
@@ -718,9 +709,8 @@ Makes the current frame horizontally smaller incrementally.
   Interactively, it is given by the prefix argument."
     (interactive "p")
     (set-frame-width frame (- (frame-width frame) increment)))
-
-  (global-set-key (kbd "s-<") 'shrink-frame-horizontally)
 #+end_src
+
 *** Double Frame Width
 Makes the current frame twice as wide. I wrote this.
 #+begin_src emacs-lisp
@@ -728,9 +718,8 @@ Makes the current frame twice as wide. I wrote this.
     "Double the width of FRAME (default: selected-frame)."
     (interactive)
     (set-frame-width frame (* (frame-width frame) 2)))
-
-   (global-set-key (kbd "s-}") 'double-frame-width)
 #+end_src
+
 *** Halve Frame Width
 Makes the current frame half as wide. I wrote this.
 #+begin_src emacs-lisp
@@ -738,9 +727,8 @@ Makes the current frame half as wide. I wrote this.
     "Halve the width of FRAME (default: selected-frame)."
     (interactive)
     (set-frame-width frame (/ (frame-width frame) 2)))
-
-  (global-set-key (kbd "s-{") 'halve-frame-width)
 #+end_src
+
 * Text Mode
 *** =text-mode=
 In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
