@@ -252,11 +252,21 @@ do until those packages migrate to something other than cl, so we'll just suppre
    #+end_src
 *** Regular Expression Builder
     =re-builder= is a built-in emacs major mode for interactively building Regular Expressions. Set
-    the regexp syntax support to the better *string* syntax setting that prevents the need for
-    escaping so many backslashes.
+    the regexp syntax support to *pcre* (see below), which are the types of regexes that I use
+    most. For elisp type regexes, use =reb-change-syntax= to change the syntax to *string* syntax,
+    which prevents the need for escaping so many backslashes in the expression.
     #+begin_src emacs-lisp
       (require 're-builder)
-      (setq reb-re-syntax 'string)
+      (setq reb-re-syntax 'pcre)
+    #+end_src
+*** Perl Compatile Regular Expressions
+    The default regular expression handling in emacs is meant to support elisp, and as such is
+    somewhat limited. This package introduces support commands and built-in integration with
+    =re-builder= to support PCREs.
+    #+begin_src emacs-lisp
+      (use-package pcre2el
+        :ensure t
+        :pin melpa)
     #+end_src
 *** Toggle whitespace-mode
     =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
@@ -294,12 +304,14 @@ Bind some of the functions in this file to the =C-c= key prefix.
     ;; Buffer move commands
     "u" 'buf-move-up
     "d" 'buf-move-down
-    "." 'buf-move-left
-    "," 'buf-move-right
+    "," 'buf-move-left
+    "." 'buf-move-right
+    ;; Window resize commands
     "j" 'shrink-window
     "k" 'enlarge-window
     "h" 'shrink-window-horizontally
     ";" 'enlarge-window-horizontally
+    ;; Frame resize commands
     "M" 'shrink-frame
     "?" 'enlarge-frame
     "<" 'shrink-frame-horizontally
@@ -945,11 +957,12 @@ Define a function to start a scheme process in the current buffer. Run it with =
   #+begin_src emacs-lisp
     (use-package projectile
       :ensure t
-      :diminish projectile-mode
       :pin melpa-stable
       :init (projectile-mode 1)
       :custom (projectile-switch-project-action #'projectile-dired)
       (projectile-mode-line-prefix "")
+      (projectile-mode-line-function
+        '(lambda () (format " [%s]" (projectile-project-name))))
       (projectile-completion-system 'ivy)
       :bind (:map projectile-mode-map
                   ("C-c p" . projectile-command-map)))
