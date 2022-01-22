@@ -51,6 +51,7 @@ from the recent files list that get treated as edited by the package manager for
     :ensure t
     :config
     (setq recentf-exclude '(".*autoloads\.el" ".*\.gz" "TAGS"))
+    (setq dashboard-startup-banner 'logo)
     (dashboard-setup-startup-hook)
     :custom
     (dashboard-page-separator "\n\f\n")
