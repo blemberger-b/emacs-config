@@ -261,7 +261,7 @@ do until those packages migrate to something other than cl, so we'll just suppre
     #+end_src
 *** Perl Compatile Regular Expressions
     The default regular expression handling in emacs is meant to support elisp, and as such is
-    somewhat limited. This package introduces support commands and built-in integration with
+    somewhat limited. [[https://github.com/joddie/pcre2el][This package]] introduces support commands and built-in integration with
     =re-builder= to support PCREs.
     #+begin_src emacs-lisp
       (use-package pcre2el
@@ -272,6 +272,31 @@ do until those packages migrate to something other than cl, so we'll just suppre
     =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
     off using =C-c w=.
 * Custom Keybindings
+*** Repetitive Action Shortcuts
+The =[[https://github.com/abo-abo/hydra]hydra]]= package allows commands to be bound to short
+keybindings (called "heads"). After the command is invoked using the normal keybinding, repetitive
+invocations of the command can be accomplished with a single key.
+#+begin_src emacs-lisp
+  (require 'hydra) ;; package is brought in by ivy
+
+  (defhydra hydra-launcher (:color blue)
+     "Launch"
+     ("h" man "man")
+     ("r" (browse-url "http://www.reddit.com/r/emacs/") "reddit")
+     ("w" (browse-url "http://www.emacswiki.org/") "emacswiki")
+     ("s" shell "shell")
+     ("q" nil "cancel"))
+
+  ;; (defhydra hydra-frame-resize
+  ;;   "Frame resize"
+  ;;   "M" 'shrink-frame
+  ;;   "?" 'enlarge-frame
+  ;;   "<" 'shrink-frame-horizontally
+  ;;   ">" 'enlarge-frame-horizontally
+  ;;   "]" 'double-frame-width
+  ;;   "[" 'halve-frame-width
+  ;;   (""))
+#+end_src
 *** General
 The [[https://github.com/noctuid/general.el][general]] package is useful for organizing custom keybindings.
 #+begin_src emacs-lisp
@@ -296,7 +321,8 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "w" 'whitespace-mode
     "v" 'halve-other-window-height
     "d" 'ediff-files
-    "b" 'ediff-buffers)
+    "b" 'ediff-buffers
+    "h" 'hydra-launcher/body)
 
   (bsl/control-c-j-definer
     "/" 'goto-last-change
@@ -310,16 +336,9 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "j" 'shrink-window
     "k" 'enlarge-window
     "h" 'shrink-window-horizontally
-    ";" 'enlarge-window-horizontally
-    ;; Frame resize commands
-    "M" 'shrink-frame
-    "?" 'enlarge-frame
-    "<" 'shrink-frame-horizontally
-    ">" 'enlarge-frame-horizontally
-    "]" 'double-frame-width
-    "[" 'halve-frame-width)
+    ";" 'enlarge-window-horizontally)
 #+end_src
-
+  
 * UI Customizations
 *** Set geometry of all emacs frames on Mac
 Top-left corner of initial frame will be 50 pixels down from the top margin and 250 pixels right from the left margin. It also makes the window size 45 x 112 characters.
