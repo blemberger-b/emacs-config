@@ -169,10 +169,6 @@ The value of this variable determines the column number for lines in buffers vie
  #+begin_src emacs-lisp
    (setq whitespace-line-column nil)
  #+end_src
-*** Turn off =electric-indent-mode=
- #+begin_src emacs-lisp
-   (setq electric-indent-mode nil)
- #+end_src
 *** Tab key behavior regarding indentation
 The value of this variable determines how the tab key behaves when struck. This setting only does
 indentation when the point is at the beginning of a line.
