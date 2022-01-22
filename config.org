@@ -127,11 +127,6 @@ described there.
   (setq inhibit-startup-message t)
 #+END_SRC
 
-*** Turn off aggressive vertical scrolling
-#+BEGIN_SRC  emacs-lisp
-  (setq scroll-conservatively 100)
-#+END_SRC
-
 *** Turn off annoying bell
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
