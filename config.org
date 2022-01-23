@@ -307,7 +307,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "f" 'hydra-frame-resize/body
     "w" 'hydra-window-resize/body
     "m" 'hydra-buffer-move/body
-    "/" 'goto-last-change
+    "x" 'goto-last-change
     "K" 'kill-all-buffers)
 #+end_src
   
