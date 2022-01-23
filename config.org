@@ -456,7 +456,7 @@ off the file line-endings info segment in the mode line, which I don't find very
     :ensure t
     :config
     (require 'spaceline-config)
-    (spaceline-spacemacs-theme)
+    (spaceline-emacs-theme)
     (spaceline-toggle-buffer-encoding-abbrev-off))
 #+END_SRC
 *** Diminish minor modes from the modeline
