@@ -82,6 +82,19 @@ Allows efficient editing of YAML files.
    :defer t
    :commands (yaml-mode))
 #+end_src
+*** PlantUML
+[[https://github.com/skuro/plantuml-mode][plantuml-mode]] is a custom package for editing and viewing [[https://plantuml.com/][PlantUML]] diagrams. To begin using this
+package, you must first install the executable *plantuml* package. For example, on a Mac: =brew
+install plantuml=. The package will find the executable on the system PATH. This configuration also
+associates =*.puml= files with =puml-mode=.
+#+begin_src emacs-lisp
+  (use-package plantuml-mode
+    :ensure t
+    :pin melpa
+    :custom
+    (plantuml-default-exec-mode 'executable)
+    :mode ("\\.puml\\'" . plantuml-mode))
+#+end_src
 *** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
 on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-presentation-mode][here]].
