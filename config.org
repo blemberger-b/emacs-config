@@ -699,55 +699,31 @@ Bind to the default split vertically key =C-x 3=.
 * Frames
 The functions in this section were excerpted from the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
 
-*** Adjust Frame Height
-Makes the current frame vertically bigger incrementally.
+*** Adjust Frame Size
+Makes the current frame vertically/horizontally bigger/smaller incrementally.
 #+begin_src emacs-lisp
-  (defun bsl/adjust-frame-height (op &optional increment frame)
-    "Adjust the height of FRAME (default: selected-frame) by INCREMENT using OP.
+  (defun bsl/adjust-frame-param (op param &optional increment frame)
+  "Adjust the PARAM of FRAME (default: selected-frame) by INCREMENT using OP.
   INCREMENT is in lines (characters).
   Interactively, it is given by the prefix argument."
     (if (display-graphic-p)
-        (set-frame-parameter frame 'height (funcall op (frame-height frame) increment))))
+        (set-frame-parameter frame param (funcall op (frame-parameter frame param) increment))))
 
+  ;;; Frame Resizing
   (defun bsl/enlarge-frame-vert (&optional increment frame)
-    "Increase the height of FRAME (default: selected-frame) by INCREMENT.
-  INCREMENT is in lines (characters).
-  Interactively, it is given by the prefix argument."
     (interactive "p")
-    (bsl/adjust-frame-height '+ increment frame))
-
+    (bsl/adjust-frame-param '+ 'height increment frame))
   (defun bsl/shrink-frame-vert (&optional increment frame)
-    "Decrease the height of FRAME (default: selected-frame) by INCREMENT.
-    INCREMENT is in lines (characters).
-    Interactively, it is given by the prefix argument."
     (interactive "p")
-    (bsl/adjust-frame-height '- increment frame))
-#+end_src
-
-*** Adjust Frame Width
-Makes the current frame horizontally bigger incrementally.
-#+begin_src emacs-lisp
-  (defun bsl/adjust-frame-width (op &optional increment frame)
-    "Adjust the width of FRAME (default: selected-frame) by INCREMENT using OP.
-  INCREMENT is in lines (characters).
-  Interactively, it is given by the prefix argument."
-    (if (display-graphic-p)
-        (set-frame-parameter frame 'width (funcall op (frame-width frame) increment))))
-
+    (bsl/adjust-frame-param '- 'height increment frame))
   (defun bsl/enlarge-frame-horiz (&optional increment frame)
-    "Increase the width of FRAME (default: selected-frame) by INCREMENT.
-  INCREMENT is in lines (characters).
-  Interactively, it is given by the prefix argument."
     (interactive "p")
-    (bsl/adjust-frame-width '+ increment frame))
-
+    (bsl/adjust-frame-param '+ 'width increment frame))
   (defun bsl/shrink-frame-horiz (&optional increment frame)
-    "Decrease the width of FRAME (default: selected-frame) by INCREMENT.
-    INCREMENT is in lines (characters).
-    Interactively, it is given by the prefix argument."
     (interactive "p")
-    (bsl/adjust-frame-width '- increment frame))
+    (bsl/adjust-frame-param '- 'width increment frame))
 #+end_src
+
 *** Double Frame Width
 Makes the current frame twice as wide. I wrote this.
 #+begin_src emacs-lisp
