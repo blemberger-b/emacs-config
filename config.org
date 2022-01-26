@@ -75,12 +75,13 @@ installed via homebrew.
     :init (setq markdown-command "/usr/local/bin/markdown"))
 #+END_SRC
 *** Install & use =yaml-mode=
-Allows efficient editing of YAML files.
+Allows efficient editing of YAML files. We want subword mode in this mode.
 #+begin_src emacs-lisp
   (use-package yaml-mode
    :ensure t
    :defer t
-   :commands (yaml-mode))
+   :commands (yaml-mode)
+   :hook (yaml-mode . subword-mode))
 #+end_src
 *** PlantUML
 [[https://github.com/skuro/plantuml-mode][plantuml-mode]] is a custom package for editing and viewing [[https://plantuml.com/][PlantUML]] diagrams. To begin using this
@@ -585,7 +586,7 @@ non-programming modes too much.
 #+END_SRC
 
 *** Go To Last Change
-Use the =C-x C-/= key combination to return to the last edit location in the active buffer.
+Use a key combination (defined elsewhere here) to return to the last edit location in the active buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package goto-last-change
     :ensure t
