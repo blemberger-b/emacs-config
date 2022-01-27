@@ -704,7 +704,7 @@ Bind to the default split vertically key =C-x 3=.
 
 #+end_src
 * Frames
-The functions in this section were excerpted from the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
+The functions in this section were inspired by the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
 
 *** Adjust Frame Size
 Makes the current frame vertically/horizontally bigger/smaller incrementally.
@@ -715,20 +715,6 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
   Interactively, it is given by the prefix argument."
     (if (display-graphic-p)
         (set-frame-parameter frame param (funcall op (frame-parameter frame param) increment))))
-
-  ;;; Frame Resizing
-  (defun bsl/enlarge-frame-vert (&optional increment frame)
-    (interactive "p")
-    (bsl/adjust-frame-param '+ 'height increment frame))
-  (defun bsl/shrink-frame-vert (&optional increment frame)
-    (interactive "p")
-    (bsl/adjust-frame-param '- 'height increment frame))
-  (defun bsl/enlarge-frame-horiz (&optional increment frame)
-    (interactive "p")
-    (bsl/adjust-frame-param '+ 'width increment frame))
-  (defun bsl/shrink-frame-horiz (&optional increment frame)
-    (interactive "p")
-    (bsl/adjust-frame-param '- 'width increment frame))
 #+end_src
 
 *** Double Frame Width
@@ -765,10 +751,18 @@ Moves the current frame up/down or left/right.
 #+begin_src emacs-lisp
   (defhydra hydra-frame-resize ()
     "Frame resize"
-    ("s" bsl/shrink-frame-vert "shorter")
-    ("t" bsl/enlarge-frame-vert "taller")
-    ("n" bsl/shrink-frame-horiz "narrower")
-    ("w" bsl/enlarge-frame-horiz "wider")
+    ("s" (lambda (&optional increment)
+           (interactive "p")
+           (bsl/adjust-frame-param '- 'height increment nil)) "shorter")
+    ("t" (lambda (&optional increment)
+           (interactive "p")
+           (bsl/adjust-frame-param '+ 'height increment nil)) "taller")
+    ("n" (lambda (&optional increment)
+           (interactive "p")
+           (bsl/adjust-frame-param '- 'width increment nil)) "narrower")
+    ("w" (lambda (&optional increment)
+           (interactive "p")
+           (bsl/adjust-frame-param '+ 'width increment nil)) "wider")
     ("]" double-frame-width "double width")
     ("[" halve-frame-width "half width"))
 #+end_src
