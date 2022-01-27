@@ -306,6 +306,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "d" 'ediff-files
     "b" 'ediff-buffers
     "f" 'hydra-frame-resize/body
+    "M" 'hydra-frame-motion/body
     "w" 'hydra-window-resize/body
     "m" 'hydra-buffer-move/body
     "x" 'goto-last-change
@@ -606,8 +607,9 @@ Copy the line containing the point to the kill ring.
     (save-excursion
       (kill-new
        (buffer-substring
-  (point-at-bol)
-  (point-at-eol)))))
+        (point-at-bol)
+        (point-at-eol))))
+    (message "Line copied"))
 #+END_SRC
 * Buffers
 *** Bind =ibuffer= to the normal buffer list key
@@ -695,10 +697,10 @@ Bind to the default split vertically key =C-x 3=.
 #+begin_src emacs-lisp
   (defhydra hydra-window-resize ()
     "Window resize"
-    ("j" shrink-window "shorter")
-    ("k" enlarge-window "taller")
-    ("h" shrink-window-horizontally "narrower")
-    (";" enlarge-window-horizontally "wider"))
+    ("s" shrink-window "shorter")
+    ("t" enlarge-window "taller")
+    ("n" shrink-window-horizontally "narrower")
+    ("w" enlarge-window-horizontally "wider"))
 
 #+end_src
 * Frames
@@ -749,6 +751,32 @@ Makes the current frame half as wide. I wrote this.
         (set-frame-width frame (/ (frame-width frame) 2))))
 #+end_src
 
+*** Moving the Frame
+Moves the current frame up/down or left/right.
+#+begin_src emacs-lisp
+  (defun bsl/move-frame (op param &optional frame)
+    (let ((curr-top (frame-parameter frame param))
+          (increment 15))
+      (if (and (eq op '-) (< curr-top increment))
+          (set-frame-parameter frame param 0)
+        (bsl/adjust-frame-param op param increment frame))))
+
+  (defun bsl/move-frame-up (&optional frame)
+    (interactive)
+    (bsl/move-frame '- 'top frame))
+
+  (defun bsl/move-frame-down (&optional frame)
+    (interactive)
+    (bsl/move-frame '+ 'top frame))
+
+  (defun bsl/move-frame-left (&optional frame)
+    (interactive)
+    (bsl/move-frame '- 'left frame))
+
+  (defun bsl/move-frame-right (&optional frame)
+    (interactive)
+    (bsl/move-frame '+ 'left frame))
+#+end_src
 *** Frame resize keybindings
 #+begin_src emacs-lisp
   (defhydra hydra-frame-resize ()
@@ -759,6 +787,16 @@ Makes the current frame half as wide. I wrote this.
     ("w" bsl/enlarge-frame-horiz "wider")
     ("]" double-frame-width "double width")
     ("[" halve-frame-width "half width"))
+#+end_src
+
+*** Frame motion keybindings
+#+begin_src emacs-lisp
+  (defhydra hydra-frame-motion ()
+    "Frame motion"
+    ("<up>" bsl/move-frame-up "up")
+    ("<down>" bsl/move-frame-down "down")
+    ("<left>" bsl/move-frame-left "left")
+    ("<right>" bsl/move-frame-right "right"))
 #+end_src
 
 * Text Mode
