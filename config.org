@@ -300,9 +300,9 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
 Bind some of the functions in this file to the =C-c= key prefix.
 #+begin_src emacs-lisp
   (bsl/control-c-definer
-    "l" 'copy-whole-line
+    "l" 'bsl/copy-whole-line
     "s" 'whitespace-mode
-    "v" 'halve-other-window-height
+    "v" 'bsl/halve-other-window-height
     "d" 'ediff-files
     "b" 'ediff-buffers
     "f" 'hydra-frame-resize/body
@@ -310,11 +310,11 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "w" 'hydra-window-resize/body
     "m" 'hydra-buffer-move/body
     "x" 'goto-last-change
-    "K" 'kill-all-buffers)
+    "K" 'bsl/kill-all-buffers)
 
   (bsl/control-c-c-definer
-    "e" 'config-visit    ; C-c c e
-    "r" 'config-reload)  ; C-c c r
+    "e" 'bsl/config-visit    ; C-c c e
+    "r" 'bsl/config-reload)  ; C-c c r
 #+end_src
   
 * UI Customizations
@@ -566,14 +566,14 @@ Force isearch operations in dired buffers to only search in filenames.
 *** Edit this config file
 Define a custom function to do this.
 #+BEGIN_SRC emacs-lisp
-  (defun config-visit ()
+  (defun bsl/config-visit ()
     (interactive)
     (find-file "~/.emacs.d/config.org"))
 #+END_SRC
 *** Reload configs on demand
 Define a custom function to do this.
 #+BEGIN_SRC emacs-lisp
-    (defun config-reload ()
+    (defun bsl/config-reload ()
       (interactive)
       (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 #+END_SRC
@@ -602,7 +602,7 @@ Use a key combination (defined elsewhere here) to return to the last edit locati
 *** Copy whole line
 Copy the line containing the point to the kill ring.
 #+BEGIN_SRC emacs-lisp
-  (defun copy-whole-line ()
+  (defun bsl/copy-whole-line ()
     (interactive)
     (save-excursion
       (kill-new
@@ -622,20 +622,20 @@ the same window.
 Override default emacs and =ido-mode= functionality to prompt for the buffer to kill, and just go
 ahead and kill the current one. It will still prompt for confirmation if the buffer is unsaved.
 #+BEGIN_SRC emacs-lisp
-  (defun kill-current-buffer ()
+  (defun bsl/kill-current-buffer ()
     (interactive)
     (kill-buffer (current-buffer)))
 #+END_SRC
 Bind it to the default =kill-buffer= keybinding =C-x k=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x k") 'kill-current-buffer)
+  (global-set-key (kbd "C-x k") 'bsl/kill-current-buffer)
 #+END_SRC
 
 *** Kill all buffers
 This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
 to confirm. It will then open the =*dashboard*= buffer.
 #+BEGIN_SRC emacs-lisp
-  (defun kill-all-buffers ()
+  (defun bsl/kill-all-buffers ()
     (interactive)
     (mapc 'kill-buffer (buffer-list))
     (dashboard-refresh-buffer)
@@ -663,7 +663,7 @@ Bind functions from this package to useful repeatable custom keybindings.
 * Windows
 *** Split window horizontally & put point in new window
 #+BEGIN_SRC emacs-lisp
-  (defun split-and-follow-horizontally ()
+  (defun bsl/split-and-follow-horizontally ()
     (interactive)
     (split-window-below)
     (balance-windows)
@@ -671,11 +671,11 @@ Bind functions from this package to useful repeatable custom keybindings.
 #+END_SRC
 Bind to the default split horizontally key =C-x 2=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x 2") 'split-and-follow-horizontally)
+  (global-set-key (kbd "C-x 2") 'bsl/split-and-follow-horizontally)
 #+END_SRC
 *** Split window vertically & put point in new window
 #+BEGIN_SRC emacs-lisp
-  (defun split-and-follow-vertically ()
+  (defun bsl/split-and-follow-vertically ()
     (interactive)
     (split-window-right)
     (balance-windows)
@@ -683,12 +683,12 @@ Bind to the default split horizontally key =C-x 2=.
 #+END_SRC
 Bind to the default split vertically key =C-x 3=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x 3") 'split-and-follow-vertically)
+  (global-set-key (kbd "C-x 3") 'bsl/split-and-follow-vertically)
 #+END_SRC
 *** Halve other window height
     Tip from [[https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows][here]].
 #+BEGIN_SRC emacs-lisp
-  (defun halve-other-window-height ()
+  (defun bsl/halve-other-window-height ()
     "Expand current window to use half of the other window's lines."
     (interactive)
     (enlarge-window (/ (window-height (next-window)) 2)))
@@ -720,7 +720,7 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
 *** Double Frame Width
 Makes the current frame twice as wide. I wrote this.
 #+begin_src emacs-lisp
-  (defun double-frame-width (&optional frame)
+  (defun bsl/double-frame-width (&optional frame)
     "Double the width of FRAME (default: selected-frame)."
     (interactive)
     (if (display-graphic-p)
@@ -730,7 +730,7 @@ Makes the current frame twice as wide. I wrote this.
 *** Halve Frame Width
 Makes the current frame half as wide. I wrote this.
 #+begin_src emacs-lisp
-  (defun halve-frame-width (&optional frame)
+  (defun bsl/halve-frame-width (&optional frame)
     "Halve the width of FRAME (default: selected-frame)."
     (interactive)
     (if (display-graphic-p)
@@ -741,6 +741,7 @@ Makes the current frame half as wide. I wrote this.
 Moves the current frame up/down or left/right.
 #+begin_src emacs-lisp
   (defun bsl/move-frame (op param &optional frame)
+  "Adjust a motion-type PARAM of FRAME (default: selected-frame) by 15 pixels using OP."
     (let ((curr-top (frame-parameter frame param))
           (increment 15))
       (if (and (eq op '-) (< curr-top increment))
@@ -763,8 +764,8 @@ Moves the current frame up/down or left/right.
     ("w" (lambda (&optional increment)
            (interactive "p")
            (bsl/adjust-frame-param '+ 'width increment nil)) "wider")
-    ("]" double-frame-width "double width")
-    ("[" halve-frame-width "half width"))
+    ("]" bsl/double-frame-width "double width")
+    ("[" bsl/halve-frame-width "half width"))
 #+end_src
 
 *** Frame motion keybindings
@@ -805,11 +806,11 @@ text modes to get spellchecking functionality.
 #+end_src
 *** Prettify
 This creates a keyboard macro that "prettifies" (i.e. re-indents and refomats) XML documents. To run
-it, enter =M-x xml-prettify=.
+it, enter =M-x bsl/xml-prettify=.
 *Note:* This command requires that the *xmllint* command is installed and available in the local
 PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
 #+begin_src emacs-lisp
-  (defun xml-prettify ()
+  (defun bsl/xml-prettify ()
     (interactive)
     (shell-command-on-region
       (buffer-end 0)
@@ -905,7 +906,7 @@ Set the variable =clojure-indent-style= to the value =always-indent=. See [[http
   (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 #+END_SRC
 
-*** Install & use =cider= (from MELPA)
+*** Install & use =cider=
 [[https://github.com/clojure-emacs/cider][cider]] is the /clojure integrated development environment/. We're only going to use the melpa stable version.
 Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l= key. Also set
 the following defaults:
@@ -956,9 +957,9 @@ installed on Mac OS with =brew install mit-scheme=.
 #+begin_src emacs-lisp
   (require 'xscheme)
 #+end_src
-Define a function to start a scheme process in the current buffer. Run it with =M-x xscheme=.
+Define a function to start a scheme process in the current buffer. Run it with =M-x bsl/scheme-repl=.
 #+begin_src emacs-lisp
-  (defun scheme-repl ()
+  (defun bsl/scheme-repl ()
     "Starts a scheme process in new window next to the current window."
     (interactive)
     (let ((new-buff-name "*scheme*"))
