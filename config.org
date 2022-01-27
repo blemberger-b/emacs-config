@@ -292,14 +292,14 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     :ensure t
     :config
     (general-create-definer bsl/control-c-definer
-      :prefix "C-c"))
+      :prefix "C-c")
+    (general-create-definer bsl/control-c-c-definer
+      :prefix "C-c c"))
 #+end_src
 *** Keybindings
 Bind some of the functions in this file to the =C-c= key prefix.
 #+begin_src emacs-lisp
   (bsl/control-c-definer
-    "e" 'config-visit
-    "r" 'config-reload
     "l" 'copy-whole-line
     "s" 'whitespace-mode
     "v" 'halve-other-window-height
@@ -310,6 +310,10 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "m" 'hydra-buffer-move/body
     "x" 'goto-last-change
     "K" 'kill-all-buffers)
+
+  (bsl/control-c-c-definer
+    "e" 'config-visit    ; C-c c e
+    "r" 'config-reload)  ; C-c c r
 #+end_src
   
 * UI Customizations
