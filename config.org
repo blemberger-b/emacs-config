@@ -306,7 +306,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "d" 'ediff-files
     "b" 'ediff-buffers
     "f" 'hydra-frame-resize/body
-    "M" 'hydra-frame-motion/body
+    "<right>" 'hydra-frame-motion/body
     "w" 'hydra-window-resize/body
     "m" 'hydra-buffer-move/body
     "x" 'goto-last-change
@@ -760,22 +760,6 @@ Moves the current frame up/down or left/right.
       (if (and (eq op '-) (< curr-top increment))
           (set-frame-parameter frame param 0)
         (bsl/adjust-frame-param op param increment frame))))
-
-  (defun bsl/move-frame-up (&optional frame)
-    (interactive)
-    (bsl/move-frame '- 'top frame))
-
-  (defun bsl/move-frame-down (&optional frame)
-    (interactive)
-    (bsl/move-frame '+ 'top frame))
-
-  (defun bsl/move-frame-left (&optional frame)
-    (interactive)
-    (bsl/move-frame '- 'left frame))
-
-  (defun bsl/move-frame-right (&optional frame)
-    (interactive)
-    (bsl/move-frame '+ 'left frame))
 #+end_src
 *** Frame resize keybindings
 #+begin_src emacs-lisp
@@ -793,10 +777,18 @@ Moves the current frame up/down or left/right.
 #+begin_src emacs-lisp
   (defhydra hydra-frame-motion ()
     "Frame motion"
-    ("<up>" bsl/move-frame-up "up")
-    ("<down>" bsl/move-frame-down "down")
-    ("<left>" bsl/move-frame-left "left")
-    ("<right>" bsl/move-frame-right "right"))
+    ("<up>" (lambda ()
+              (interactive)
+              (bsl/move-frame '- 'top)) "up")
+    ("<down>" (lambda ()
+                (interactive)
+                (bsl/move-frame '+ 'top)) "down")
+    ("<left>" (lambda ()
+                (interactive)
+                (bsl/move-frame '- 'left)) "left")
+    ("<right>" (lambda ()
+                 (interactive)
+                 (bsl/move-frame '+ 'left)) "right"))
 #+end_src
 
 * Text Mode
