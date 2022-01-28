@@ -993,7 +993,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
    :bind ("C-c g" . magit-log-buffer-file))
 #+end_src
 * Projects
-*** Install & use =projectile=
+*** =projectile=
   [[https://docs.projectile.mx/projectile/index.html][projectile]] is a major mode that allows for managing sets of files & buffers that constitute some
   type of /project/, such as git, maven, leiningen, etc. It can auto-discover these types of
   projects, or you can define them yourself. The functionality of searching by symbol is
@@ -1013,6 +1013,16 @@ Define a function to start a scheme process in the current buffer. Run it with =
       :bind (:map projectile-mode-map
                   ("C-c p" . projectile-command-map)))
   #+end_src
+
+*** =counsel= integration with =projectile=
+    Mostly overrides =projectile= commands and keybindings to work better with =counsel=. See [[https://github.com/ericdanan/counsel-projectile][here]]
+    for documentation.
+#+begin_src emacs-lisp
+  (use-package counsel-projectile
+    :ensure t
+    :pin melpa-stable
+    :init (counsel-projectile-mode))
+#+end_src
 
 * Diff
   Use built-in =ediff= for viewing and editing file differences. Bind the function to diff two files
