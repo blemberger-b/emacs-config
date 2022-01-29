@@ -1010,18 +1010,25 @@ Define a function to start a scheme process in the current buffer. Run it with =
       (projectile-mode-line-function
         '(lambda () (format " [%s]" (projectile-project-name))))
       (projectile-completion-system 'ivy)
-      :bind (:map projectile-mode-map
-                  ("C-c p" . projectile-command-map)))
+      :bind
+      (:map projectile-mode-map
+            ("C-c p" . projectile-command-map))
+      (:map projectile-command-map
+            ("s" . nil))) ; Unbinding the keymap for C-c p s to be used by counsel-projectile
   #+end_src
 
 *** =counsel= integration with =projectile=
     Mostly overrides =projectile= commands and keybindings to work better with =counsel=. See [[https://github.com/ericdanan/counsel-projectile][here]]
-    for documentation.
+    for documentation. We are binding the normal projectile search key (=C-c p s=) to the extremely
+    fast and useful version of grep called [[https://github.com/BurntSushi/ripgrep][ripgrep]]. The ripgrep command =rg= needs to be installed
+    and present on the system PATH (example: =brew install ripgrep=).
 #+begin_src emacs-lisp
   (use-package counsel-projectile
     :ensure t
     :pin melpa-stable
-    :init (counsel-projectile-mode))
+    :init (counsel-projectile-mode)
+    :bind (:map projectile-command-map
+                ("s" . counsel-projectile-rg)))
 #+end_src
 
 * Diff
