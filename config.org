@@ -505,6 +505,12 @@ Doesn't work in tty mode, must use =C-x @ s t=.
     #+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]].
+*** UI Tweaks
+    Replace the three dot ellipsis for collapsed headings (...) with a downward pointing triangle
+    character.
+    #+begin_src emacs-lisp
+      (setq org-ellipsis " \u25bc")
+    #+end_src
 *** Edit src snippets in same window
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
@@ -1026,6 +1032,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
   (use-package counsel-projectile
     :ensure t
     :pin melpa-stable
+    :after projectile
     :init (counsel-projectile-mode)
     :bind (:map projectile-command-map
                 ("s" . counsel-projectile-rg)))
