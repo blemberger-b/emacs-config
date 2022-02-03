@@ -14,7 +14,7 @@ apply the customizations from *init.el* and this file.
 These packages here and elsewhere are installed via [[https://github.com/jwiegley/use-package][use-package]]. From time to time, you should check
 for updates using the command =M-x package-list-packages=, which will tell you which packages have
 updates available and prompt to upgrade them.
-*** Install & use =paradox= for package listing
+** Install & use =paradox= for package listing
    A better tool to use for listing and updating packages than the default =list-packages=. See the
    [[https://github.com/Malabarba/paradox][project page]] for more info. Setting =paradox-github-token= supposedly turns off the
    starring/unstarring of github repos functionality.
@@ -23,13 +23,13 @@ updates available and prompt to upgrade them.
        :config (paradox-enable)
        :custom (paradox-github-token t))
    #+end_src
-*** Install & use =sudo-edit= (from MELPA)
+** Install & use =sudo-edit= (from MELPA)
 =sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
 #+BEGIN_SRC emacs-lisp
   (use-package sudo-edit
     :bind ("s-e" . sudo-edit))
 #+END_SRC
-*** Recent Files
+** Recent Files
    Emacs does not keep track of recently found files by default, so turn it on, and set some
    reasonable defaults.
    #+begin_src emacs-lisp
@@ -39,7 +39,7 @@ updates available and prompt to upgrade them.
           recentf-exclude '("ido.last"))
       (recentf-mode 1))
    #+end_src
-*** Dashboard
+** Dashboard
 The =dashboard= package allows setting a better initial buffer when Emacs opens. See [[https://github.com/emacs-dashboard/emacs-dashboard][here]] for info
 and configuration values. We display recent *projectile* projects and recent files. We exclude files
 from the recent files list that get treated as edited by the package manager for some reason.
@@ -58,7 +58,7 @@ from the recent files list that get treated as edited by the package manager for
      "The more I learn about people, the more I like my dog\t--Mark Twain")
     (dashboard-set-footer nil))
 #+END_SRC
-*** Install & use =markdown-mode= (from MELPA)
+** Install & use =markdown-mode= (from MELPA)
 This package provides a major mode for editing markdown files. It requires the =markdown= command be
 installed via homebrew.
 #+BEGIN_SRC emacs-lisp
@@ -69,7 +69,7 @@ installed via homebrew.
      ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "/usr/local/bin/markdown"))
 #+END_SRC
-*** Install & use =yaml-mode=
+** Install & use =yaml-mode=
 Allows efficient editing of YAML files. We want subword mode in this mode.
 #+begin_src emacs-lisp
   (use-package yaml-mode
@@ -77,7 +77,7 @@ Allows efficient editing of YAML files. We want subword mode in this mode.
    :commands (yaml-mode)
    :hook (yaml-mode . subword-mode))
 #+end_src
-*** PlantUML
+** PlantUML
 [[https://github.com/skuro/plantuml-mode][plantuml-mode]] is a custom package for editing and viewing [[https://plantuml.com/][PlantUML]] diagrams. To begin using this
 package, you must first install the executable *plantuml* package. For example, on a Mac: =brew
 install plantuml=. The package will find the executable on the system PATH. This configuration also
@@ -89,7 +89,7 @@ associates =*.puml= files with =puml-mode=.
     (plantuml-default-exec-mode 'executable)
     :mode ("\\.puml\\'" . plantuml-mode))
 #+end_src
-*** Presentation Mode
+** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
 on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-presentation-mode][here]].
 #+BEGIN_SRC emacs-lisp
@@ -97,7 +97,7 @@ on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-prese
     :defer t
     :pin melpa-stable)
 #+END_SRC
-*** Golden ratio screen scrolling
+** Golden ratio screen scrolling
 Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
 #+begin_src emacs-lisp
   (use-package golden-ratio-scroll-screen
@@ -106,7 +106,7 @@ Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
            ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
 #+end_src
 * Global Settings
-*** Install & run =exec-path-from-shell=
+** Install & run =exec-path-from-shell=
 On Mac OS, an Emacs instance started from the graphical user interface will have a different
 environment than a shell in a terminal window, because OS X does not run a shell during the login.
 Obviously this will lead to unexpected results when calling external utilities like *make* from
@@ -117,7 +117,7 @@ user's shell. See [[https://github.com/purcell/exec-path-from-shell][here]].
     :init (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize)))
 #+END_SRC
-*** Default to TLS 1.3
+** Default to TLS 1.3
 Apparently, Emacs 27.2 on Mac OS does not use the correct version of TLS for https connections that
 the =package-list-package= command needs, leading to errors described [[https://emacs.stackexchange.com/questions/68288/error-retrieving-https-elpa-gnu-org-packages-archive-contents][here]]. This is the fix
 described there.
@@ -126,22 +126,22 @@ described there.
               (eql system-type 'darwin))
      (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
  #+end_src
-*** Turn off emacs start screen
+** Turn off emacs start screen
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
 #+END_SRC
 
-*** Turn off annoying bell
+** Turn off annoying bell
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function 'ignore)
 #+END_SRC
 
-*** Turn off auto-saving
+** Turn off auto-saving
 #+BEGIN_SRC emacs-lisp
   (setq auto-save-default nil)
 #+END_SRC
 
-*** Backup files go in a dedicated directory
+** Backup files go in a dedicated directory
 Emacs can automatically create backup files. This tells Emacs to put all backups in
 ~/.emacs.d/backups. More info [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Backup-Files.html][here]].
 #+begin_src emacs-lisp
@@ -149,59 +149,59 @@ Emacs can automatically create backup files. This tells Emacs to put all backups
                                   (concat user-emacs-directory "backups"))))
 #+end_src
 
-*** Set default fill column
+** Set default fill column
 Set the default column to 100 where emacs will attempt to auto-fill in those modes that support it.
 #+BEGIN_SRC emacs-lisp
   (setq-default fill-column 100)
 #+END_SRC
-*** No tab characters
+** No tab characters
 Make indentation use space characters only and not tab characters. Note that some major modes
 override this behavior.
 #+begin_src emacs-lisp
   (setq-default indent-tabs-mode nil)
 #+end_src
 
-*** Set default tab width
+** Set default tab width
 Set the number of spaces corresponding to a tab character, unless overridden by buffers or modes.
 #+begin_src emacs-lisp
   (setq-default tab-width 2)
 #+end_src
 
-*** Set =whitespace-mode= highlighting column
+** Set =whitespace-mode= highlighting column
 The value of this variable determines the column number for lines in buffers viewed in
 =whitespace-mode= are shown in highlighted color. =nil= means to use the value of =fill-column=.
  #+begin_src emacs-lisp
    (setq whitespace-line-column nil)
  #+end_src
-*** Tab key behavior regarding indentation
+** Tab key behavior regarding indentation
 The value of this variable determines how the tab key behaves when struck. This setting only does
 indentation when the point is at the beginning of a line.
 #+begin_src emacs-lisp
   (setq-default tab-always-indent nil)
 #+end_src
-*** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
+** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
 #+BEGIN_SRC emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+END_SRC
-*** Set directory listing options
+** Set directory listing options
 Both verbose and brief directory listings using =C-x C-d= should list hidden as well as visible
 files.
 #+begin_src emacs-lisp
   (setq list-directory-brief-switches "-la")
   (setq list-directory-verbose-switches "-CFa")
 #+end_src
-*** Remap Mac Fn key to super key =(s- )=
+** Remap Mac Fn key to super key =(s- )=
 Doesn't work in tty mode, must use =C-x @ s= and then the key.
 #+BEGIN_SRC emacs-lisp
   (setq mac-function-modifier 'super)
 #+END_SRC
-*** Fix some stupid failed binding to =backtab= key in Mac OS console mode
+** Fix some stupid failed binding to =backtab= key in Mac OS console mode
 See [[https://stackoverflow.com/questions/3518846/shift-tab-produces-cryptic-error-in-emacs][this explanation]].
 #+BEGIN_SRC emacs-lisp
   (add-hook 'term-setup-hook
       (lambda () (define-key input-decode-map "\e[Z" [backtab])))
 #+END_SRC
-*** iterm2 Mac OS console mode fixes
+** iterm2 Mac OS console mode fixes
 Emacs generally has problems with the Control-Meta-Shift combination key bindings in console
 mode. This is due to terminal emulators on all systems, not just Mac OS, not able to process the
 escape sequences and pass them through to emacs. Some of these problems can be fixed by modifying
@@ -212,25 +212,25 @@ are desired can be looked up in any standard ASCII table.
 
 For example, to map =C-,= in *iterm2* so that it works when emacs is run in console mode, I
 configured my iterm2 profile to map =^,= to the escape sequence =[44;5u= since comma is ASCII code 44.
-*** Disable 'cl is deprecated warning'
+** Disable 'cl is deprecated warning'
 Stupid warning is shown because =cl= is a transitive dependency from other packages. Nothing we can
 do until those packages migrate to something other than cl, so we'll just suppress the warning. See [[https://github.com/kiwanami/emacs-epc/issues/35][this]].
 #+begin_src emacs-lisp
   (setq byte-compile-warnings '(cl-functions))
 #+end_src
-*** Save clipboard strings into kill ring before replacing them
+** Save clipboard strings into kill ring before replacing them
    When one selects something in another program to paste it into Emacs, but kills something in
    Emacs before actually pasting it, this selection is gone unless this variable is non-nil.
    #+begin_src emacs-lisp
     (setq save-interprogram-paste-before-kill t)
    #+end_src
-*** Save place in opened files
+** Save place in opened files
    When you visit a file, point goes to the last place where it was when you previously visited the
    same file. See [[https://www.emacswiki.org/emacs/SavePlace][here]].
    #+begin_src emacs-lisp
     (save-place-mode 1)
    #+end_src
-*** Hippie expand
+** Hippie expand
    [[https://www.emacswiki.org/emacs/HippieExpand][hippie-expand]] is a useful built-in function that does abbreviation or word expansion in a
    buffer. Activate it by invoking =M-/= (this overrides the keybinding for =dabbrev-expand=).
    #+begin_src emacs-lisp
@@ -246,7 +246,7 @@ do until those packages migrate to something other than cl, so we'll just suppre
           try-complete-lisp-symbol-partially
           try-complete-lisp-symbol))
    #+end_src
-*** Regular Expression Builder
+** Regular Expression Builder
     =re-builder= is a built-in emacs major mode for interactively building Regular Expressions. Set
     the regexp syntax support to *pcre* (see below), which are the types of regexes that I use
     most. For elisp type regexes, use =reb-change-syntax= to change the syntax to *string* syntax,
@@ -255,7 +255,7 @@ do until those packages migrate to something other than cl, so we'll just suppre
       (require 're-builder)
       (setq reb-re-syntax 'pcre)
     #+end_src
-*** Perl Compatile Regular Expressions
+** Perl Compatile Regular Expressions
     The default regular expression handling in emacs is meant to support elisp, and as such is
     somewhat limited. [[https://github.com/joddie/pcre2el][This package]] introduces support commands and built-in integration with
     =re-builder= to support PCREs.
@@ -263,18 +263,18 @@ do until those packages migrate to something other than cl, so we'll just suppre
       (use-package pcre2el
         :pin melpa)
     #+end_src
-*** Toggle whitespace-mode
+** Toggle whitespace-mode
     =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
     off using =C-c w=.
 * Custom Keybindings
-*** Repetitive Action Shortcuts
+** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
 command is invoked using the normal keybinding, repetitive invocations of the command can be
 accomplished with a single key.
 #+begin_src emacs-lisp
   (require 'hydra) ;; package is a dependency of ivy
 #+end_src
-*** General
+** General
 The [[https://github.com/noctuid/general.el][general]] package is useful for organizing custom keybindings.
 #+begin_src emacs-lisp
   (use-package general
@@ -284,7 +284,7 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (general-create-definer bsl/control-c-o-definer
       :prefix "C-c o"))
 #+end_src
-*** Keybindings
+** Keybindings
 Bind some of the functions in this file to the =C-c= key prefix.
 #+begin_src emacs-lisp
   (bsl/control-c-definer
@@ -309,13 +309,13 @@ Bind some of the functions in this file to the =C-c= key prefix.
 #+end_src
   
 * UI Customizations
-*** Set geometry of all emacs frames on Mac
+** Set geometry of all emacs frames on Mac
 Top-left corner of initial frame will be 0 pixels down from the top margin and 250 pixels right from
 the left margin. It also makes the window size 50 x 112 characters.
 #+BEGIN_SRC emacs-lisp
   (setq default-frame-alist '((top . 0) (left . 250) (width . 112) (height . 50)))
 #+END_SRC
-*** Font faces
+** Font faces
 Fonts are set in the =init.el= file rather than here, so that they can be customized using emacs
 default =customize= functionality. The default font specified there, *Fira Code*, needs to be
 downloaded separately. The following commands will do this on a Mac:
@@ -323,38 +323,38 @@ downloaded separately. The following commands will do this on a Mac:
   brew tap homebrew/cask-fonts
   brew install font-fira-code
 #+end_example
-*** Turn off graphical tool-bar
+** Turn off graphical tool-bar
 #+BEGIN_SRC emacs-lisp
   (tool-bar-mode -1)
 #+END_SRC
 
-*** Turn off native OS scroll bars on window frames
+** Turn off native OS scroll bars on window frames
 #+BEGIN_SRC emacs-lisp
   (when (fboundp 'scroll-bar-mode)
    (scroll-bar-mode -1))
 #+END_SRC
 
-*** Turn off top menu bar
+** Turn off top menu bar
 #+BEGIN_SRC emacs-lisp
   (menu-bar-mode -1)
 #+END_SRC
 
-*** Cursor blink
+** Cursor blink
 Set the cursor to always blink. This setting has no effect in TTY mode (the cursor is controlled
 only by the terminal settings).
 #+BEGIN_SRC emacs-lisp
   (setq blink-cursor-blinks 0)
 #+END_SRC
 
-*** Full path in title bar
+** Full path in title bar
    #+begin_src emacs-lisp
     (setq frame-title-format "%b (%f)")
    #+end_src
-*** Turn on line numbering in all buffers that support it
+** Turn on line numbering in all buffers that support it
 #+BEGIN_SRC emacs-lisp
   (global-display-line-numbers-mode)
 #+END_SRC
-*** Beacon mode
+** Beacon mode
 Install and enable =beacon-mode= for better indicator when changing windows. See [[https://github.com/Malabarba/beacon][here]].
 #+begin_src emacs-lisp
   (use-package beacon
@@ -364,7 +364,7 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
     :custom
     (beacon-blink-when-window-scrolls nil))
 #+end_src
-*** Prettify Control L
+** Prettify Control L
     Emacs by default displays the form-feed (=C-l=) character as a literal "^L" character
     sequence. Since this is ugly, this package changes it to a horizonal line. The package used here
     is [[https://github.com/purcell/page-break-lines][page-break-lines]] because it works well with =dashboard-mode=. For some reason, it's not
@@ -378,7 +378,7 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
     #+end_src
 
 * Minibuffer
-*** Completion
+** Completion
 =ivy= is a better way than default emacs to handle command, filename, and buffer completion. To
 install it, install the =counsel= package, which requires =ivy= as well as =swiper=.
 
@@ -415,7 +415,7 @@ minibuffer when using =counsel-M-x= to run commands.
            :map minibuffer-local-map
            ("C-r" . counsel-minibuffer-history)))
 #+end_src
-*** M-x Enhancement
+** M-x Enhancement
 Emacs uses the  =M-x= keybinding to execute commands. This installs [[https://github.com/nonsequitur/smex][smex]], which works well with
 =consel-M-x= to show recent commands run in the minibuffer.
 #+begin_src emacs-lisp
@@ -424,7 +424,7 @@ Emacs uses the  =M-x= keybinding to execute commands. This installs [[https://gi
     :init (smex-initialize))
 #+end_src
 
-*** Add =which-key= package
+** Add =which-key= package
 This package provides a pop-up menu of command key completions when keys are pressed interactively
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
 #+BEGIN_SRC emacs-lisp
@@ -433,12 +433,12 @@ in the minibuffer. We also suppress it from showing up in the modeline. See [[ht
     :diminish which-key-mode)
 #+END_SRC
 * Mode Line
-*** Turn on column mode display of (line,col) in mode line
+** Turn on column mode display of (line,col) in mode line
 #+BEGIN_SRC emacs-lisp
   (column-number-mode 1)
 #+END_SRC
 
-*** Spaceline
+** Spaceline
 =spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]]. Use the spacemacs theme, but turn
 off the file line-endings info segment in the mode line, which I don't find very useful.
 #+BEGIN_SRC emacs-lisp
@@ -449,7 +449,7 @@ off the file line-endings info segment in the mode line, which I don't find very
     (spaceline-emacs-theme)
     (spaceline-toggle-buffer-encoding-abbrev-off))
 #+END_SRC
-*** Diminish minor modes from the modeline
+** Diminish minor modes from the modeline
     [[https://github.com/myrjola/diminish.el][diminish]] allows us to list the mode names that we don't want displayed in the modeline. We do
     that here by using the =:diminish= keyword in =use-package= declarations that we want to
     suppress, or by specifing them in the =config:= section.
@@ -460,13 +460,13 @@ off the file line-endings info segment in the mode line, which I don't find very
 #+END_SRC
 
 * Kill Ring
-*** Turn on helpful kill ring pop-up menu and bind it to =M-y=
+** Turn on helpful kill ring pop-up menu and bind it to =M-y=
 #+BEGIN_SRC emacs-lisp
   (use-package popup-kill-ring
     :bind ("M-y" . popup-kill-ring))
 #+END_SRC
 * Terminal
-*** Make bash the default shell for ansi-term
+** Make bash the default shell for ansi-term
     =bash= command will be located based on the =PATH= in the user's environment.
 #+BEGIN_SRC emacs-lisp
   (defvar my-term-shell "bash")
@@ -474,25 +474,25 @@ off the file line-endings info segment in the mode line, which I don't find very
     (interactive (list my-term-shell)))
   (ad-activate 'ansi-term)
 #+END_SRC
-*** Bind ansi-term command
+** Bind ansi-term command
     to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-t") 'ansi-term)
 #+END_SRC
-*** Turn off line numbers for shell terminals
+** Turn off line numbers for shell terminals
     #+begin_src emacs-lisp
       (add-hook 'term-mode-hook (lambda () (display-line-numbers-mode 0)))
     #+end_src
 * Org Mode
-See [[https://orgmode.org/index.html][org-mode]].
-*** UI Tweaks
+  See [[https://orgmode.org/index.html][org-mode]].
+** UI Tweaks
     Replace the three dot ellipsis for collapsed headings (...) with a downward pointing triangle
     character.
     #+begin_src emacs-lisp
       (setq org-ellipsis " \u25bc")
     #+end_src
-*** Headline Bullets
+** Headline Bullets
     Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
     #+begin_src emacs-lisp
       (use-package org-bullets
@@ -501,24 +501,24 @@ See [[https://orgmode.org/index.html][org-mode]].
         :custom
         (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
     #+end_src
-*** Edit src snippets in same window
+** Edit src snippets in same window
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
 #+END_SRC
-*** Htmlize
+** Htmlize
 Install =htmlize= package to allow exporting =org-mode= files in html format
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
     :defer t
     :pin melpa-stable)
 #+END_SRC
-*** Source snippet for emacs-lisp
+** Source snippet for emacs-lisp
 In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* block.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'org-structure-template-alist
               '( "el" . "src emacs-lisp"))
 #+END_SRC
-*** Presentations
+** Presentations
 [[https://github.com/takaxp/org-tree-slide][org-tree-slide]] mode can be used to create an interactive slide show in =org-mode=. To start a
 presentation, do =M-x org-tree-slide-mode=.
 #+begin_src emacs-lisp
@@ -535,8 +535,8 @@ presentation, do =M-x org-tree-slide-mode=.
     (org-tree-slide-simple-profile))
 #+end_src
 
-*** Custom =org-mode= keybindings
-Globally enabled keybindings specific for =org-mode=:
+** Custom =org-mode= keybindings
+    Globally enabled keybindings specific for =org-mode=:
 #+begin_src emacs-lisp
   (bsl/control-c-o-definer
     "l" 'org-store-link
@@ -551,9 +551,15 @@ Keybindings only enabled in =org-mode= buffers:
           "My org-mode toggles"
           ("l" org-toggle-link-display "toggle hyperlinks")))
 #+end_src
+** Agendas
+    Configure .org files that contain agenda items
+    #+begin_src emacs-lisp
+      (setq org-agenda-files
+            '("~/training/emacs/org-mode/tasks.org"))
+    #+end_src
 * Dired
 For directory editing & file system operations within emacs.
-*** Enable =dired-x=
+** Enable =dired-x=
 Extensions for =dired-mode= that are pre-installed, but not enabled by default, so enable them. For
 example, to jump to the currently open file in dired-x, type =C-x C-j=.
 #+BEGIN_SRC emacs-lisp
@@ -566,14 +572,14 @@ Force isearch operations in dired buffers to only search in filenames.
   (setq dired-isearch-filenames t)
 #+end_src
 * Config edit/reload
-*** Edit this config file
+** Edit this config file
 Define a custom function to do this.
 #+BEGIN_SRC emacs-lisp
   (defun bsl/config-visit ()
     (interactive)
     (find-file "~/.emacs.d/config.org"))
 #+END_SRC
-*** Reload configs on demand
+** Reload configs on demand
 Define a custom function to do this.
 #+BEGIN_SRC emacs-lisp
     (defun bsl/config-reload ()
@@ -581,7 +587,7 @@ Define a custom function to do this.
       (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
 #+END_SRC
 * Moving Point
-*** Move the point to where I really mean to (MWIM)
+** Move the point to where I really mean to (MWIM)
 This package overrides the default beginning/end of line motion actions to more convenient
 motion actions for programming modes. It's always on, so hopefully it doesn't interfere with
 non-programming modes too much.
@@ -592,7 +598,7 @@ non-programming modes too much.
      ("C-e" . mwim-end)))
 #+END_SRC
 
-*** Go To Last Change
+** Go To Last Change
 Use a key combination (defined elsewhere here) to return to the last edit location in the active buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package goto-last-change
@@ -600,7 +606,7 @@ Use a key combination (defined elsewhere here) to return to the last edit locati
 #+END_SRC
 
 * Line Manipulation
-*** Copy whole line
+** Copy whole line
 Copy the line containing the point to the kill ring.
 #+BEGIN_SRC emacs-lisp
   (defun bsl/copy-whole-line ()
@@ -613,13 +619,13 @@ Copy the line containing the point to the kill ring.
     (message "Line copied"))
 #+END_SRC
 * Buffers
-*** Bind =ibuffer= to the normal buffer list key
+** Bind =ibuffer= to the normal buffer list key
 ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in
 the same window.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-b") 'ibuffer)
 #+END_SRC
-*** Always kill the current buffer
+** Always kill the current buffer
 Override default emacs and =ido-mode= functionality to prompt for the buffer to kill, and just go
 ahead and kill the current one. It will still prompt for confirmation if the buffer is unsaved.
 #+BEGIN_SRC emacs-lisp
@@ -632,7 +638,7 @@ Bind it to the default =kill-buffer= keybinding =C-x k=.
   (global-set-key (kbd "C-x k") 'bsl/kill-current-buffer)
 #+END_SRC
 
-*** Kill all buffers
+** Kill all buffers
 This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
 to confirm. It will then open the =*dashboard*= buffer.
 #+BEGIN_SRC emacs-lisp
@@ -643,7 +649,7 @@ to confirm. It will then open the =*dashboard*= buffer.
     (delete-other-windows))
 #+END_SRC
 
-*** Buffer Move
+** Buffer Move
 =buffer-move= is a package that allows buffers to be rotated and moved when multiple windows are
 open. Require it here and set some keybindings.
 #+begin_src emacs-lisp
@@ -661,7 +667,7 @@ Bind functions from this package to useful repeatable custom keybindings.
 #+end_src
 
 * Windows
-*** Split window horizontally & put point in new window
+** Split window horizontally & put point in new window
 #+BEGIN_SRC emacs-lisp
   (defun bsl/split-and-follow-horizontally ()
     (interactive)
@@ -673,7 +679,7 @@ Bind to the default split horizontally key =C-x 2=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x 2") 'bsl/split-and-follow-horizontally)
 #+END_SRC
-*** Split window vertically & put point in new window
+** Split window vertically & put point in new window
 #+BEGIN_SRC emacs-lisp
   (defun bsl/split-and-follow-vertically ()
     (interactive)
@@ -685,7 +691,7 @@ Bind to the default split vertically key =C-x 3=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x 3") 'bsl/split-and-follow-vertically)
 #+END_SRC
-*** Halve other window height
+** Halve other window height
     Tip from [[https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows][here]].
 #+BEGIN_SRC emacs-lisp
   (defun bsl/halve-other-window-height ()
@@ -693,7 +699,7 @@ Bind to the default split vertically key =C-x 3=.
     (interactive)
     (enlarge-window (/ (window-height (next-window)) 2)))
 #+END_SRC
-*** Custom window keybindings
+** Custom window keybindings
 #+begin_src emacs-lisp
   (defhydra hydra-window-resize ()
     "Window resize"
@@ -706,7 +712,7 @@ Bind to the default split vertically key =C-x 3=.
 * Frames
 The functions in this section were inspired by the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
 
-*** Adjust Frame Size
+** Adjust Frame Size
 Makes the current frame vertically/horizontally bigger/smaller incrementally.
 #+begin_src emacs-lisp
   (defun bsl/adjust-frame-param (op param &optional increment frame)
@@ -717,7 +723,7 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
         (set-frame-parameter frame param (funcall op (frame-parameter frame param) increment))))
 #+end_src
 
-*** Double Frame Width
+** Double Frame Width
 Makes the current frame twice as wide. I wrote this.
 #+begin_src emacs-lisp
   (defun bsl/double-frame-width (&optional frame)
@@ -727,7 +733,7 @@ Makes the current frame twice as wide. I wrote this.
         (set-frame-width frame (* (frame-width frame) 2))))
 #+end_src
 
-*** Halve Frame Width
+** Halve Frame Width
 Makes the current frame half as wide. I wrote this.
 #+begin_src emacs-lisp
   (defun bsl/halve-frame-width (&optional frame)
@@ -737,7 +743,7 @@ Makes the current frame half as wide. I wrote this.
         (set-frame-width frame (/ (frame-width frame) 2))))
 #+end_src
 
-*** Moving the Frame
+** Moving the Frame
 Moves the current frame up/down or left/right.
 #+begin_src emacs-lisp
   (defun bsl/move-frame (op param &optional frame)
@@ -748,7 +754,7 @@ Moves the current frame up/down or left/right.
           (set-frame-parameter frame param 0)
         (bsl/adjust-frame-param op param increment frame))))
 #+end_src
-*** Frame resize keybindings
+** Frame resize keybindings
 #+begin_src emacs-lisp
   (defhydra hydra-frame-resize ()
     "Frame resize"
@@ -768,7 +774,7 @@ Moves the current frame up/down or left/right.
     ("[" bsl/halve-frame-width "half width"))
 #+end_src
 
-*** Frame motion keybindings
+** Frame motion keybindings
 #+begin_src emacs-lisp
   (defhydra hydra-frame-motion ()
     "Frame motion"
@@ -787,7 +793,7 @@ Moves the current frame up/down or left/right.
 #+end_src
 
 * Text Mode
-*** =text-mode=
+** =text-mode=
 In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
 happen but only in =text-mode= and its derivatives. We also enable =flyspell-mode= minor mode in all
 text modes to get spellchecking functionality.
@@ -796,15 +802,15 @@ text modes to get spellchecking functionality.
   (add-hook 'text-mode-hook (lambda () (turn-on-auto-fill)
             (flyspell-mode)))
 #+END_SRC
-**** Note: This requires that the =ispell= program be installed in the path of the local system.
+*** Note: This requires that the =ispell= program be installed in the path of the local system.
 * XML Mode
-*** Turn off flyspell
+** Turn off flyspell
 =nxml-mode= is the modern major mode for editing xml structured documents. It inherits from
 =text-mode=, so turning off =flyspell-mode= in order to get completion at point functionality.
 #+begin_src emacs-lisp
   (add-hook 'nxml-mode-hook (lambda () (flyspell-mode 0)))
 #+end_src
-*** Prettify
+** Prettify
 This creates a keyboard macro that "prettifies" (i.e. re-indents and refomats) XML documents. To run
 it, enter =M-x bsl/xml-prettify=.
 *Note:* This command requires that the *xmllint* command is installed and available in the local
@@ -833,7 +839,7 @@ command. Here we configure *tex-view* to convert to PDF format.
 #+end_src
 
 * Programming Modes
-*** =prog-mode= hook
+** =prog-mode= hook
 The parent major mode for all programming language modes is =prog-mode=. Here we add the
 =subword-mode= minor mode to this mode, which will allow navigation by word commands to respect
 camel-case words. In other words, camel-case boundaries of identifiers will form "word" boundaries
@@ -849,7 +855,7 @@ installed in the path of the local system).
             (diminish 'flyspell-mode)))
 #+END_SRC
 
-*** Auto-complete
+** Auto-complete
 For auto-complete in programming modes, we'll use the [[https://company-mode.github.io/][company package]].
 #+BEGIN_SRC emacs-lisp
   (use-package company
@@ -858,11 +864,11 @@ For auto-complete in programming modes, we'll use the [[https://company-mode.git
      ('cider-repl-mode . company-mode)))
 #+END_SRC
 
-*** Turn on parenthesis matching mode
+** Turn on parenthesis matching mode
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
 #+END_SRC
-*** Paredit
+** Paredit
 This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
 for some lisp major modes only. Also remap the s-expression /slurp/
 and /barf/ commands to keybindings that work in both GUI and TTY.
@@ -879,7 +885,7 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
            ("C-c M-(" . paredit-backward-barf-sexp)))
 #+END_SRC
 
-*** Colorful matching delimiters
+** Colorful matching delimiters
 This package changes the color of corresponding pairs of parenthesis and brackets. Here, we enable
 it only in prog-mode and its descendants, and in =cider-repl-mode=.
 #+BEGIN_SRC emacs-lisp
@@ -892,18 +898,18 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
 
 * Clojure
 In addition to the above settings, the following settings apply only to editing clojure files and buffers.
-*** Set indent mode for clojure buffers
+** Set indent mode for clojure buffers
 Set the variable =clojure-indent-style= to the value =always-indent=. See [[https://github.com/clojure-emacs/clojure-mode#indentation-options][here]] for more info.
 #+BEGIN_SRC emacs-lisp
   (setq clojure-indent-style 'always-indent)
 #+END_SRC
-*** =clojure-mode= customizations
+** =clojure-mode= customizations
 - =comment-column= set to 0 to not force adding extra space after inline *;*
 #+BEGIN_SRC emacs-lisp
   (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 #+END_SRC
 
-*** Install & use =cider=
+** Install & use =cider=
 [[https://github.com/clojure-emacs/cider][cider]] is the /clojure integrated development environment/. We're only going to use the melpa stable version.
 Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l= key. Also set
 the following defaults:
@@ -937,7 +943,7 @@ the following defaults:
     :bind ("C-c C-l" . cider-repl-clear-buffer))
 #+END_SRC
 
-*** =cider-repl-mode=
+** =cider-repl-mode=
 Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'cider-repl-mode-hook (lambda ()
@@ -945,7 +951,7 @@ Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
             (diminish 'subword-mode)))
 #+END_SRC
 * Scheme
-*** Install & use =xscheme=
+** Install & use =xscheme=
 =xscheme= is a small, simple library that is recommended for interacting with the equally small and
 simple *MIT scheme* implementation of the scheme language. Use of this library requires separate installation
 of the MIT scheme interpreter binary, and the presence of that library in the PATH. It can be
@@ -966,7 +972,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
     (reposition-window))
 #+end_src
 * Docker
-*** Install & use =dockerfile-mode=
+** Install & use =dockerfile-mode=
 =dockerfile-mode= is a major mode helpful for editing Dockerfiles.
 #+begin_src emacs-lisp
   (use-package dockerfile-mode
@@ -974,7 +980,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
    :pin melpa-stable)
 #+end_src
 * Git
-*** Install & use =magit=
+** Install & use =magit=
    =magit= is a major mode that provides a porcelain layer of tools for the =git= SCM. Map =C-c g=
    to a magit command that shows the current log (commits) for the file in the current
    buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for files in git projects.
@@ -986,7 +992,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
    :bind ("C-c g" . magit-log-buffer-file))
 #+end_src
 * Projects
-*** =projectile=
+** =projectile=
   [[https://docs.projectile.mx/projectile/index.html][projectile]] is a major mode that allows for managing sets of files & buffers that constitute some
   type of /project/, such as git, maven, leiningen, etc. It can auto-discover these types of
   projects, or you can define them yourself. The functionality of searching by symbol is
@@ -1009,7 +1015,7 @@ Define a function to start a scheme process in the current buffer. Run it with =
             ("s" . nil))) ; Unbinding the keymap for C-c p s to be used by counsel-projectile
   #+end_src
 
-*** =counsel= integration with =projectile=
+** =counsel= integration with =projectile=
     Mostly overrides =projectile= commands and keybindings to work better with =counsel=. See [[https://github.com/ericdanan/counsel-projectile][here]]
     for documentation. We are binding the normal projectile search key (=C-c p s=) to the extremely
     fast and useful version of grep called [[https://github.com/BurntSushi/ripgrep][ripgrep]]. The ripgrep command =rg= needs to be installed
