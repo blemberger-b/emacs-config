@@ -23,6 +23,9 @@
 ;; installed. See https://github.com/jwiegley/use-package.
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+;; Make sure use-package always installs packages if they are not installed
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
 
 ;; BSL - install tomorrow-theme if not installed
 (unless (package-installed-p 'color-theme-sanityinc-tomorrow)
@@ -58,7 +61,7 @@
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(pcre2el counsel-projectile plantuml-mode general smex with-editor elisp-refs page-break-lines org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider which-key use-package))
+   '(org-bullets pcre2el plantuml-mode general smex with-editor elisp-refs page-break-lines org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider which-key use-package))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 
 (custom-set-faces
@@ -74,6 +77,7 @@
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
  '(mode-line ((((type tty)) (:background "white" :foreground "magenta" :inverse-video t :weight bold))))
  '(mode-line-inactive ((((type tty)) (:inherit mode-line :background "black" :foreground "green"))))
+ '(org-ellipsis ((((type tty)) (:foreground "LightGoldenrod"))))
  '(powerline-active1 ((((type tty)) (:inherit mode-line))))
  '(powerline-active2 ((((type tty)) (:inherit mode-line))))
  '(powerline-inactive1 ((((type tty)) (:inherit mode-line-inactive :background "black"))))

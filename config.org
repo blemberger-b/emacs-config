@@ -20,7 +20,6 @@ updates available and prompt to upgrade them.
    starring/unstarring of github repos functionality.
    #+begin_src emacs-lisp
      (use-package paradox
-       :ensure t
        :config (paradox-enable)
        :custom (paradox-github-token t))
    #+end_src
@@ -28,7 +27,6 @@ updates available and prompt to upgrade them.
 =sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
 #+BEGIN_SRC emacs-lisp
   (use-package sudo-edit
-    :ensure t
     :bind ("s-e" . sudo-edit))
 #+END_SRC
 *** Recent Files
@@ -36,7 +34,6 @@ updates available and prompt to upgrade them.
    reasonable defaults.
    #+begin_src emacs-lisp
     (use-package recentf
-      :ensure t
       :config
       (setq recentf-max-saved-items 100
           recentf-exclude '("ido.last"))
@@ -48,7 +45,6 @@ and configuration values. We display recent *projectile* projects and recent fil
 from the recent files list that get treated as edited by the package manager for some reason.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
-    :ensure t
     :config
     (setq recentf-exclude '(".*autoloads\.el" ".*\.gz" "TAGS"))
     (setq dashboard-startup-banner 'logo)
@@ -67,7 +63,6 @@ This package provides a major mode for editing markdown files. It requires the =
 installed via homebrew.
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
-    :ensure t
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
      ("\\.md\\'" . markdown-mode)
@@ -78,7 +73,6 @@ installed via homebrew.
 Allows efficient editing of YAML files. We want subword mode in this mode.
 #+begin_src emacs-lisp
   (use-package yaml-mode
-   :ensure t
    :defer t
    :commands (yaml-mode)
    :hook (yaml-mode . subword-mode))
@@ -90,7 +84,6 @@ install plantuml=. The package will find the executable on the system PATH. This
 associates =*.puml= files with =puml-mode=.
 #+begin_src emacs-lisp
   (use-package plantuml-mode
-    :ensure t
     :pin melpa
     :custom
     (plantuml-default-exec-mode 'executable)
@@ -101,7 +94,6 @@ This minor mode allows increasing/decreasing the font size in /all/ buffers. It 
 on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-presentation-mode][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package presentation
-    :ensure t
     :defer t
     :pin melpa-stable)
 #+END_SRC
@@ -109,7 +101,6 @@ on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-prese
 Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
 #+begin_src emacs-lisp
   (use-package golden-ratio-scroll-screen
-    :ensure t
     :pin melpa
     :bind (([remap scroll-down-command] . 'golden-ratio-scroll-screen-down)
            ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
@@ -123,7 +114,6 @@ Emacs. This library works around this problem by copying important environment v
 user's shell. See [[https://github.com/purcell/exec-path-from-shell][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
-    :ensure t
     :init (when (memq window-system '(mac ns x))
       (exec-path-from-shell-initialize)))
 #+END_SRC
@@ -271,7 +261,6 @@ do until those packages migrate to something other than cl, so we'll just suppre
     =re-builder= to support PCREs.
     #+begin_src emacs-lisp
       (use-package pcre2el
-        :ensure t
         :pin melpa)
     #+end_src
 *** Toggle whitespace-mode
@@ -289,7 +278,6 @@ accomplished with a single key.
 The [[https://github.com/noctuid/general.el][general]] package is useful for organizing custom keybindings.
 #+begin_src emacs-lisp
   (use-package general
-    :ensure t
     :config
     (general-create-definer bsl/control-c-definer
       :prefix "C-c")
@@ -370,7 +358,6 @@ only by the terminal settings).
 Install and enable =beacon-mode= for better indicator when changing windows. See [[https://github.com/Malabarba/beacon][here]].
 #+begin_src emacs-lisp
   (use-package beacon
-    :ensure t
     :pin melpa-stable
     :init (beacon-mode 1)
     :diminish beacon-mode
@@ -385,7 +372,6 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
     #+begin_src emacs-lisp
       (use-package page-break-lines
         :pin melpa-stable
-        :ensure t
         :config (add-to-list 'page-break-lines-modes 'text-mode)
                 (global-page-break-lines-mode)
         :diminish page-break-lines-mode)
@@ -416,14 +402,12 @@ minibuffer when using =counsel-M-x= to run commands.
     :config (setq ivy-initial-inputs-alist nil)) ; Don't start searches with ^
 
   (use-package ivy-rich
-    :ensure t
     :requires ivy
     :pin melpa ; melpa-stable version currently has a bug
     :init
     (ivy-rich-mode 1))
 
   (use-package counsel
-    :ensure t
     :pin melpa
     :bind (("M-x" . counsel-M-x)
            ("C-x b" . counsel-ibuffer)
@@ -436,7 +420,6 @@ Emacs uses the  =M-x= keybinding to execute commands. This installs [[https://gi
 =consel-M-x= to show recent commands run in the minibuffer.
 #+begin_src emacs-lisp
   (use-package smex
-    :ensure t
     :pin melpa-stable
     :init (smex-initialize))
 #+end_src
@@ -446,7 +429,6 @@ This package provides a pop-up menu of command key completions when keys are pre
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :ensure t
     :init (which-key-mode)
     :diminish which-key-mode)
 #+END_SRC
@@ -462,7 +444,6 @@ off the file line-endings info segment in the mode line, which I don't find very
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
     :pin melpa-stable
-    :ensure t
     :config
     (require 'spaceline-config)
     (spaceline-emacs-theme)
@@ -475,7 +456,6 @@ off the file line-endings info segment in the mode line, which I don't find very
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
     :pin melpa-stable
-    :ensure t
     :config (diminish 'eldoc-mode))
 #+END_SRC
 
@@ -483,7 +463,6 @@ off the file line-endings info segment in the mode line, which I don't find very
 *** Turn on helpful kill ring pop-up menu and bind it to =M-y=
 #+BEGIN_SRC emacs-lisp
   (use-package popup-kill-ring
-    :ensure t
     :bind ("M-y" . popup-kill-ring))
 #+END_SRC
 * Terminal
@@ -513,6 +492,15 @@ See [[https://orgmode.org/index.html][org-mode]].
     #+begin_src emacs-lisp
       (setq org-ellipsis " \u25bc")
     #+end_src
+*** Headline Bullets
+    Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
+    #+begin_src emacs-lisp
+      (use-package org-bullets
+        :after org
+        :hook (org-mode . org-bullets-mode)
+        :custom
+        (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+    #+end_src
 *** Edit src snippets in same window
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
@@ -521,7 +509,6 @@ See [[https://orgmode.org/index.html][org-mode]].
 Install =htmlize= package to allow exporting =org-mode= files in html format
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
-    :ensure t
     :defer t
     :pin melpa-stable)
 #+END_SRC
@@ -536,7 +523,6 @@ In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* bloc
 presentation, do =M-x org-tree-slide-mode=.
 #+begin_src emacs-lisp
   (use-package org-tree-slide
-    :ensure t
     :defer t
     :pin melpa-stable
     :custom
@@ -601,7 +587,6 @@ motion actions for programming modes. It's always on, so hopefully it doesn't in
 non-programming modes too much.
 #+BEGIN_SRC emacs-lisp
   (use-package mwim
-    :ensure t
     :pin melpa-stable
     :bind (("C-a" . mwim-beginning)
      ("C-e" . mwim-end)))
@@ -611,7 +596,6 @@ non-programming modes too much.
 Use a key combination (defined elsewhere here) to return to the last edit location in the active buffer.
 #+BEGIN_SRC emacs-lisp
   (use-package goto-last-change
-    :ensure t
     :pin melpa-stable)
 #+END_SRC
 
@@ -664,7 +648,6 @@ to confirm. It will then open the =*dashboard*= buffer.
 open. Require it here and set some keybindings.
 #+begin_src emacs-lisp
   (use-package buffer-move
-    :ensure t
     :pin melpa-stable)
 #+end_src
 Bind functions from this package to useful repeatable custom keybindings.
@@ -870,7 +853,6 @@ installed in the path of the local system).
 For auto-complete in programming modes, we'll use the [[https://company-mode.github.io/][company package]].
 #+BEGIN_SRC emacs-lisp
   (use-package company
-    :ensure t
     :pin gnu
     :hook (('prog-mode . company-mode)
      ('cider-repl-mode . company-mode)))
@@ -886,7 +868,6 @@ for some lisp major modes only. Also remap the s-expression /slurp/
 and /barf/ commands to keybindings that work in both GUI and TTY.
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
-    :ensure t
     :pin melpa-stable
     :hook ((clojure-mode
             emacs-lisp-mode
@@ -903,7 +884,6 @@ This package changes the color of corresponding pairs of parenthesis and bracket
 it only in prog-mode and its descendants, and in =cider-repl-mode=.
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
-    :ensure t
     :pin melpa-stable
     :hook (('prog-mode . rainbow-delimiters-mode-enable)
      ('cider-repl-mode . rainbow-delimiters-mode-enable))
@@ -944,7 +924,6 @@ the following defaults:
 - =cider-repl-wrap-history= Wrap when navigating history.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
-    :ensure t
     :pin melpa-stable
     :init (setq cider-repl-display-help-banner nil)
     (setq cider-eldoc-display-context-dependent-info t)
@@ -991,7 +970,6 @@ Define a function to start a scheme process in the current buffer. Run it with =
 =dockerfile-mode= is a major mode helpful for editing Dockerfiles.
 #+begin_src emacs-lisp
   (use-package dockerfile-mode
-   :ensure t
    :defer t
    :pin melpa-stable)
 #+end_src
@@ -1002,7 +980,6 @@ Define a function to start a scheme process in the current buffer. Run it with =
    buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for files in git projects.
 #+begin_src emacs-lisp
   (use-package magit
-   :ensure t
    :defer t
    :pin melpa-stable
    :diminish auto-revert-mode
@@ -1018,7 +995,6 @@ Define a function to start a scheme process in the current buffer. Run it with =
   homebrew, etc.
   #+begin_src emacs-lisp
     (use-package projectile
-      :ensure t
       :pin melpa-stable
       :init (projectile-mode 1)
       :custom (projectile-switch-project-action #'projectile-dired)
@@ -1040,7 +1016,6 @@ Define a function to start a scheme process in the current buffer. Run it with =
     and present on the system PATH (example: =brew install ripgrep=).
 #+begin_src emacs-lisp
   (use-package counsel-projectile
-    :ensure t
     :pin melpa-stable
     :after projectile
     :init (counsel-projectile-mode)
