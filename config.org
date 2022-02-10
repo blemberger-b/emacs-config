@@ -2,6 +2,7 @@
 #+AUTHOR: Brian S. Lemberger
 #+OPTIONS: toc:1
 #+OPTIONS: num:nil
+#+STARTUP: overview
 
 * Installation
 Clone into the =.emacs.d= folder created by Emacs
