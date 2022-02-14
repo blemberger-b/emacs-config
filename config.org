@@ -306,9 +306,10 @@ Bind some of the functions in this file to the =C-c= key prefix.
 * UI Customizations
 ** Set geometry of all emacs frames on Mac
 Top-left corner of initial frame will be 0 pixels down from the top margin and 250 pixels right from
-the left margin. It also makes the window size 50 x 112 characters.
+the left margin. It also makes the window size 56 x 157 characters.
+
 #+BEGIN_SRC emacs-lisp
-  (setq default-frame-alist '((top . 0) (left . 250) (width . 112) (height . 50)))
+  (setq default-frame-alist '((top . 0) (left . 250) (width . 157) (height . 56)))
 #+END_SRC
 ** Font faces
 Fonts are set in the =init.el= file rather than here, so that they can be customized using emacs
