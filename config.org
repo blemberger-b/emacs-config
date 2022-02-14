@@ -2,7 +2,6 @@
 #+AUTHOR: Brian S. Lemberger
 #+OPTIONS: toc:1
 #+OPTIONS: num:nil
-#+STARTUP: overview
 
 * Installation
 Clone into the =.emacs.d= folder created by Emacs
@@ -487,6 +486,11 @@ Doesn't work in tty mode, must use =C-x @ s t=.
     character.
     #+begin_src emacs-lisp
       (setq org-ellipsis " \u25bc")
+    #+end_src
+    Open all .org files with collapsed headlines. Since we are also using =save-place-mode=, the last
+    visited block will be opened.
+    #+begin_src emacs-lisp
+      (setq org-startup-folded t)
     #+end_src
 ** Headline Bullets
     Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
