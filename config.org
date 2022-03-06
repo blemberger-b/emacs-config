@@ -5,8 +5,8 @@
 
 * Installation
 Clone into the =.emacs.d= folder created by Emacs
-#+BEGIN_SRC 
-git clone git@github.com:blemberger-b/emacs-config.git ~/.emacs.d
+#+BEGIN_SRC bash 
+  git clone git@github.com:blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
 When Emacs is opened, it will download the specified packages (with their dependencies) and
 apply the customizations from *init.el* and this file.
@@ -149,6 +149,11 @@ Emacs can automatically create backup files. This tells Emacs to put all backups
                                   (concat user-emacs-directory "backups"))))
 #+end_src
 
+** Vertical Scrolling
+   Scroll up to this many lines to bring point back on screen.
+   #+begin_src emacs-lisp
+     (setq scroll-conservatively 20)
+   #+end_src
 ** Set default fill column
 Set the default column to 100 where emacs will attempt to auto-fill in those modes that support it.
 #+BEGIN_SRC emacs-lisp
@@ -501,6 +506,34 @@ Doesn't work in tty mode, must use =C-x @ s t=.
         :custom
         (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
     #+end_src
+** Agenda Settings
+   These settings apply to =org-agenda= views.
+*** Start =org-mode= with agenda logging.
+    #+begin_src emacs-lisp
+      (setq org-agenda-start-with-log-mode t)
+    #+end_src
+*** Define directories that have agenda files
+    #+begin_src emacs-lisp
+      (let ((one-drive-dir "~/OneDrive - Bayer"))
+        (setq org-agenda-files (list (concat
+                                      one-drive-dir
+                                      "/learning/emacs")
+                                     (concat
+                                      one-drive-dir
+                                      "/work-notes"))))
+    #+end_src
+*** Add log statements on activities with timestamps.
+    #+begin_src emacs-lisp
+      (setq org-log-done 'time)
+    #+end_src
+*** Put org log in the drawer.
+    #+begin_src emacs-lisp
+      (setq org-log-into-drawer t)
+    #+end_src
+*** Open agenda view in same window
+    #+begin_src emacs-lisp
+      (setq org-agenda-window-setup 'current-window)
+    #+end_src
 ** Edit src snippets in same window
 #+BEGIN_SRC emacs-lisp
   (setq org-src-window-setup 'current-window)
@@ -551,12 +584,6 @@ Keybindings only enabled in =org-mode= buffers:
           "My org-mode toggles"
           ("l" org-toggle-link-display "toggle hyperlinks")))
 #+end_src
-** Agendas
-    Configure .org files that contain agenda items
-    #+begin_src emacs-lisp
-      (setq org-agenda-files
-            '("~/training/emacs/org-mode/tasks.org"))
-    #+end_src
 * Dired
 For directory editing & file system operations within emacs.
 ** Enable =dired-x=
