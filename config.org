@@ -514,13 +514,15 @@ Doesn't work in tty mode, must use =C-x @ s t=.
     #+end_src
 *** Define directories that have agenda files
     #+begin_src emacs-lisp
-      (let ((one-drive-dir "~/OneDrive - Bayer"))
-        (setq org-agenda-files (list (concat
-                                      one-drive-dir
-                                      "/learning/emacs")
-                                     (concat
-                                      one-drive-dir
-                                      "/work-notes"))))
+            (let ((one-drive-dir "~/OneDrive - Bayer"))
+              (setq org-agenda-files (list
+                                      (concat one-drive-dir "/learning/emacs")
+                                      (concat one-drive-dir "/work-notes")
+                                      "~/training/emacs/org-mode")))
+    #+end_src
+*** Ignore non-existent agenda files & file paths
+    #+begin_src emacs-lisp
+      (setq org-agenda-skip-unavailable-files t)
     #+end_src
 *** Add log statements on activities with timestamps.
     #+begin_src emacs-lisp
