@@ -432,6 +432,14 @@ in the minibuffer. We also suppress it from showing up in the modeline. See [[ht
     :init (which-key-mode)
     :diminish which-key-mode)
 #+END_SRC
+** Allow Minibuffer To Become Huge
+   By default, the minibuffer will resize up to 25% of the frame. Unfortunately, some packages like
+   =counsel-projectile= display options in the minibuffer which take up more space than this and
+   which also don't allow scrolling the minibuffer. So allow the minibuffer to become 90% the size
+   of the containing frame:
+   #+begin_src emacs-lisp
+     (setq max-mini-window-height 0.9)
+   #+end_src
 * Mode Line
 ** Turn on column mode display of (line,col) in mode line
 #+BEGIN_SRC emacs-lisp
@@ -1055,7 +1063,13 @@ Define a function to start a scheme process in the current buffer. Run it with =
     :after projectile
     :init (counsel-projectile-mode)
     :bind (:map projectile-command-map
-                ("s" . counsel-projectile-rg)))
+                ("s" . counsel-projectile-rg))
+    ;; Make the default action for counsel-projectile-switch-project-action
+    ;; be the 'D' action, which specifies to open the project with dired 
+    :config (setq counsel-projectile-switch-project-action
+                  (cons 4
+                        (cdr
+                         (eval 'counsel-projectile-switch-project-action)))))
 #+end_src
 
 * Diff
