@@ -505,6 +505,11 @@ Doesn't work in tty mode, must use =C-x @ s t=.
     #+begin_src emacs-lisp
       (setq org-startup-folded t)
     #+end_src
+** Navigation Tweaks
+   Make =C-a= and =C-e= keybindings to move to beginning/end of headlines.
+   #+begin_src emacs-lisp
+     (setq org-special-ctrl-a/e t)
+   #+end_src
 ** Headline Bullets
     Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
     #+begin_src emacs-lisp
@@ -521,6 +526,8 @@ Doesn't work in tty mode, must use =C-x @ s t=.
       (setq org-agenda-start-with-log-mode t)
     #+end_src
 *** Define directories that have agenda files
+    Some of these paths won't exist on all of my computers, but that's OK, we're ignoring that with
+    a setting below.
     #+begin_src emacs-lisp
             (let ((one-drive-dir "~/OneDrive - Bayer"))
               (setq org-agenda-files (list
