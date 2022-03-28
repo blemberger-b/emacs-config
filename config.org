@@ -298,7 +298,8 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "m" 'hydra-buffer-move/body
     "x" 'goto-last-change
     "K" 'bsl/kill-all-buffers
-    "r" 'counsel-recentf)
+    "r" 'counsel-recentf
+    "h" 'list-command-history)
 
   ;; Bindings for viewing and reloadig this file
   (bsl/control-c-definer
@@ -519,6 +520,15 @@ Doesn't work in tty mode, must use =C-x @ s t=.
         :custom
         (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
     #+end_src
+** Common Tags
+   These tags will always appear in =org=mode= tag list commands (such as =counsel-org-tag=)
+   whether the tags are already in the file or not.
+   #+begin_src emacs-lisp
+     (setq org-tag-alist
+           '(("work" . ?w)
+             ("home" . ?h)
+             ("docs" . ?d)))
+   #+end_src
 ** Agenda Settings
    These settings apply to =org-agenda= views.
 *** Start =org-mode= with agenda logging.
@@ -550,6 +560,26 @@ Doesn't work in tty mode, must use =C-x @ s t=.
 *** Open agenda view in same window
     #+begin_src emacs-lisp
       (setq org-agenda-window-setup 'current-window)
+    #+end_src
+*** Define custom workflow keywords
+    #+begin_src emacs-lisp
+      (setq org-todo-keywords
+            '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")))
+    #+end_src
+*** Define custom agenda views
+    Create a dashboard and other agenda views of my own. See this [[https://orgmode.org/manual/Custom-Agenda-Views.html#Custom-Agenda-Views][topic]] in the =org-mode= manual for
+    more information.
+    #+begin_src emacs-lisp
+      (setq org-agenda-custom-commands
+            '(("d" "Dashboard"
+               ((agenda "" ((org-deadline-warning-days 7)))
+                (todo "NEXT"
+                      ((org-agenda-overriding-header "Next Tasks")))
+                (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+              ("W" "Work Non-Doc Tasks" tags-todo "+work-docs")
+              ("e" "Low Effort Tasks" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+               ((org-agenda-max-todos 20)
+                (org-agenda-overriding-header "Low Effort Tasks")))))
     #+end_src
 ** Edit src snippets in same window
 #+BEGIN_SRC emacs-lisp
@@ -597,6 +627,7 @@ Keybindings only en abled in =org-mode= buffers:
 #+begin_src emacs-lisp
   (bsl/control-c-o-definer
     :keymaps 'org-mode-map
+    "T" 'counsel-org-tag
     "t" (defhydra hydra-org ()
           "My org-mode toggles"
           ("l" org-toggle-link-display "toggle hyperlinks")))
