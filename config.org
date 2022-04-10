@@ -539,11 +539,10 @@ Doesn't work in tty mode, must use =C-x @ s t=.
     Some of these paths won't exist on all of my computers, but that's OK, we're ignoring that with
     a setting below.
     #+begin_src emacs-lisp
-            (let ((one-drive-dir "~/OneDrive - Bayer"))
-              (setq org-agenda-files (list
-                                      (concat one-drive-dir "/learning/emacs")
-                                      (concat one-drive-dir "/work-notes")
-                                      "~/training/emacs/org-mode")))
+      (let ((one-drive-dir "~/OneDrive - Bayer"))
+        (setq org-agenda-files (list
+                                (concat one-drive-dir "/work-notes")
+                                "~/training/emacs/org-mode")))
     #+end_src
 *** Ignore non-existent agenda files & file paths
     #+begin_src emacs-lisp
@@ -556,10 +555,6 @@ Doesn't work in tty mode, must use =C-x @ s t=.
 *** Put org log in the drawer.
     #+begin_src emacs-lisp
       (setq org-log-into-drawer t)
-    #+end_src
-*** Open agenda view in same window
-    #+begin_src emacs-lisp
-      (setq org-agenda-window-setup 'current-window)
     #+end_src
 *** Define custom workflow keywords
     #+begin_src emacs-lisp
