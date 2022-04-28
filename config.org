@@ -677,17 +677,22 @@ Use a key combination (defined elsewhere here) to return to the last edit locati
 
 * Line Manipulation
 ** Copy whole line
-Copy the line containing the point to the kill ring.
-#+BEGIN_SRC emacs-lisp
-  (defun bsl/copy-whole-line ()
-    (interactive)
+Copy the line containing the point to the kill ring. If invoked with a prefix argument, only copy
+the line beginning after any whitespace.
+#+begin_src emacs-lisp
+  (defun bsl/copy-whole-line (arg)
+    (interactive "P")
     (save-excursion
       (kill-new
        (buffer-substring
-        (point-at-bol)
+        (if arg
+          (progn                          ; if arg is given ignore whitespace at front of line
+            (back-to-indentation)
+            (point))
+          (point-at-bol))                 ; if no arg, take exact beginning of line
         (point-at-eol))))
     (message "Line copied"))
-#+END_SRC
+#+end_src
 * Buffers
 ** Bind =ibuffer= to the normal buffer list key
 ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in
