@@ -619,12 +619,12 @@ presentation, do =M-x org-tree-slide-mode=.
     "a" 'org-agenda
     "c" 'org-capture)
 #+end_src
-Keybindings only en abled in =org-mode= buffers:
+Keybindings only enabled in =org-mode= buffers:
 #+begin_src emacs-lisp
   (bsl/control-c-o-definer
     :keymaps 'org-mode-map
     "T" 'counsel-org-tag
-    "t" (defhydra hydra-org ()
+    "t" (defhydra my-org-toggles ()
           "My org-mode toggles"
           ("l" org-toggle-link-display "toggle hyperlinks")))
 #+end_src
