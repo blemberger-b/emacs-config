@@ -1071,10 +1071,11 @@ Define a function to start a scheme process in the current buffer. Run it with =
 ** =projectile=
   [[https://docs.projectile.mx/projectile/index.html][projectile]] is a major mode that allows for managing sets of files & buffers that constitute some
   type of /project/, such as git, maven, leiningen, etc. It can auto-discover these types of
-  projects, or you can define them yourself. The functionality of searching by symbol is
-  accomplished by the third-party tool =ctags=. It is recommended to install the better version of
-  this than the one that ships with Emacs, called /Universal ctags/, which is available via
-  homebrew, etc.
+  projects, or you can define them yourself. It is set here to auto-discover project files first in
+  the local directory and next in directories higher up in the hierarchy from the current
+  directory. The functionality of searching by symbol is accomplished by the third-party tool
+  =ctags=. It is recommended to install the better version of this than the one that ships with
+  Emacs, called /Universal ctags/, which is available via homebrew, etc.
   #+begin_src emacs-lisp
     (use-package projectile
       :pin melpa-stable
@@ -1084,6 +1085,9 @@ Define a function to start a scheme process in the current buffer. Run it with =
       (projectile-mode-line-function
         '(lambda () (format " [%s]" (projectile-project-name))))
       (projectile-completion-system 'ivy)
+      (projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
+      ;; Not sure why, but .git marker needs to come at end for bottom-up project discovery to work
+      (projectile-project-root-files-bottom-up '(".projectile" "project.clj" "build.sbt" ".git"))
       :bind
       (:map projectile-mode-map
             ("C-c p" . projectile-command-map))
