@@ -786,11 +786,12 @@ Bind to the default split vertically key =C-x 3=.
 #+end_src
 ** Auto dim other windows
    Use the incorrectly named =auto-dim-other-buffers= package to dim windows other than the active
-   one.
+   one. Do not enable this in tty mode.
 #+begin_src emacs-lisp
   (use-package auto-dim-other-buffers
-      :pin melpa
-      :hook (after-init . auto-dim-other-buffers-mode))
+    :pin melpa
+    :hook (after-init . (lambda () (when window-system
+                                     (auto-dim-other-buffers-mode t)))))
 #+end_src
 * Frames
 The functions in this section were inspired by the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
