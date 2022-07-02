@@ -783,7 +783,14 @@ Bind to the default split vertically key =C-x 3=.
     ("t" enlarge-window "taller")
     ("n" shrink-window-horizontally "narrower")
     ("w" enlarge-window-horizontally "wider"))
-
+#+end_src
+** Auto dim other windows
+   Use the incorrectly named =auto-dim-other-buffers= package to dim windows other than the active
+   one.
+#+begin_src emacs-lisp
+  (use-package auto-dim-other-buffers
+      :pin melpa
+      :hook (after-init . auto-dim-other-buffers-mode))
 #+end_src
 * Frames
 The functions in this section were inspired by the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
@@ -913,7 +920,6 @@ command. Here we configure *tex-view* to convert to PDF format.
   (setq tex-dvi-view-command "pdflatex")
   (setq tex-print-file-extension ".pdf")
 #+end_src
-
 * Programming Modes
 ** =prog-mode= hook
 The parent major mode for all programming language modes is =prog-mode=. Here we add the
