@@ -790,6 +790,9 @@ Bind to the default split vertically key =C-x 3=.
 #+begin_src emacs-lisp
   (use-package auto-dim-other-buffers
     :pin melpa
+    :custom
+      (auto-dim-other-buffers-dim-on-focus-out nil "Keep from dimming frame on focus out")
+      (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil "Try to keep from dimming window on switch to minibuffer")
     :hook (after-init . (lambda () (when window-system
                                      (auto-dim-other-buffers-mode t)))))
 #+end_src
@@ -910,6 +913,11 @@ PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
       t)
     )
 #+end_src
+* Protobuf Mode
+  =protobuf-mode= is a major mode distributed by the makers of [[https://developers.google.com/protocol-buffers/][protocol buffers]].
+  #+begin_src emacs-lisp
+    (use-package protobuf-mode)
+  #+end_src
 * LaTeX
 =LaTeX= mode comes built-in to emacs as a major mode that is automatically active for files ending
 with =.tex= and that have =LaTeX= specific header information in them.
