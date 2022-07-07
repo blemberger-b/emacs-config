@@ -970,10 +970,11 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
             emacs-lisp-mode
             scheme-mode
             cider-repl-mode) . enable-paredit-mode)
-    :bind (("C-c )" . paredit-forward-slurp-sexp)
-           ("C-c (" . paredit-backward-slurp-sexp)
-           ("C-c M-)" . paredit-forward-barf-sexp)
-           ("C-c M-(" . paredit-backward-barf-sexp)))
+    :bind (:map paredit-mode-map
+           (("C-c )" . paredit-forward-slurp-sexp)
+            ("C-c (" . paredit-backward-slurp-sexp)
+            ("C-c M-)" . paredit-forward-barf-sexp)
+            ("C-c M-(" . paredit-backward-barf-sexp))))
 #+END_SRC
 
 ** Colorful matching delimiters
@@ -1023,15 +1024,16 @@ the following defaults:
   (use-package cider
     :pin melpa-stable
     :init (setq cider-repl-display-help-banner nil)
-    (setq cider-eldoc-display-context-dependent-info t)
-    (setq cider-allow-jack-in-without-project t)
-    (setq nrepl-log-messages t)
-    (setq cider-repl-result-prefix "=> ")
-    (unless window-system (setq cider-use-overlays nil))
-    (setq cider-prompt-for-symbol nil)
-    (setq cider-repl-pop-to-buffer-on-connect 'display-only)
-    (setq cider-repl-wrap-history t)
-    :bind ("C-c C-l" . cider-repl-clear-buffer))
+      (setq cider-eldoc-display-context-dependent-info t)
+      (setq cider-allow-jack-in-without-project t)
+      (setq nrepl-log-messages t)
+      (setq cider-repl-result-prefix "=> ")
+      (unless window-system (setq cider-use-overlays nil))
+      (setq cider-prompt-for-symbol nil)
+      (setq cider-repl-pop-to-buffer-on-connect 'display-only)
+      (setq cider-repl-wrap-history t)
+    :bind (:map cider-repl-mode-map
+                ("C-c C-l" . cider-repl-clear-buffer)))
 #+END_SRC
 
 ** =cider-repl-mode=
