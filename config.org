@@ -522,7 +522,7 @@ Doesn't work in tty mode, must use =C-x @ s t=.
         (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
     #+end_src
 ** Common Tags
-   These tags will always appear in =org=mode= tag list commands (such as =counsel-org-tag=)
+   These tags will always appear in =org-mode= tag list commands (such as =counsel-org-tag=)
    whether the tags are already in the file or not.
    #+begin_src emacs-lisp
      (setq org-tag-alist
