@@ -897,6 +897,11 @@ text modes to get spellchecking functionality.
 #+begin_src emacs-lisp
   (add-hook 'nxml-mode-hook (lambda () (flyspell-mode 0)))
 #+end_src
+=sh-mode= is the mode for editing shell scripts (i.e. bash). For some reason flyspell is enabled by
+default, so disable it.
+#+begin_src emacs-lisp
+  (add-hook 'sh-mode-hook (lambda () (flyspell-mode 0)))
+#+end_src
 ** Prettify
 This creates a keyboard macro that "prettifies" (i.e. re-indents and refomats) XML documents. To run
 it, enter =M-x bsl/xml-prettify=.
