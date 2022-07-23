@@ -138,9 +138,16 @@ described there.
 #+END_SRC
 
 ** Turn off auto-saving
-#+BEGIN_SRC emacs-lisp
-  (setq auto-save-default nil)
-#+END_SRC
+   #+BEGIN_SRC emacs-lisp
+     (setq auto-save-default nil)
+   #+END_SRC
+
+** Turn off =electric-indent-mode=
+   This minor mode attempts to insert tabs and whitespace indentation after pressing <RET> or <TAB>
+   in some places. I have found it to interfere with many programming modes, so I disable it.
+   #+begin_src emacs-lisp
+     (electric-indent-mode 0)
+   #+end_src
 
 ** Backup files go in a dedicated directory
 Emacs can automatically create backup files. This tells Emacs to put all backups in
