@@ -750,6 +750,12 @@ Bind functions from this package to useful repeatable custom keybindings.
 #+end_src
 
 * Windows
+** Keep track of window placements for each frame
+Built-in [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][winner-mode]] provides the ability to toggle previous/next window arrangements for a
+frame using =C-c <left>= and =C-c <right>=.
+#+begin_src emacs-lisp
+  (winner-mode)
+#+end_src
 ** Split window horizontally & put point in new window
 #+BEGIN_SRC emacs-lisp
   (defun bsl/split-and-follow-horizontally ()
@@ -798,8 +804,7 @@ Bind to the default split vertically key =C-x 3=.
   (use-package auto-dim-other-buffers
     :pin melpa
     :custom
-      (auto-dim-other-buffers-dim-on-focus-out nil "Keep from dimming frame on focus out")
-      (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil "Try to keep from dimming window on switch to minibuffer")
+        (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil "Try to keep from dimming window on switch to minibuffer")
     :hook (after-init . (lambda () (when window-system
                                      (auto-dim-other-buffers-mode t)))))
 #+end_src
@@ -999,6 +1004,26 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
      ('cider-repl-mode . rainbow-delimiters-mode-enable))
     )
 #+END_SRC
+
+** Language server mode
+#+begin_src emacs-lisp
+  (use-package lsp-mode
+    :commands (lsp lsp-deferred)
+    :config
+    (lsp-enable-which-key-integration t))
+#+end_src
+* Javascript
+** Javascript/Typescript Language Server
+  Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][typescript language server]] for much functionality.
+  *Note:* As described at the above link, this package requires that the
+  =typescript-language-server= be installed locally via =npm=.
+  #+begin_src emacs-lisp
+    (use-package typescript-mode
+      :mode "\\.js\\'"
+      :hook (typescript-mode . lsp-deferred)
+      :config
+      (setq typescript-indent-level 2))
+  #+end_src
 
 * Clojure
 In addition to the above settings, the following settings apply only to editing clojure files and buffers.

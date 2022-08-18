@@ -42,3 +42,9 @@ projectile*
 
 # saved-places saves file locations in this file
 /places
+
+# Cache dir used by winner-mode
+/.cache
+
+# LSP sessions
+/.lsp-session*
