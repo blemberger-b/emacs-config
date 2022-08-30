@@ -34,8 +34,9 @@ recentf
 # some kind of transient no-gooder files put there by emacs
 transient/
 
-# projectile project file
+# projectile project files
 projectile*
+projects
 
 # regular emacs bookmarks file
 /bookmarks

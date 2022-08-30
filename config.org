@@ -527,7 +527,7 @@ Make =C-a= and =C-e= keybindings to move to beginning/end of headlines.
 Activate =org-indent-mode= mode, which instead of inserting whitespace characters before each
 non-headline line, puts virtual indentation in to line up the body of the text with headlines.
 #+begin_src emacs-lisp
-  (org-indent-mode)
+  (setq org-startup-indented t)
 #+end_src
 ** Headline Bullets
 Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
