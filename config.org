@@ -90,6 +90,12 @@ associates =*.puml= files with =puml-mode=.
     (plantuml-default-exec-mode 'executable)
     :mode ("\\.puml\\'" . plantuml-mode))
 #+end_src
+** URL Encoding/Decoding
+[[https://github.com/buzztaiki/urlenc-el][urlenc]] is a package that provides for encoding and decoding URLs to/from their hex representations.
+#+begin_src emacs-lisp
+  (use-package urlenc
+    :pin melpa)
+#+end_src
 ** Presentation Mode
 This minor mode allows increasing/decreasing the font size in /all/ buffers. It can be run
 on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-presentation-mode][here]].
