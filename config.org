@@ -617,7 +617,8 @@ Globally enabled keybindings specific for =org-mode=:
   (bsl/control-c-o-definer
     "l" 'org-store-link
     "a" 'org-agenda
-    "c" 'org-capture)
+    "c" 'org-capture
+    "w" 'org-babel-mark-block)
 #+end_src
 Keybindings only enabled in =org-mode= buffers:
 #+begin_src emacs-lisp
