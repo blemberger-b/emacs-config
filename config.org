@@ -1040,7 +1040,16 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
     :config
     (setq typescript-indent-level 2))
 #+end_src
-
+* Python
+** Indentation
+Set indentation level to be two spaces per level. =tab-width= gets annoyingly set by default to 8
+by =python-mode= for some reason, so make it the same as =python-indent-offset=.
+#+begin_src emacs-lisp
+  (add-hook 'python-mode-hook
+    (lambda ()
+      (setq python-indent-offset 2)
+      (setq tab-width 2)))
+#+end_src
 * Clojure
 In addition to the above settings, the following settings apply only to editing clojure files and buffers.
 ** Set indent mode for clojure buffers
