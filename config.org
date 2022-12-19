@@ -148,13 +148,6 @@ described there.
   (setq auto-save-default nil)
 #+END_SRC
 
-** Turn off =electric-indent-mode=
-This minor mode attempts to insert tabs and whitespace indentation after pressing <RET> or <TAB>
-in some places. I have found it to interfere with many programming modes, so I disable it.
-#+begin_src emacs-lisp
-  (electric-indent-mode 0)
-#+end_src
-
 ** Backup files go in a dedicated directory
 Emacs can automatically create backup files. This tells Emacs to put all backups in
 ~/.emacs.d/backups. More info [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Backup-Files.html][here]].
@@ -307,7 +300,6 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "d" 'ediff-files
     "b" 'ediff-buffers
     "w" 'hydra-window-resize/body
-    "m" 'hydra-buffer-move/body
     "x" 'goto-last-change
     "K" 'bsl/kill-all-buffers
     "r" 'counsel-recentf
@@ -332,7 +324,7 @@ Top-left corner of initial frame will be 0 pixels down from the top margin and 2
 the left margin. It also makes the window size 56 x 157 characters.
 
 #+BEGIN_SRC emacs-lisp
-  (setq default-frame-alist '((top . 0) (left . 250) (width . 157) (height . 56)))
+  (setq default-frame-alist '((top . 0) (left . 100) (width . 157) (height . 56)))
 #+END_SRC
 ** Font faces
 Fonts are set in the =init.el= file rather than here, so that they can be customized using emacs
@@ -748,24 +740,24 @@ to confirm. It will then open the =*dashboard*= buffer.
     (delete-other-windows))
 #+END_SRC
 
-** Buffer Move
-=buffer-move= is a package that allows buffers to be rotated and moved when multiple windows are
-open. Require it here and set some keybindings.
-#+begin_src emacs-lisp
-  (use-package buffer-move
-    :pin melpa-stable)
-#+end_src
-Bind functions from this package to useful repeatable custom keybindings.
-#+begin_src emacs-lisp
-  (defhydra hydra-buffer-move ()
-    "Buffer move"
-    ("u" buf-move-up "up")
-    ("d" buf-move-down "down")
-    ("," buf-move-left "left")
-    ("." buf-move-right "right"))
-#+end_src
-
 * Windows
+** Easily navigate between windows
+The [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][windmove]] built-in package, that is enabled by default, allows the use of Shift-arrow-key
+keybindings to move focus to the window in that direction (if there is one). Need to explicitly
+enable these default keybindings.
+
+*** =windmove-default-keybindings=
+Binds S-<arrow-key> to move focus between windows.
+*** =windmove-display-default-keybindings=
+Binds S-<meta>-<arrow-key> to tell emacs in which new window to put the buffer created by the next command.
+*** =windmove-swap-states-default-keybindings=
+Binds S-<super>-<arrow-key> to move the contents of the current window to the window in that direction.
+#+begin_src emacs-lisp
+  (require 'windmove)
+  (windmove-default-keybindings)
+  (windmove-display-default-keybindings)
+  (windmove-swap-states-default-keybindings)
+#+end_src
 ** Keep track of window placements for each frame
 Built-in [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][winner-mode]] provides the ability to toggle previous/next window arrangements for a
 frame using =C-c <left>= and =C-c <right>=.
@@ -838,24 +830,24 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
         (set-frame-parameter frame param (funcall op (frame-parameter frame param) increment))))
 #+end_src
 
-** Double Frame Width
-Makes the current frame twice as wide. I wrote this.
+** 1.5 x Frame Width
+Makes the current frame 1.5 times as wide. I wrote this.
 #+begin_src emacs-lisp
-  (defun bsl/double-frame-width (&optional frame)
-    "Double the width of FRAME (default: selected-frame)."
+  (defun bsl/one-and-a-half-frame-width (&optional frame)
+    "Make the width of FRAME one and a half times wider (default: selected-frame)."
     (interactive)
     (if (display-graphic-p)
-        (set-frame-width frame (* (frame-width frame) 2))))
+        (set-frame-width frame (truncate (* (frame-width frame) 1.5)))))
 #+end_src
 
-** Halve Frame Width
-Makes the current frame half as wide. I wrote this.
+** 2/3 Frame Width
+Makes the current frame 2/3 as wide. I wrote this.
 #+begin_src emacs-lisp
-  (defun bsl/halve-frame-width (&optional frame)
-    "Halve the width of FRAME (default: selected-frame)."
+  (defun bsl/two-thirds-frame-width (&optional frame)
+    "2/3 the width of FRAME (default: selected-frame)."
     (interactive)
     (if (display-graphic-p)
-        (set-frame-width frame (/ (frame-width frame) 2))))
+        (set-frame-width frame (truncate (/ (frame-width frame) 1.5)))))
 #+end_src
 
 ** Moving the Frame
@@ -885,8 +877,8 @@ Moves the current frame up/down or left/right.
     ("w" (lambda (&optional increment)
            (interactive "p")
            (bsl/adjust-frame-param '+ 'width increment nil)) "wider")
-    ("]" bsl/double-frame-width "double width")
-    ("[" bsl/halve-frame-width "half width"))
+    ("]" bsl/one-and-a-half-frame-width "1.5 x width")
+    ("[" bsl/two-thirds-frame-width "2/3 width"))
 #+end_src
 
 ** Frame motion keybindings
@@ -993,21 +985,24 @@ For auto-complete in programming modes, we'll use the [[https://company-mode.git
   (show-paren-mode 1)
 #+END_SRC
 ** Paredit
-This minor mode makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
-for some lisp major modes only. Also remap the s-expression /slurp/
+This [[https://paredit.org][minor mode]] makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
+for some lisp major modes only. =paredit-newline= does some electric indenting after newlines if
+=electric-indent-mode= is enabled (which it is by default). Also remap the s-expression /slurp/
 and /barf/ commands to keybindings that work in both GUI and TTY.
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
     :pin melpa-stable
     :hook ((clojure-mode
             emacs-lisp-mode
-            scheme-mode
-            cider-repl-mode) . enable-paredit-mode)
+            cider-repl-mode
+            scheme-mode) . enable-paredit-mode)
+                           
     :bind (:map paredit-mode-map
                 (("C-c )" . paredit-forward-slurp-sexp)
                  ("C-c (" . paredit-backward-slurp-sexp)
                  ("C-c M-)" . paredit-forward-barf-sexp)
-                 ("C-c M-(" . paredit-backward-barf-sexp))))
+                 ("C-c M-(" . paredit-backward-barf-sexp)
+                 ("<return>" . paredit-newline))))
 #+END_SRC
 
 ** Colorful matching delimiters
@@ -1055,7 +1050,7 @@ In addition to the above settings, the following settings apply only to editing 
 ** Set indent mode for clojure buffers
 Set the variable =clojure-indent-style= to the value =always-indent=. See [[https://github.com/clojure-emacs/clojure-mode#indentation-options][here]] for more info.
 #+BEGIN_SRC emacs-lisp
-  (setq clojure-indent-style 'always-indent)
+  (setq clojure-indent-style 'align-arguments)
 #+END_SRC
 ** =clojure-mode= customizations
 - =comment-column= set to 0 to not force adding extra space after inline *;*
@@ -1064,9 +1059,10 @@ Set the variable =clojure-indent-style= to the value =always-indent=. See [[http
 #+END_SRC
 
 ** Install & use =cider=
-[[https://github.com/clojure-emacs/cider][cider]] is the /clojure integrated development environment/. We're only going to use the melpa stable version.
-Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l= key. Also set
-the following defaults:
+[[https://github.com/clojure-emacs/cider][CIDER]] is the /clojure integrated development environment/. We're only going to use the melpa stable
+version.  Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l=
+key. To use =paredit= minor mode with CIDER, we also need to switch the keybindings of the =return=
+key, otherwise it won't work in the REPL. Also set the following defaults:
 - =cider-repl-display-help-banner= suppress the verbose help banner when opened
 - =cider-eldoc-display-context-dependent-info= try to auto-complete function calls with in-scope
   parameters
@@ -1095,7 +1091,10 @@ the following defaults:
     (setq cider-repl-pop-to-buffer-on-connect 'display-only)
     (setq cider-repl-wrap-history t)
     :bind (:map cider-repl-mode-map
-                ("C-c C-l" . cider-repl-clear-buffer)))
+                ("C-c C-l" . cider-repl-clear-buffer)
+                ("<return>" . cider-repl-return))
+          (:map paredit-mode-map
+                ("<return>" . nil)))
 #+END_SRC
 
 ** =cider-repl-mode=
