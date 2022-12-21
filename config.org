@@ -758,6 +758,10 @@ Binds S-<super>-<arrow-key> to move the contents of the current window to the wi
   (windmove-display-default-keybindings)
   (windmove-swap-states-default-keybindings)
 #+end_src
+*** Set option to make new buffers appear in directed window
+#+begin_src emacs-lisp
+  (setq switch-to-buffer-obey-display-actions 1)
+#+end_src
 ** Keep track of window placements for each frame
 Built-in [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][winner-mode]] provides the ability to toggle previous/next window arrangements for a
 frame using =C-c <left>= and =C-c <right>=.
@@ -819,13 +823,13 @@ one. Do not enable this in tty mode.
 * Frames
 The functions in this section were inspired by the [[https://www.emacswiki.org/emacs/frame-cmds.el][frame-cmds]] Emacs Wiki library.
 
-** Adjust Frame Size
-Makes the current frame vertically/horizontally bigger/smaller incrementally.
+** Adjust Frame Parameter
+Helper function used to adjust frame size and position.
 #+begin_src emacs-lisp
   (defun bsl/adjust-frame-param (op param &optional increment frame)
     "Adjust the PARAM of FRAME (default: selected-frame) by INCREMENT using OP.
-  INCREMENT is in lines (characters).
-  Interactively, it is given by the prefix argument."
+    INCREMENT is in lines (characters).
+    Interactively, it is given by the prefix argument."
     (if (display-graphic-p)
         (set-frame-parameter frame param (funcall op (frame-parameter frame param) increment))))
 #+end_src
@@ -862,6 +866,7 @@ Moves the current frame up/down or left/right.
         (bsl/adjust-frame-param op param increment frame))))
 #+end_src
 ** Frame resize keybindings
+Makes the current frame vertically/horizontally bigger/smaller incrementally.
 #+begin_src emacs-lisp
   (defhydra hydra-frame-resize ()
     "Frame resize"
