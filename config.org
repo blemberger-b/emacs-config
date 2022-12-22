@@ -236,22 +236,6 @@ same file. See [[https://www.emacswiki.org/emacs/SavePlace][here]].
 #+begin_src emacs-lisp
   (save-place-mode 1)
 #+end_src
-** Hippie expand
-[[https://www.emacswiki.org/emacs/HippieExpand][hippie-expand]] is a useful built-in function that does abbreviation or word expansion in a
-buffer. Activate it by invoking =M-/= (this overrides the keybinding for =dabbrev-expand=).
-#+begin_src emacs-lisp
-  (global-set-key (kbd "M-/") 'hippie-expand)
-#+end_src
-Also set some locations for =hippie-expand= to look for completions that are particularly
-useful for editing lisp files:
-#+begin_src emacs-lisp
-  (setq hippie-expand-try-functions-list
-        '(try-expand-dabbrev
-          try-expand-dabbrev-all-buffers
-          try-expand-dabbrev-from-kill
-          try-complete-lisp-symbol-partially
-          try-complete-lisp-symbol))
-#+end_src
 ** Regular Expression Builder
 =re-builder= is a built-in emacs major mode for interactively building Regular Expressions. Set
 the regexp syntax support to *pcre* (see below), which are the types of regexes that I use
@@ -319,8 +303,8 @@ Bind some of the functions in this file to the =C-c= key prefix.
 #+end_src
   
 * UI Customizations
-** Set geometry of all emacs frames on Mac
-Top-left corner of initial frame will be 0 pixels down from the top margin and 250 pixels right from
+** Set geometry of all emacs frames
+Top-left corner of initial frame will be 0 pixels down from the top margin and 100 pixels right from
 the left margin. It also makes the window size 56 x 157 characters.
 
 #+BEGIN_SRC emacs-lisp
@@ -375,7 +359,7 @@ Install and enable =beacon-mode= for better indicator when changing windows. See
     :custom
     (beacon-blink-when-window-scrolls nil))
 #+end_src
-** Prettify Control L
+** Prettify Control-L
 Emacs by default displays the form-feed (=C-l=) character as a literal "^L" character
 sequence. Since this is ugly, this package changes it to a horizonal line. The package used here
 is [[https://github.com/purcell/page-break-lines][page-break-lines]] because it works well with =dashboard-mode=. For some reason, it's not
@@ -470,7 +454,7 @@ off the file line-endings info segment in the mode line, which I don't find very
 #+END_SRC
 ** Diminish minor modes from the modeline
 [[https://github.com/myrjola/diminish.el][diminish]] allows us to list the mode names that we don't want displayed in the modeline. We do
-that here by using the =:diminish= keyword in =use-package= declarations that we want to
+that in this file by using the =:diminish= keyword in =use-package= declarations that we want to
 suppress, or by specifing them in the =config:= section.
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
@@ -526,6 +510,7 @@ Activate =org-indent-mode= mode, which instead of inserting whitespace character
 non-headline line, puts virtual indentation in to line up the body of the text with headlines.
 #+begin_src emacs-lisp
   (setq org-startup-indented t)
+  (add-hook 'org-mode-hook (lambda () (diminish 'org-indent-mode)))
 #+end_src
 ** Headline Bullets
 Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
@@ -738,6 +723,18 @@ to confirm. It will then open the =*dashboard*= buffer.
     (mapc 'kill-buffer (buffer-list))
     (dashboard-refresh-buffer)
     (delete-other-windows))
+#+END_SRC
+
+* Auto-Complete
+For completion within buffers, we'll use the [[https://company-mode.github.io/][company package]], enabled in all modes. Bind the manual
+completion command to =M-/=, same as default emacs =dabbrev-expand=.
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :pin gnu
+    :config
+    (global-company-mode)
+    :bind ("M-/" . company-complete)
+    :diminish)
 #+END_SRC
 
 * Windows
@@ -976,15 +973,6 @@ installed in the path of the local system).
                               (diminish 'flyspell-mode)))
 #+END_SRC
 
-** Auto-complete
-For auto-complete in programming modes, we'll use the [[https://company-mode.github.io/][company package]].
-#+BEGIN_SRC emacs-lisp
-  (use-package company
-    :pin gnu
-    :hook (('prog-mode . company-mode)
-           ('cider-repl-mode . company-mode)))
-#+END_SRC
-
 ** Turn on parenthesis matching mode
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
@@ -1001,13 +989,13 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
             emacs-lisp-mode
             cider-repl-mode
             scheme-mode) . enable-paredit-mode)
-                           
+
     :bind (:map paredit-mode-map
                 (("C-c )" . paredit-forward-slurp-sexp)
                  ("C-c (" . paredit-backward-slurp-sexp)
                  ("C-c M-)" . paredit-forward-barf-sexp)
                  ("C-c M-(" . paredit-backward-barf-sexp)
-                 ("<return>" . paredit-newline))))
+                 ("C-j" . paredit-newline))))
 #+END_SRC
 
 ** Colorful matching delimiters
@@ -1170,7 +1158,8 @@ Emacs, called /Universal ctags/, which is available via homebrew, etc.
     (projectile-completion-system 'ivy)
     (projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
     ;; Not sure why, but .git marker needs to come at end for bottom-up project discovery to work
-    (projectile-project-root-files-bottom-up '(".projectile" "project.clj" "build.sbt" ".git"))
+    (projectile-project-root-files-bottom-up '(".projectile" "project.clj" "build.sbt"
+                                               "pyproject.toml" ".git"))
     :bind
     (:map projectile-mode-map
           ("C-c p" . projectile-command-map))
