@@ -563,24 +563,19 @@ a setting below.
         '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")))
 #+end_src
 *** Define custom agenda views
-Create a dashboard and other agenda views of my own. See this [[https://orgmode.org/manual/Custom-Agenda-Views.html#Custom-Agenda-Views][topic]] in the =org-mode= manual for
-more information.
-#+begin_src emacs-lisp
-  (setq org-agenda-custom-commands
-        '(("d" "Dashboard"
-           ((agenda "" ((org-deadline-warning-days 7)))
-            (todo "NEXT"
-                  ((org-agenda-overriding-header "Next Tasks")))
-            (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
-          ("W" "Work Non-Doc Tasks" tags-todo "+work-docs")
-          ("e" "Low Effort Tasks" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-           ((org-agenda-max-todos 20)
-            (org-agenda-overriding-header "Low Effort Tasks")))))
-#+end_src
-** Edit src snippets in same window
-#+BEGIN_SRC emacs-lisp
-  (setq org-src-window-setup 'current-window)
-#+END_SRC
+    Create a dashboard and other agenda views of my own. See this [[https://orgmode.org/manual/Custom-Agenda-Views.html#Custom-Agenda-Views][topic]] in the =org-mode= manual for more information.
+    #+begin_src emacs-lisp
+      (setq org-agenda-custom-commands
+            '(("d" "Dashboard"
+               ((agenda "" ((org-deadline-warning-days 7)))
+                (todo "NEXT"
+                      ((org-agenda-overriding-header "Next Tasks")))
+                (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+              ("W" "Work Non-Doc Tasks" tags-todo "+work-docs")
+              ("e" "Low Effort Tasks" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+               ((org-agenda-max-todos 20)
+                (org-agenda-overriding-header "Low Effort Tasks")))))
+    #+end_src
 ** Htmlize
 Install =htmlize= package to allow exporting =org-mode= files in html format
 #+BEGIN_SRC emacs-lisp
@@ -618,7 +613,7 @@ Globally enabled keybindings specific for =org-mode=:
     "l" 'org-store-link
     "a" 'org-agenda
     "c" 'org-capture
-    "w" 'org-babel-mark-block)
+    "SPC" 'org-babel-mark-block)
 #+end_src
 Keybindings only enabled in =org-mode= buffers:
 #+begin_src emacs-lisp
