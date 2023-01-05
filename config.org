@@ -28,7 +28,8 @@ starring/unstarring of github repos functionality.
 file. Invocation is done with =C-c M-e= as bound below.
 #+BEGIN_SRC emacs-lisp
   (use-package sudo-edit
-    :custom auth-source-save-behavior nil "Never save the auth file, always prompt for password")
+    :custom
+    (auth-source-save-behavior nil "Never save the auth file, always prompt for password"))
 #+END_SRC
 ** Recent Files
 Emacs does not keep track of recently found files by default, so turn it on, and set some
@@ -89,6 +90,10 @@ associates =*.puml= files with =puml-mode=.
     :pin melpa
     :custom
     (plantuml-default-exec-mode 'executable)
+    :config
+    ;; Default .svg types won't work on Mac OS Ventura due to Emacs 28 bug
+    (when (memq window-system '(mac ns))
+      (setq plantuml-output-type "png"))
     :mode ("\\.puml\\'" . plantuml-mode))
 #+end_src
 ** URL Encoding/Decoding
