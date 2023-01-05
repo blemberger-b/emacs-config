@@ -24,10 +24,10 @@ starring/unstarring of github repos functionality.
     :custom (paradox-github-token t))
 #+end_src
 ** Install & use =sudo-edit= (from MELPA)
-=sudo-edit= allows editing write protected files by first doing =sudo= before visting the file
+=sudo-edit= allows editing write protected files by first doing =sudo= before visting the
+file. Invocation is done with =C-c M-e= as bound below.
 #+BEGIN_SRC emacs-lisp
   (use-package sudo-edit
-    :bind ("s-e" . sudo-edit)
     :custom auth-source-save-behavior nil "Never save the auth file, always prompt for password")
 #+END_SRC
 ** Recent Files
@@ -288,7 +288,8 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "x" 'goto-last-change
     "K" 'bsl/kill-all-buffers
     "r" 'counsel-recentf
-    "h" 'list-command-history)
+    "h" 'list-command-history
+    "M-e" 'sudo-edit)
 
   ;; Bindings for viewing and reloadig this file
   (bsl/control-c-definer
