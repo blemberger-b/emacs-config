@@ -313,7 +313,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
    :predicate '(window-system)
    "s-u" 'revert-buffer)
 #+end_src
-  
+
 * UI Customizations
 ** Set geometry of all emacs frames
 Top-left corner of initial frame will be 0 pixels down from the top margin and 100 pixels right from
@@ -382,7 +382,6 @@ enabled globally for text modes, so we enable it.
     (global-page-break-lines-mode)
     :diminish page-break-lines-mode)
 #+end_src
-
 * Minibuffer
 ** Completion
 =ivy= is a better way than default emacs to handle command, filename, and buffer completion. To
@@ -950,7 +949,9 @@ PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
 * Protobuf Mode
 =protobuf-mode= is a major mode distributed by the makers of [[https://developers.google.com/protocol-buffers/][protocol buffers]].
 #+begin_src emacs-lisp
-  (use-package protobuf-mode)
+  (use-package protobuf-mode
+    :ensure t
+    :defer t)
 #+end_src
 * LaTeX
 =LaTeX= mode comes built-in to emacs as a major mode that is automatically active for files ending
@@ -1031,22 +1032,43 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
 #+begin_src emacs-lisp
   (use-package typescript-mode
     :mode "\\.js\\'"
+    :defer t
     :hook (typescript-mode . lsp-deferred)
     :config
     (setq typescript-indent-level 2))
 #+end_src
 * Python
-** Indentation
-Set indentation level to be two spaces per level. =tab-width= gets annoyingly set by default to 8
-by =python-mode= for some reason, so make it the same as =python-indent-offset=.
+** Poetry Support
+[[https://python-poetry.org/docs/][Poetry]] is a system that can be used to manage python virtual environments, packaging, and
+dependencies. It is installed on the OS using that OS's packaging tools. The =Elpy= IDE package
+needs =poetry= to manage the virtual environment that it uses for its IDE features. Install [[https://github.com/cybniv/poetry.el][Emacs integration]]
+for it:
 #+begin_src emacs-lisp
-  (add-hook 'python-mode-hook
-    (lambda ()
-      (setq python-indent-offset 2)
-      (setq tab-width 2)))
+  (use-package poetry
+   :ensure t
+   :after elpy
+   :hook (elpy-mode . poetry-tracking-mode)
+   :bind (:map python-mode-map
+          ("C-c y" . poetry))) ; Bind a key to poetry's dispatcher (menu mode)
+#+end_src
+** Elpy
+[[https://elpy.readthedocs.io/en/latest/index.html][Elpy]] is a package that adds IDE functionality for Python projects. Defer loading it until I'm
+working on a python buffer, and diminish some minor mode indicators that come with =elpy=.
+#+begin_src emacs-lisp
+  (use-package elpy
+    :ensure t
+    :defer t
+    :init
+    (advice-add 'python-mode :before
+                (lambda ()
+                  (elpy-enable)
+                  (diminish 'flymake-mode)
+                  (diminish 'highlight-indentation-mode)))
+    :custom
+    (elpy-rpc-virtualenv-path 'current "Use virtualenv managed by poetry"))
 #+end_src
 * Clojure
-In addition to the above settings, the following settings apply only to editing clojure files and buffers.
+In addition to [[*Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
 ** Set indent mode for clojure buffers
 Set the variable =clojure-indent-style= to the value =always-indent=. See [[https://github.com/clojure-emacs/clojure-mode#indentation-options][here]] for more info.
 #+BEGIN_SRC emacs-lisp
@@ -1057,7 +1079,6 @@ Set the variable =clojure-indent-style= to the value =always-indent=. See [[http
 #+BEGIN_SRC emacs-lisp
   (add-hook 'clojure-mode-hook (lambda () (setq-local comment-column 0)))
 #+END_SRC
-
 ** Install & use =cider=
 [[https://github.com/clojure-emacs/cider][CIDER]] is the /clojure integrated development environment/. We're only going to use the melpa stable
 version.  Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l=
@@ -1081,6 +1102,7 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :pin melpa-stable
+    :defer t
     :init (setq cider-repl-display-help-banner nil)
     (setq cider-eldoc-display-context-dependent-info t)
     (setq cider-allow-jack-in-without-project t)
