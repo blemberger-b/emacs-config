@@ -1147,6 +1147,15 @@ Define a function to start a scheme process in the current buffer. Run it with =
                      (get-buffer-create new-buff-name)))
     (reposition-window))
 #+end_src
+* C
+** Keybindings for Compile & Debugging
+These keybindings work in both C language mode and Makefile mode
+#+begin_src emacs-lisp
+  (general-def
+     '(c-mode-base-map makefile-mode-map)
+     "C-c C-l" 'compile
+     "C-c C-d" 'gdb)
+#+end_src
 * Docker
 ** Install & use =dockerfile-mode=
 =dockerfile-mode= is a major mode helpful for editing Dockerfiles.
