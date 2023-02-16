@@ -9,7 +9,7 @@ Clone into the =.emacs.d= folder created by Emacs
   git clone git@github.com:blemberger-b/emacs-config.git ~/.emacs.d
 #+END_SRC
 When Emacs is opened, it will download the specified packages (with their dependencies) and
-apply the customizations from *init.el* and this file.
+apply the customizations from *init.el* and this file.  
 * Custom Packages & Modes
 These packages here and elsewhere are installed via [[https://github.com/jwiegley/use-package][use-package]]. From time to time, you should check
 for updates using the command =M-x package-list-packages=, which will tell you which packages have
@@ -319,7 +319,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
 Top-left corner of initial frame will be 0 pixels down from the top margin and 100 pixels right from
 the left margin. It also makes the window size 40 characters tall x 157 characters wide.
 #+BEGIN_SRC emacs-lisp
-  (setq default-frame-alist '((top . 0) (left . 100) (width . 157) (height . 40)))
+  (setq default-frame-alist '((width . 157) (height . 40)))
 #+END_SRC
 ** Font faces
 Fonts are set in the =init.el= file rather than here, so that they can be customized using emacs
@@ -1099,6 +1099,9 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
 - =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to
   it.
 - =cider-repl-wrap-history= Wrap when navigating history.
+- =cider-lein-command= This is overridden on Mac OS because some of my projects require a version of
+  =lein= that is not compatible with CIDER. To make this work, on those systems I define the
+  =CIDER_LEIN= environment variable to reference the full path of the =lein= command that works with CIDER.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :pin melpa-stable
@@ -1112,11 +1115,13 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
     (setq cider-prompt-for-symbol nil)
     (setq cider-repl-pop-to-buffer-on-connect 'display-only)
     (setq cider-repl-wrap-history t)
+    (when (eql system-type 'darwin)
+      (setq cider-lein-command (getenv "CIDER_LEIN"))) 
     :bind (:map cider-repl-mode-map
                 ("C-c C-l" . cider-repl-clear-buffer)
                 ("<return>" . cider-repl-return))
-          (:map paredit-mode-map
-                ("<return>" . nil)))
+    (:map paredit-mode-map
+          ("<return>" . nil)))
 #+END_SRC
 
 ** =cider-repl-mode=
