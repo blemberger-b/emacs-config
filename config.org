@@ -1003,7 +1003,8 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
                  ("C-c (" . paredit-backward-slurp-sexp)
                  ("C-c M-)" . paredit-forward-barf-sexp)
                  ("C-c M-(" . paredit-backward-barf-sexp)
-                 ("C-j" . paredit-newline))))
+                 ("C-j" . paredit-newline)
+                 ("M-r" . paredit-raise-sexp))))
 #+END_SRC
 
 ** Colorful matching delimiters
@@ -1099,9 +1100,10 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
 - =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to
   it.
 - =cider-repl-wrap-history= Wrap when navigating history.
-- =cider-lein-command= This is overridden on Mac OS because some of my projects require a version of
-  =lein= that is not compatible with CIDER. To make this work, on those systems I define the
-  =CIDER_LEIN= environment variable to reference the full path of the =lein= command that works with CIDER.
+- =cider-lein-command= This is overridden because on some of my machines, some of my projects
+  require a version of =lein= that is not compatible with CIDER. To make this work, on those systems
+  I define the =CIDER_LEIN= environment variable to reference the full path of the =lein= command
+  that works with CIDER.
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :pin melpa-stable
@@ -1115,8 +1117,9 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
     (setq cider-prompt-for-symbol nil)
     (setq cider-repl-pop-to-buffer-on-connect 'display-only)
     (setq cider-repl-wrap-history t)
-    (when (eql system-type 'darwin)
-      (setq cider-lein-command (getenv "CIDER_LEIN"))) 
+    (let ((cider-lein-var (getenv "CIDER_LEIN")))
+      (when cider-lein-var
+        (setq cider-lein-command cider-lein-var))) 
     :bind (:map cider-repl-mode-map
                 ("C-c C-l" . cider-repl-clear-buffer)
                 ("<return>" . cider-repl-return))
