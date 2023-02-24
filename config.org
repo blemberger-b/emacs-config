@@ -641,8 +641,8 @@ Extensions for =dired-mode= that are pre-installed, but not enabled by default, 
 example, to jump to the currently open file in dired-x, type =C-x C-j=.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'dired-load-hook (lambda () (load "dired-x")))
-  (define-key global-map "\C-x\C-j" 'dired-jump)
-  (define-key global-map "\C-x4\C-j" 'dired-jump-other-window)
+  (general-def "C-x C-j" 'dired-jump)
+  (general-def "C-x 4 C-j" 'dired-jump-other-window)
 #+END_SRC
 Force isearch operations in dired buffers to only search in filenames.
 #+begin_src emacs-lisp
@@ -705,7 +705,7 @@ the line beginning after any whitespace.
 ibuffer is a /better/ interactive buffer list that allows deleting buffers and switching buffers in
 the same window.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (general-def "C-x C-b" 'ibuffer)
 #+END_SRC
 ** Always kill the current buffer
 Override default emacs and =ido-mode= functionality to prompt for the buffer to kill, and just go
@@ -717,7 +717,7 @@ ahead and kill the current one. It will still prompt for confirmation if the buf
 #+END_SRC
 Bind it to the default =kill-buffer= keybinding =C-x k=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x k") 'bsl/kill-current-buffer)
+  (general-def "C-x k" 'bsl/kill-current-buffer)
 #+END_SRC
 
 ** Kill all buffers
@@ -781,7 +781,7 @@ frame using =C-c <left>= and =C-c <right>=.
 #+END_SRC
 Bind to the default split horizontally key =C-x 2=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x 2") 'bsl/split-and-follow-horizontally)
+  (general-def "C-x 2" 'bsl/split-and-follow-horizontally)
 #+END_SRC
 ** Split window vertically & put point in new window
 #+BEGIN_SRC emacs-lisp
@@ -793,7 +793,7 @@ Bind to the default split horizontally key =C-x 2=.
 #+END_SRC
 Bind to the default split vertically key =C-x 3=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "C-x 3") 'bsl/split-and-follow-vertically)
+  (general-def "C-x 3" 'bsl/split-and-follow-vertically)
 #+END_SRC
 ** Halve other window height
 Tip from [[https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows][here]].
