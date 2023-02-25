@@ -271,8 +271,8 @@ off using =C-c w=.
     (evil-set-initial-state 'dashboard-mode 'emacs)
     (evil-mode 1)
     (general-def
-      :states '(insert emacs)
-      "C-g" 'evil-normal-state))
+      :states '(insert replace visual)
+      "C-g" 'evil-normal-state)) 
 #+end_src
 ** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
@@ -404,6 +404,8 @@ minibuffer when using =counsel-M-x= to run commands.
   (use-package ivy
     :diminish
     :bind (("C-s" . swiper)
+           :map evil-normal-state-map
+           ("/" . swiper)
            :map ivy-minibuffer-map
            ("RET" . ivy-alt-done)
            :map ivy-switch-buffer-map
@@ -433,7 +435,7 @@ minibuffer when using =counsel-M-x= to run commands.
 #+end_src
 ** M-x Enhancement
 Emacs uses the  =M-x= keybinding to execute commands. This installs [[https://github.com/nonsequitur/smex][smex]], which works well with
-=consel-M-x= to show recent commands run in the minibuffer.
+=counsel-M-x= to show recent commands run in the minibuffer.
 #+begin_src emacs-lisp
   (use-package smex
     :pin melpa-stable
