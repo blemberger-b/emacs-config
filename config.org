@@ -263,6 +263,17 @@ somewhat limited. [[https://github.com/joddie/pcre2el][This package]] introduces
 =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
 off using =C-c w=.
 * Custom Keybindings
+** Vim Keybindings
+[[https://evil.readthedocs.io/en/latest/index.html][Evil Mode]] will emulate =vim= keybindings in emacs, which are better.
+#+begin_src emacs-lisp
+  (use-package evil
+    :config
+    (evil-set-initial-state 'dashboard-mode 'emacs)
+    (evil-mode 1)
+    (general-def
+      :states '(insert emacs)
+      "C-g" 'evil-normal-state))
+#+end_src
 ** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
 command is invoked using the normal keybinding, repetitive invocations of the command can be
@@ -459,7 +470,7 @@ off the file line-endings info segment in the mode line, which I don't find very
     :pin melpa-stable
     :config
     (require 'spaceline-config)
-    (spaceline-emacs-theme)
+    (spaceline-spacemacs-theme)
     (spaceline-toggle-buffer-encoding-abbrev-off))
 #+END_SRC
 ** Diminish minor modes from the modeline
