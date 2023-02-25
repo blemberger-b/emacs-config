@@ -116,7 +116,9 @@ Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
   (use-package golden-ratio-scroll-screen
     :pin melpa
     :bind (([remap scroll-down-command] . 'golden-ratio-scroll-screen-down)
-           ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
+           ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)
+           ([remap evil-scroll-page-up] . 'golden-ratio-scroll-screen-down)
+           ([remap evil-scroll-page-down] . 'golden-ratio-scroll-screen-up)))
 #+end_src
 * Global Settings
 ** Install & run =exec-path-from-shell=
@@ -267,6 +269,9 @@ off using =C-c w=.
 [[https://evil.readthedocs.io/en/latest/index.html][Evil Mode]] will emulate =vim= keybindings in emacs, which are better.
 #+begin_src emacs-lisp
   (use-package evil
+    :custom
+    (evil-move-cursor-back nil "Don't move cursor after exiting insert state")
+    (evil-move-beyond-eol t "Cursor can move one character beyond EOL")
     :config
     (evil-set-initial-state 'dashboard-mode 'emacs)
     (evil-mode 1)
