@@ -269,11 +269,12 @@ off using =C-c w=.
 [[https://evil.readthedocs.io/en/latest/index.html][Evil Mode]] will emulate =vim= keybindings in emacs, which are better.
 #+begin_src emacs-lisp
   (use-package evil
-    :custom
+   :custom
     (evil-move-cursor-back nil "Don't move cursor after exiting insert state")
     (evil-move-beyond-eol t "Cursor can move one character beyond EOL")
     :config
     (evil-set-initial-state 'dashboard-mode 'emacs)
+    (evil-set-initial-state 'cider-repl-mode 'emacs)
     (evil-mode 1)
     (general-def
       :states '(insert replace visual)
@@ -773,6 +774,7 @@ Binds S-<arrow-key> to move focus between windows.
 Binds S-<meta>-<arrow-key> to tell emacs in which new window to put the buffer created by the next command.
 *** =windmove-swap-states-default-keybindings=
 Binds S-<super>-<arrow-key> to move the contents of the current window to the window in that direction.
+
 #+begin_src emacs-lisp
   (require 'windmove)
   (windmove-default-keybindings)
