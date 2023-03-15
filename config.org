@@ -269,11 +269,14 @@ off using =C-c w=.
 [[https://evil.readthedocs.io/en/latest/index.html][Evil Mode]] will emulate =vim= keybindings in emacs, which are better.
 #+begin_src emacs-lisp
   (use-package evil
-   :custom
+    :custom
     (evil-move-cursor-back nil "Don't move cursor after exiting insert state")
     (evil-move-beyond-eol t "Cursor can move one character beyond EOL")
+    (evil-want-fine-undo "yes" "Undo undoes every little thing")
+    (evil-undo-system 'undo-redo "Use Emacs v.8 undo/redo")
+    (evil-want-C-i-jump nil "Don't override emacs default C-i & TAB key behavior")
     :config
-    (evil-set-initial-state 'dashboard-mode 'emacs)
+    (evil-set-initial-state 'special-mode 'motion)
     (evil-set-initial-state 'cider-repl-mode 'emacs)
     (evil-mode 1)
     (general-def
