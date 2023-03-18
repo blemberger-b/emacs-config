@@ -76,7 +76,7 @@
  '(ediff-current-diff-B ((t (:extend t :background "#003f8e" :foreground "#7285b7"))))
  '(font-lock-comment-face ((((type tty)) (:foreground "grey"))))
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
- '(mode-line-inactive ((((type tty)) (:inherit mode-line :background "black" :foreground "lightgray" :weight normal))))
+ '(mode-line-inactive ((((type tty)) (:inherit mode-line :background "black" :foreground "gray" :weight normal))))
  '(org-ellipsis ((((type tty)) (:foreground "LightGoldenrod"))))
  '(show-paren-match ((((type tty)) (:background "blue" :foreground "white")))))
 (put 'upcase-region 'disabled nil)
