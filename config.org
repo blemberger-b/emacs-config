@@ -281,7 +281,7 @@ off using =C-c w=.
     (evil-mode 1)
     (general-def
       :states '(insert replace visual)
-      "C-g" 'evil-normal-state)) 
+      "C-SPC" 'evil-normal-state))
 #+end_src
 ** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
