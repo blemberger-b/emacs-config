@@ -127,9 +127,13 @@ environment than a shell in a terminal window, because OS X does not run a shell
 Obviously this will lead to unexpected results when calling external utilities like *make* from
 Emacs. This library works around this problem by copying important environment variables from the
 user's shell. See [[https://github.com/purcell/exec-path-from-shell][here]].
+
+=exec-path-from-shell-arguments= set to =nil= will cause =exec-path-from-shell= to not run an
+interactive shell, which will cause Emacs to startup faster and only use settings from =.bash_profile=.
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :init (when (memq window-system '(mac ns x))
+            (setq exec-path-from-shell-arguments nil)
             (exec-path-from-shell-initialize)))
 #+END_SRC
 ** Default to TLS 1.3
@@ -1091,7 +1095,7 @@ working on a python buffer, and diminish some minor mode indicators that come wi
     (elpy-rpc-virtualenv-path 'current "Use virtualenv managed by poetry"))
 #+end_src
 * Clojure
-In addition to [[*Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
+In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
 ** Set indent mode for clojure buffers
 Set the variable =clojure-indent-style= to the value =always-indent=. See [[https://github.com/clojure-emacs/clojure-mode#indentation-options][here]] for more info.
 #+BEGIN_SRC emacs-lisp
