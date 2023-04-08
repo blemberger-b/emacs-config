@@ -292,7 +292,10 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (evil-want-C-i-jump nil "Don't override emacs default C-i & TAB key behavior")
     :config
     (evil-set-initial-state 'special-mode 'motion)
+    (evil-set-initial-state 'comint-mode 'emacs)
+    (evil-set-initial-state 'gud-mode 'emacs)
     (evil-set-initial-state 'cider-repl-mode 'emacs)
+    (evil-set-initial-state 'term-mode 'emacs)
     (evil-mode 1)
     (general-def
       :states '(insert replace visual)
@@ -1190,7 +1193,7 @@ These keybindings work in both C language mode and Makefile mode
   (general-def
      '(c-mode-base-map makefile-mode-map)
      "C-c C-l" 'compile
-     "C-c C-d" 'gdb)
+     "C-c C-d" 'gud-gdb)
 #+end_src
 * Docker
 ** Install & use =dockerfile-mode=
