@@ -298,9 +298,12 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (evil-set-initial-state 'term-mode 'emacs)
     (evil-mode 1)
     (general-def
-      :states '(insert replace visual)
+      :states '(insert replace visual motion)
       "C-SPC" 'evil-normal-state
-      "C-g" 'evil-normal-state))
+      "C-g" 'evil-normal-state)
+    (general-def
+      :states 'normal
+      "C-m" 'evil-motion-state))
 #+end_src
 ** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
