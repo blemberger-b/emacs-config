@@ -38,7 +38,7 @@ reasonable defaults.
   (use-package recentf
     :config
     (setq recentf-max-saved-items 100
-          recentf-exclude '("ido.last"))
+          recentf-exclude '("ido.last" "~/.cache/.*"))
     (recentf-mode 1))
 #+end_src
 ** Dashboard
@@ -296,6 +296,7 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (evil-set-initial-state 'gud-mode 'emacs)
     (evil-set-initial-state 'cider-repl-mode 'emacs)
     (evil-set-initial-state 'term-mode 'emacs)
+    (evil-set-initial-state 'dashboard-mode 'emacs)
     (evil-mode 1)
     (general-def
       :states '(insert replace visual motion)
@@ -1197,6 +1198,25 @@ These keybindings work in both C language mode and Makefile mode
      '(c-mode-base-map makefile-mode-map)
      "C-c C-l" 'compile
      "C-c C-d" 'gud-gdb)
+#+end_src
+** Close Compilation Buffer If No Errors or Warnings
+If the =compile= command was successful, the buffer will be visible for 1 second, then
+disappear. Courtesy of [[https://stackoverflow.com/a/11059012][jpkotta]].
+#+begin_src emacs-lisp
+  (defun bury-compile-buffer-if-successful (buffer string)
+    "Bury a compilation buffer if succeeded without warnings "
+    (if (and
+         (string-match "compilation" (buffer-name buffer))
+         (string-match "finished" string)
+         (not
+          (with-current-buffer buffer
+            (search-forward "warning" nil t))))
+       (run-with-timer 1 nil
+                        (lambda (buf)
+                          (bury-buffer buf)
+                          (switch-to-prev-buffer (get-buffer-window buf) 'kill))
+                        buffer)))
+  (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
 #+end_src
 * Docker
 ** Install & use =dockerfile-mode=
