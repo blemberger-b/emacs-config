@@ -1037,7 +1037,6 @@ and /barf/ commands to keybindings that work in both GUI and TTY.
     :pin melpa-stable
     :hook ((clojure-mode
             emacs-lisp-mode
-            cider-repl-mode
             scheme-mode) . enable-paredit-mode)
 
     :bind (:map paredit-mode-map
@@ -1125,8 +1124,7 @@ Set the variable =clojure-indent-style= to the value =always-indent=. See [[http
 ** Install & use =cider=
 [[https://github.com/clojure-emacs/cider][CIDER]] is the /clojure integrated development environment/. We're only going to use the melpa stable
 version.  Initialize some settings, and bind the command to clear the REPL screen to =C-c C-l=
-key. To use =paredit= minor mode with CIDER, we also need to switch the keybindings of the =return=
-key, otherwise it won't work in the REPL. Also set the following defaults:
+key. Also set the following defaults:
 - =cider-repl-display-help-banner= suppress the verbose help banner when opened
 - =cider-eldoc-display-context-dependent-info= try to auto-complete function calls with in-scope
   parameters
@@ -1169,10 +1167,7 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
         (setq cider-lein-command cider-lein-var))) 
     :bind
     (:map cider-repl-mode-map
-          ("C-c C-l" . cider-repl-clear-buffer)
-          ("<return>" . cider-repl-return))
-    (:map paredit-mode-map
-          ("<return>" . nil))
+          ("C-c C-l" . cider-repl-clear-buffer))
     :config
     (evil-collection-init 'cider))
 #+END_SRC
