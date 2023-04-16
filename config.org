@@ -311,7 +311,9 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
 other "emacs-like" modes.
 #+begin_src emacs-lisp
   (use-package evil-collection
-    :after evil)
+    :after evil
+    :config
+    (evil-collection-init 'dired))
 #+end_src
 ** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
