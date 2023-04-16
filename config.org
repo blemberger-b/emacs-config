@@ -285,6 +285,7 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
   (use-package evil
     :after general
     :custom
+    (evil-want-keybinding nil "Needed for evil-collection")
     (evil-move-cursor-back nil "Don't move cursor after exiting insert state")
     (evil-move-beyond-eol t "Cursor can move one character beyond EOL")
     (evil-want-fine-undo "yes" "Undo undoes every little thing")
@@ -305,6 +306,12 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (general-def
       :states 'normal
       "C-m" 'evil-motion-state))
+#+end_src
+[[https://github.com/emacs-evil/evil-collection][Evil Collection]] is a community owned resource for providing evil-friendly keybindings for certain
+other "emacs-like" modes.
+#+begin_src emacs-lisp
+  (use-package evil-collection
+    :after evil)
 #+end_src
 ** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
@@ -1135,6 +1142,8 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
 - =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to
   it.
 - =cider-repl-wrap-history= Wrap when navigating history.
+- =cider-repl-display-output-before-window-boundaries= Scroll the REPL buffer prompt down when
+  output is displayed.
 - =cider-lein-command= This is overridden because on some of my machines, some of my projects
   require a version of =lein= that is not compatible with CIDER. To make this work, on those systems
   I define the =CIDER_LEIN= environment variable to reference the full path of the =lein= command
@@ -1143,7 +1152,9 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
   (use-package cider
     :pin melpa-stable
     :defer t
-    :init (setq cider-repl-display-help-banner nil)
+    :requires evil-collection
+    :init
+    (setq cider-repl-display-help-banner nil)
     (setq cider-eldoc-display-context-dependent-info t)
     (setq cider-allow-jack-in-without-project t)
     (setq nrepl-log-messages t)
@@ -1152,14 +1163,18 @@ key, otherwise it won't work in the REPL. Also set the following defaults:
     (setq cider-prompt-for-symbol nil)
     (setq cider-repl-pop-to-buffer-on-connect 'display-only)
     (setq cider-repl-wrap-history t)
+    (setq cider-repl-display-output-before-window-boundaries t)
     (let ((cider-lein-var (getenv "CIDER_LEIN")))
       (when cider-lein-var
         (setq cider-lein-command cider-lein-var))) 
-    :bind (:map cider-repl-mode-map
-                ("C-c C-l" . cider-repl-clear-buffer)
-                ("<return>" . cider-repl-return))
+    :bind
+    (:map cider-repl-mode-map
+          ("C-c C-l" . cider-repl-clear-buffer)
+          ("<return>" . cider-repl-return))
     (:map paredit-mode-map
-          ("<return>" . nil)))
+          ("<return>" . nil))
+    :config
+    (evil-collection-init 'cider))
 #+END_SRC
 
 ** =cider-repl-mode=
