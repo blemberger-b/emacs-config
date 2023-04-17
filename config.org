@@ -312,6 +312,8 @@ other "emacs-like" modes.
 #+begin_src emacs-lisp
   (use-package evil-collection
     :after evil
+    :custom
+    (evil-collection-want-unimpaired-p nil "Don't use evil-collection-unimpaired minor mode")
     :config
     (evil-collection-init 'dired))
 #+end_src
