@@ -286,7 +286,6 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     :after general
     :custom
     (evil-want-keybinding nil "Needed for evil-collection")
-    (evil-move-cursor-back nil "Don't move cursor after exiting insert state")
     (evil-move-beyond-eol t "Cursor can move one character beyond EOL")
     (evil-want-fine-undo "yes" "Undo undoes every little thing")
     (evil-undo-system 'undo-redo "Use Emacs v.8 undo/redo")
