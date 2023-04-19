@@ -298,6 +298,7 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (evil-set-initial-state 'cider-repl-mode 'emacs)
     (evil-set-initial-state 'term-mode 'emacs)
     (evil-set-initial-state 'dashboard-mode 'emacs)
+    (evil-set-initial-state 'Info-mode 'emacs)
     (evil-mode 1)
     (general-def
       :states '(insert replace visual motion)
@@ -362,7 +363,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
 ** Set geometry of the initial emacs frame
 Window size will be 40 characters tall x 157 characters wide.
 #+BEGIN_SRC emacs-lisp
-  (setq default-frame-alist '((width . 157) (height . 40)))
+  (setq default-frame-alist '((width . 141) (height . 40)))
 #+END_SRC
 ** Font faces
 Fonts are set in the =init.el= file rather than here, so that they can be customized using emacs
@@ -435,6 +436,7 @@ minibuffer when using =counsel-M-x= to run commands.
 #+begin_src emacs-lisp
   (use-package ivy
     :diminish
+    :after evil-collection
     :bind (("C-s" . swiper)
            :map evil-normal-state-map
            ("/" . swiper)
@@ -449,7 +451,9 @@ minibuffer when using =counsel-M-x= to run commands.
     (ivy-count-format "(%d/%d) ")
     :init
     (ivy-mode 1)
-    :config (setq ivy-initial-inputs-alist nil)) ; Don't start searches with ^
+    :config
+    (setq ivy-initial-inputs-alist nil) ; Don't start searches with ^
+    (evil-collection-init 'ivy))
 
   (use-package ivy-rich
     :requires ivy
@@ -1248,9 +1252,13 @@ buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for fi
 #+begin_src emacs-lisp
   (use-package magit
     :defer t
+    :after evil-collection
     :pin melpa-stable
     :diminish auto-revert-mode
-    :bind ("C-c g" . magit-log-buffer-file))
+    :config
+    (evil-collection-init 'magit)
+    :bind
+    ("C-c g" . magit-log-buffer-file))
 #+end_src
 * Projects
 ** =projectile=
