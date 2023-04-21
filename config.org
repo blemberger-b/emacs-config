@@ -276,8 +276,8 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     :config
     (general-create-definer bsl/control-c-definer
       :prefix "C-c")
-    (general-create-definer bsl/control-c-o-definer
-      :prefix "C-c o"))
+    (general-create-definer bsl/meta-o-definer
+      :prefix "M-o"))
 #+end_src
 ** Vim Keybindings
 [[https://evil.readthedocs.io/en/latest/index.html][Evil Mode]] will emulate =vim= keybindings in emacs, which are better.
@@ -435,7 +435,6 @@ minibuffer when using =counsel-M-x= to run commands.
 #+begin_src emacs-lisp
   (use-package ivy
     :diminish
-    :after evil-collection
     :bind (("C-s" . swiper)
            :map evil-normal-state-map
            ("/" . swiper)
@@ -451,8 +450,7 @@ minibuffer when using =counsel-M-x= to run commands.
     :init
     (ivy-mode 1)
     :config
-    (setq ivy-initial-inputs-alist nil) ; Don't start searches with ^
-    (evil-collection-init 'ivy))
+    (setq ivy-initial-inputs-alist nil)) ; Don't start searches with ^
 
   (use-package ivy-rich
     :requires ivy
@@ -667,7 +665,7 @@ presentation, do =M-x org-tree-slide-mode=.
 ** Custom =org-mode= keybindings
 Globally enabled keybindings specific for =org-mode=:
 #+begin_src emacs-lisp
-  (bsl/control-c-o-definer
+  (bsl/meta-o-definer
     "l" 'org-store-link
     "a" 'org-agenda
     "c" 'org-capture
@@ -675,7 +673,7 @@ Globally enabled keybindings specific for =org-mode=:
 #+end_src
 Keybindings only enabled in =org-mode= buffers:
 #+begin_src emacs-lisp
-  (bsl/control-c-o-definer
+  (bsl/meta-o-definer
     :keymaps 'org-mode-map
     "T" 'counsel-org-tag
     "t" (defhydra my-org-toggles ()
