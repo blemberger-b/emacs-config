@@ -134,7 +134,9 @@ interactive shell, which will cause Emacs to startup faster and only use setting
   (use-package exec-path-from-shell
     :init (when (memq window-system '(mac ns x))
             (setq exec-path-from-shell-arguments nil)
-            (exec-path-from-shell-initialize)))
+            (exec-path-from-shell-initialize))
+    :config (when (memq window-system '(mac ns))
+              (setenv "JAVA_CMD")))       ;Unset JAVA_CMD to keep CIDER's lein from using it
 #+END_SRC
 ** Default to TLS 1.3
 Apparently, Emacs 27.2 on Mac OS does not use the correct version of TLS for https connections that
