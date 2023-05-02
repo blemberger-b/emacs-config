@@ -294,6 +294,7 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (evil-want-C-i-jump nil "Don't override emacs default C-i & TAB key behavior")
     :config
     (evil-set-initial-state 'special-mode 'motion)
+    (evil-set-initial-state 'cider-popup-buffer-mode 'motion)
     (evil-set-initial-state 'comint-mode 'emacs)
     (evil-set-initial-state 'gud-mode 'emacs)
     (evil-set-initial-state 'cider-repl-mode 'emacs)
