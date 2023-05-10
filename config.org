@@ -922,8 +922,13 @@ Install =htmlize= package to allow exporting =org-mode= files in html format
 In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* block.
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'org-structure-template-alist
-               '( "el" . "src emacs-lisp"))
+               '("el" . "src emacs-lisp"))
 #+END_SRC
+** Source snippet for undetermined code
+#+begin_src emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("sp" . "src prog"))
+#+end_src
 ** Presentations
 [[https://github.com/takaxp/org-tree-slide][org-tree-slide]] mode can be used to create an interactive slide show in =org-mode=. To start a
 presentation, do =M-x org-tree-slide-mode=.
