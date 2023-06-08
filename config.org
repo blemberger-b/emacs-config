@@ -619,19 +619,12 @@ the same window.
 #+BEGIN_SRC emacs-lisp
   (general-def "C-x C-b" 'ibuffer)
 #+END_SRC
-** Always kill the current buffer
-Override default emacs and =ido-mode= functionality to prompt for the buffer to kill, and just go
-ahead and kill the current one. It will still prompt for confirmation if the buffer is unsaved.
-#+BEGIN_SRC emacs-lisp
-  (defun bsl/kill-current-buffer ()
-    (interactive)
-    (kill-buffer (current-buffer)))
-#+END_SRC
-Bind it to the default =kill-buffer= keybinding =C-x k=.
-#+BEGIN_SRC emacs-lisp
-  (general-def "C-x k" 'bsl/kill-current-buffer)
-#+END_SRC
-
+** Always close window when killing current buffer
+The defaul emacs keybinding =C-x k= for killing the current buffer will now kill that buffer as well
+as it's window. It will still prompt for confirmation if the buffer is unsaved.
+#+begin_src emacs-lisp
+  (global-set-key [remap kill-buffer] 'kill-buffer-and-window)
+#+end_src
 ** Kill all buffers
 This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
 to confirm. It will then open the =*dashboard*= buffer.
@@ -675,10 +668,8 @@ Binds S-<super>-<arrow-key> to move the contents of the current window to the wi
     (windmove-display-default-keybindings)
     (windmove-swap-states-default-keybindings)
     :custom 
+    ;; Set option to make new buffers appear in directed window
     (switch-to-buffer-obey-display-actions 1))
-#+end_src
-*** Set option to make new buffers appear in directed window
-#+begin_src emacs-lisp
 #+end_src
 ** Keep track of window placements for each frame
 Built-in [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][winner-mode]] provides the ability to toggle previous/next window arrangements for a
@@ -1046,21 +1037,23 @@ installed in the path of the local system).
 This [[https://paredit.org][minor mode]] makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
 for some lisp major modes only. =paredit-newline= does some electric indenting after newlines if
 =electric-indent-mode= is enabled (which it is by default). Also remap the s-expression /slurp/
-and /barf/ commands to keybindings that work in both GUI and TTY.
+and /barf/ commands to keybindings that work in both GUI and TTY. Also need to unbind the
+=C-<right>= and =C-<left>= bindings because they interfere with =windmove=.
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
     :pin melpa-stable
     :hook ((clojure-mode
             emacs-lisp-mode
             scheme-mode) . enable-paredit-mode)
-
     :bind (:map paredit-mode-map
                 (("C-c )" . paredit-forward-slurp-sexp)
                  ("C-c (" . paredit-backward-slurp-sexp)
                  ("C-c M-)" . paredit-forward-barf-sexp)
                  ("C-c M-(" . paredit-backward-barf-sexp)
                  ("C-j" . paredit-newline)
-                 ("M-r" . paredit-raise-sexp))))
+                 ("M-r" . paredit-raise-sexp)))
+    :config (unbind-key "C-<right>" paredit-mode-map)
+            (unbind-key "C-<left>" paredit-mode-map))
 #+END_SRC
 
 ** Colorful matching delimiters
@@ -1106,11 +1099,17 @@ for it:
    :after elpy
    :hook (elpy-mode . poetry-tracking-mode)
    :bind (:map python-mode-map
-          ("C-c y" . poetry))) ; Bind a key to poetry's dispatcher (menu mode)
+               ("C-c y" . poetry)) ; Bind a key to poetry's dispatcher (menu mode)
+   :custom
+   (poetry-tracking-strategy "projectile" "check for virtual env when switching projects using projectile"))
 #+end_src
 ** Elpy
 [[https://elpy.readthedocs.io/en/latest/index.html][Elpy]] is a package that adds IDE functionality for Python projects. Defer loading it until I'm
-working on a python buffer, and diminish some minor mode indicators that come with =elpy=.
+working on a python buffer, and diminish some minor mode indicators that come with =elpy=. On some
+Macs, the =python= command is not linked to Python 3.x automatically, so give the python command for
+Elpy to use.
+*Note:* =elpy= requires a syntax checking python package to be installed on the local system. It is
+easiest to install =flake= for this using ~pip3 install flake8~.
 #+begin_src emacs-lisp
   (use-package elpy
     :ensure t
@@ -1122,7 +1121,9 @@ working on a python buffer, and diminish some minor mode indicators that come wi
                   (diminish 'flymake-mode)
                   (diminish 'highlight-indentation-mode)))
     :custom
-    (elpy-rpc-virtualenv-path 'current "Use virtualenv managed by poetry"))
+    (elpy-rpc-virtualenv-path 'current "Use virtualenv managed by poetry")
+    (when (memq window-system '(mac ns))
+      (elpy-rpc-python-command "python3")))
 #+end_src
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.

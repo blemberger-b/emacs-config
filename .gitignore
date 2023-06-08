@@ -49,3 +49,6 @@ projects
 
 # LSP sessions
 /.lsp-session*
+
+#Elpy
+/elpy
