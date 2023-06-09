@@ -621,9 +621,16 @@ the same window.
 #+END_SRC
 ** Always close window when killing current buffer
 The defaul emacs keybinding =C-x k= for killing the current buffer will now kill that buffer as well
-as it's window. It will still prompt for confirmation if the buffer is unsaved.
+as it's window when there is more than one window visible. It will still prompt for confirmation if the buffer is unsaved.
 #+begin_src emacs-lisp
-  (global-set-key [remap kill-buffer] 'kill-buffer-and-window)
+  (defun bsl/kill-buffer ()
+    (interactive)
+    (if (one-window-p)
+      (kill-buffer (current-buffer))
+      (kill-buffer-and-window)))
+
+  ;;; Bind it to the same keybinding as kill-buffer
+  (global-set-key [remap kill-buffer] 'bsl/kill-buffer)
 #+end_src
 ** Kill all buffers
 This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
@@ -1101,7 +1108,7 @@ for it:
    :bind (:map python-mode-map
                ("C-c y" . poetry)) ; Bind a key to poetry's dispatcher (menu mode)
    :custom
-   (poetry-tracking-strategy "projectile" "check for virtual env when switching projects using projectile"))
+   (poetry-tracking-strategy 'projectile "check for virtual env when switching projects using projectile"))
 #+end_src
 ** Elpy
 [[https://elpy.readthedocs.io/en/latest/index.html][Elpy]] is a package that adds IDE functionality for Python projects. Defer loading it until I'm
@@ -1122,8 +1129,9 @@ easiest to install =flake= for this using ~pip3 install flake8~.
                   (diminish 'highlight-indentation-mode)))
     :custom
     (elpy-rpc-virtualenv-path 'current "Use virtualenv managed by poetry")
-    (when (memq window-system '(mac ns))
-      (elpy-rpc-python-command "python3")))
+    ;; (when (memq window-system '(mac ns))
+    ;;   (elpy-rpc-python-command "python3")))
+    )
 #+end_src
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
