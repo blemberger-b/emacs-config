@@ -1098,7 +1098,16 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
 ** Poetry Support
 [[https://python-poetry.org/docs/][Poetry]] is a system that can be used to manage python virtual environments, packaging, and
 dependencies. It is installed on the OS using that OS's packaging tools. The =Elpy= IDE package
-needs =poetry= to manage the virtual environment that it uses for its IDE features. Install [[https://github.com/cybniv/poetry.el][Emacs integration]]
+needs =poetry= to manage the virtual environment that it uses for its IDE features.
+
+*Note:* =elpy= has a list of python PyPI dependencies that can be listed by running =elpy-config=. When
+virtual environments are configured, =elpy= will use the dependencies defined in a virtual
+environment (here managed by =poetry=). One way to prevent needing to add this list of dependencies
+to every poetry project only for use by =elpy= is to install the dependencies in the global python
+environment and to set the poetry configuration option =virtualenvs.options.system-site-packages= to
+=true=. This can be done with the command =poetry config virtualenvs.options.system-site-packages true=.
+
+Install [[https://github.com/cybniv/poetry.el][Emacs integration]]
 for it:
 #+begin_src emacs-lisp
   (use-package poetry
@@ -1106,7 +1115,9 @@ for it:
    :after elpy
    :hook (elpy-mode . poetry-tracking-mode)
    :bind (:map python-mode-map
-               ("C-c y" . poetry)) ; Bind a key to poetry's dispatcher (menu mode)
+          ("C-c y" . poetry) ; Bind a key to poetry's dispatcher (menu mode)
+          :map conf-toml-mode-map
+          ("C-c y" . poetry))
    :custom
    (poetry-tracking-strategy 'projectile "check for virtual env when switching projects using projectile"))
 #+end_src
@@ -1128,10 +1139,7 @@ easiest to install =flake= for this using ~pip3 install flake8~.
                   (diminish 'flymake-mode)
                   (diminish 'highlight-indentation-mode)))
     :custom
-    (elpy-rpc-virtualenv-path 'current "Use virtualenv managed by poetry")
-    ;; (when (memq window-system '(mac ns))
-    ;;   (elpy-rpc-python-command "python3")))
-    )
+    (elpy-rpc-virtualenv-path 'current "Use virtualenv managed by poetry"))
 #+end_src
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
