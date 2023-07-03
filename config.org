@@ -116,9 +116,7 @@ Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
   (use-package golden-ratio-scroll-screen
     :pin melpa
     :bind (([remap scroll-down-command] . 'golden-ratio-scroll-screen-down)
-           ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)
-           ([remap evil-scroll-page-up] . 'golden-ratio-scroll-screen-down)
-           ([remap evil-scroll-page-down] . 'golden-ratio-scroll-screen-up)))
+           ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
 #+end_src
 * Global Settings
 ** Install & run =exec-path-from-shell=
@@ -281,45 +279,6 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (general-create-definer bsl/meta-o-definer
       :prefix "M-o"))
 #+end_src
-** Vim Keybindings
-[[https://evil.readthedocs.io/en/latest/index.html][Evil Mode]] will emulate =vim= keybindings in emacs, which are better.
-#+begin_src emacs-lisp
-  (use-package evil
-    :after general
-    :custom
-    (evil-want-keybinding nil "Needed for evil-collection")
-    (evil-move-beyond-eol t "Cursor can move one character beyond EOL")
-    (evil-want-fine-undo "yes" "Undo undoes every little thing")
-    (evil-undo-system 'undo-redo "Use Emacs v.8 undo/redo")
-    (evil-want-C-i-jump nil "Don't override emacs default C-i & TAB key behavior")
-    :config
-    (evil-set-initial-state 'special-mode 'motion)
-    (evil-set-initial-state 'cider-popup-buffer-mode 'motion)
-    (evil-set-initial-state 'comint-mode 'emacs)
-    (evil-set-initial-state 'gud-mode 'emacs)
-    (evil-set-initial-state 'cider-repl-mode 'emacs)
-    (evil-set-initial-state 'term-mode 'emacs)
-    (evil-set-initial-state 'dashboard-mode 'emacs)
-    (evil-set-initial-state 'Info-mode 'emacs)
-    (evil-mode 1)
-    (general-def
-      :states '(insert replace visual motion)
-      "C-SPC" 'evil-normal-state
-      "C-g" 'evil-normal-state)
-    (general-def
-      :states 'normal
-      "C-m" 'evil-motion-state))
-#+end_src
-[[https://github.com/emacs-evil/evil-collection][Evil Collection]] is a community owned resource for providing evil-friendly keybindings for certain
-other "emacs-like" modes.
-#+begin_src emacs-lisp
-  (use-package evil-collection
-    :after evil
-    :custom
-    (evil-collection-want-unimpaired-p nil "Don't use evil-collection-unimpaired minor mode")
-    :config
-    (evil-collection-init 'dired))
-#+end_src
 ** Repetitive Action Shortcuts
 The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
 command is invoked using the normal keybinding, repetitive invocations of the command can be
@@ -439,8 +398,6 @@ minibuffer when using =counsel-M-x= to run commands.
   (use-package ivy
     :diminish
     :bind (("C-s" . swiper)
-           :map evil-normal-state-map
-           ("/" . swiper)
            :map ivy-minibuffer-map
            ("RET" . ivy-alt-done)
            :map ivy-switch-buffer-map
@@ -1182,7 +1139,6 @@ key. Also set the following defaults:
   (use-package cider
     :pin melpa-stable
     :defer t
-    :requires evil-collection
     :init
     (setq cider-repl-display-help-banner nil)
     (setq cider-eldoc-display-context-dependent-info t)
@@ -1199,9 +1155,7 @@ key. Also set the following defaults:
         (setq cider-lein-command cider-lein-var))) 
     :bind
     (:map cider-repl-mode-map
-          ("C-c C-l" . cider-repl-clear-buffer))
-    :config
-    (evil-collection-init 'cider))
+          ("C-c C-l" . cider-repl-clear-buffer)))
 #+END_SRC
 
 ** =cider-repl-mode=
@@ -1276,11 +1230,8 @@ buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for fi
 #+begin_src emacs-lisp
   (use-package magit
     :defer t
-    :after evil-collection
     :pin melpa-stable
     :diminish auto-revert-mode
-    :config
-    (evil-collection-init 'magit)
     :bind
     ("C-c g" . magit-log-buffer-file))
 #+end_src
