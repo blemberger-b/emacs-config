@@ -268,6 +268,20 @@ somewhat limited. [[https://github.com/joddie/pcre2el][This package]] introduces
 ** Toggle whitespace-mode
 =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
 off using =C-c w=.
+* Modal Editing
+** God Mode
+Provides a modal editing mode that adheres to the Emacs keybindings as close as possible. See
+[[https://github.com/emacsorphanage/god-mode][here]]. The =ESC= key is used to toggle on/off =god-mode= in a buffer, while =i= can go out of
+=god-mode= (like "insert") when in =god-mode=. Note that =god=mode= is not
+enabled for all buffer types (e.g. magit, dashboard, etc.).
+#+begin_src emacs-lisp
+  (use-package god-mode
+    :init
+    (god-mode)
+    :bind
+    ("<escape>" . god-local-mode)
+    (:map god-local-mode-map ("i" . god-local-mode)))
+#+end_src
 * Custom Keybindings
 ** General
 The [[https://github.com/noctuid/general.el][general]] package is useful for organizing custom keybindings.
@@ -465,7 +479,7 @@ off the file line-endings info segment in the mode line, which I don't find very
     :pin melpa-stable
     :config
     (require 'spaceline-config)
-    (spaceline-spacemacs-theme)
+    (spaceline-emacs-theme)
     (spaceline-toggle-buffer-encoding-abbrev-off))
 #+END_SRC
 ** Diminish minor modes from the modeline
@@ -1224,7 +1238,7 @@ disappear. Courtesy of [[https://stackoverflow.com/a/11059012][jpkotta]].
 #+end_src
 * Git
 ** Install & use =magit=
-=magit= is a major mode that provides a porcelain layer of tools for the =git= SCM. Map =C-c g=
+=mpagit= is a major mode that provides a porcelain layer of tools for the =git= SCM. Map =C-c g=
 to a magit command that shows the current log (commits) for the file in the current
 buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for files in git projects.
 #+begin_src emacs-lisp
