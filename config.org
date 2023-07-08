@@ -271,15 +271,16 @@ off using =C-c w=.
 * Modal Editing
 ** God Mode
 Provides a modal editing mode that adheres to the Emacs keybindings as close as possible. See
-[[https://github.com/emacsorphanage/god-mode][here]]. The =ESC= key is used to toggle on/off =god-mode= in a buffer, while =i= can go out of
-=god-mode= (like "insert") when in =god-mode=. Note that =god=mode= is not
-enabled for all buffer types (e.g. magit, dashboard, etc.).
+[[https://github.com/emacsorphanage/god-mode][here]]. The =ESC= key is used to toggle on/off =god-mode= in a buffer in GUI mode, =M-[= toggles it
+off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god-mode=. Note that
+=god=mode= is not enabled for all buffer types (e.g. magit, dashboard, etc.).
 #+begin_src emacs-lisp
   (use-package god-mode
     :init
     (god-mode)
     :bind
     ("<escape>" . god-local-mode)
+    ("M-[" . god-local-mode)
     (:map god-local-mode-map ("i" . god-local-mode)))
 #+end_src
 * Custom Keybindings
@@ -472,7 +473,7 @@ of the containing frame:
 #+END_SRC
 
 ** Spaceline
-=spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]]. Use the spacemacs theme, but turn
+=spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]]. Use the spacemacs-emacs theme, but turn
 off the file line-endings info segment in the mode line, which I don't find very useful.
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
@@ -480,8 +481,28 @@ off the file line-endings info segment in the mode line, which I don't find very
     :config
     (require 'spaceline-config)
     (spaceline-emacs-theme)
-    (spaceline-toggle-buffer-encoding-abbrev-off))
+    (spaceline-toggle-buffer-encoding-abbrev-off)
+    (setq spaceline-highlight-face-func 'bsl/spaceline-highlight-face-func))
 #+END_SRC
+** Spaceline =god-mode= integration
+=spaceline= does not have built-in support to change the mode line when in =god-local-mode=, so
+define a new face for the spaceline highlight face, and then a function that toggles the highlight
+color in accordance with the state of god-mode in the local buffer.
+#+begin_src emacs-lisp
+  (defface bsl/spaceline-god-mode-line-face
+    `((t (:background "firebrick1"
+          :inherit 'spaceline-highlight-face)))
+    "Face for spaceline highlighted segments when local buffer in god-mode."
+    :group 'spaceline)
+#+end_src
+Define a function that =spaceline= will call to determine what face to use on the modeline. This
+function should change face based on the value of =god-local-mode=.
+#+begin_src emacs-lisp
+  (defun bsl/spaceline-highlight-face-func ()
+    (if god-local-mode
+        'bsl/spaceline-god-mode-line-face
+        'spaceline-highlight-face))
+#+end_src
 ** Diminish minor modes from the modeline
 [[https://github.com/myrjola/diminish.el][diminish]] allows us to list the mode names that we don't want displayed in the modeline. We do
 that in this file by using the =:diminish= keyword in =use-package= declarations that we want to
