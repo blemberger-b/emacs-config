@@ -277,11 +277,18 @@ off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god
 #+begin_src emacs-lisp
   (use-package god-mode
     :init
-    (god-mode)
+    (god-mode-all)
+    :config
+    (add-to-list 'god-exempt-major-modes
+                 'cider-repl-mode)
     :bind
     ("<escape>" . god-local-mode)
-    ("M-[" . god-local-mode)
-    (:map god-local-mode-map ("i" . god-local-mode)))
+    ("M-[" . god-local-mode)              ; ESC in tty mode
+    (:map god-local-mode-map ("i" . god-local-mode))
+    :diminish god-local-mode
+    :hook
+    (god-mode-enabled . (lambda () (setq cursor-type 'hollow)))
+    (god-mode-disabled . (lambda () (setq cursor-type 'box))))
 #+end_src
 * Custom Keybindings
 ** General
