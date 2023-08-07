@@ -275,6 +275,10 @@ Provides a modal editing mode that adheres to the Emacs keybindings as close as 
 off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god-mode=. Note that
 =god=mode= is not enabled for all buffer types (e.g. magit, dashboard, etc.).
 #+begin_src emacs-lisp
+  (defun bsl/set-god-mode-always ()
+      (interactive)
+      (god-local-mode 1))
+
   (use-package god-mode
     :init
     (god-mode-all)
@@ -282,8 +286,8 @@ off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god
     (add-to-list 'god-exempt-major-modes
                  'cider-repl-mode)
     :bind
-    ("<escape>" . god-local-mode)
-    ("M-[" . god-local-mode)              ; ESC in tty mode
+    ("<escape>" . bsl/set-god-mode-always) ; always enable god-local-mode when pressed
+    ("M-[" . bsl/set-god-mode-always) ; M-[ is ESC in tty mode
     (:map god-local-mode-map ("i" . god-local-mode))
     :diminish god-local-mode
     :hook
@@ -463,6 +467,7 @@ in the minibuffer. We also suppress it from showing up in the modeline. See [[ht
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
     :init (which-key-mode)
+          (which-key-enable-god-mode-support)
     :diminish which-key-mode)
 #+END_SRC
 ** Allow Minibuffer To Become Huge
@@ -920,6 +925,12 @@ In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* bloc
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'org-structure-template-alist
                '("el" . "src emacs-lisp"))
+#+END_SRC
+** Source snippet for bash code
+In =org-mode=, the key combination =C-c C-, sb= will insert an *bash* block.
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("sb" . "src bash"))
 #+END_SRC
 ** Source snippet for undetermined code
 #+begin_src emacs-lisp
