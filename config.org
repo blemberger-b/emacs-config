@@ -288,7 +288,9 @@ off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god
     :bind
     ("<escape>" . bsl/set-god-mode-always) ; always enable god-local-mode when pressed
     ("M-[" . bsl/set-god-mode-always) ; M-[ is ESC in tty mode
-    (:map god-local-mode-map ("i" . god-local-mode))
+    (:map god-local-mode-map
+          ("i" . god-local-mode)
+          ("z" . repeat))
     :diminish god-local-mode
     :hook
     (god-mode-enabled . (lambda () (setq cursor-type 'hollow)))
@@ -316,6 +318,7 @@ accomplished with a single key.
 Bind some of the functions in this file to the =C-c= key prefix.
 #+begin_src emacs-lisp
   (bsl/control-c-definer
+    "C-l" 'bsl/copy-whole-line
     "l" 'bsl/copy-whole-line
     "s" 'whitespace-mode
     "v" 'bsl/halve-other-window-height
@@ -1088,6 +1091,8 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
+    :init
+    (setq lsp-keymap-prefix "C-c l")
     :config
     (lsp-enable-which-key-integration t))
 #+end_src
@@ -1098,7 +1103,7 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
 =typescript-language-server= be installed locally via =npm=.
 #+begin_src emacs-lisp
   (use-package typescript-mode
-    :mode "\\.js\\'"
+    :mode ("\\.js\\'" "\\.ts\\'")
     :defer t
     :hook (typescript-mode . lsp-deferred)
     :config
