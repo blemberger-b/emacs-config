@@ -52,6 +52,10 @@ manager for some reason.
     (setq recentf-exclude '(".*autoloads\.el" ".*\.gz" "TAGS" ".*/\.git/.*"))
     (setq dashboard-startup-banner 'logo)
     (dashboard-setup-startup-hook)
+    (setq dashboard-projects-switch-function
+          'counsel-projectile-switch-project-by-name)
+    (bind-key "n" 'dashboard-next-line dashboard-mode-map)
+    (bind-key "p" 'dashboard-previous-line dashboard-mode-map)
     :custom
     (dashboard-page-separator "\n\f\n")
     (dashboard-projects-backend 'projectile)
@@ -59,7 +63,8 @@ manager for some reason.
                        (recents . 10)))
     (dashboard-banner-logo-title
      "The more I learn about people, the more I like my dog\t--Mark Twain")
-    (dashboard-set-footer nil))
+    (dashboard-set-footer nil)
+    (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
 #+END_SRC
 ** Install & use =markdown-mode= (from MELPA)
 This package provides a major mode for editing markdown files. It requires the =markdown= command be
@@ -1314,7 +1319,7 @@ Emacs, called /Universal ctags/, which is available via homebrew, etc.
     (projectile-project-root-functions '(projectile-root-local projectile-root-bottom-up))
     ;; Not sure why, but .git marker needs to come at end for bottom-up project discovery to work
     (projectile-project-root-files-bottom-up '(".projectile" "project.clj" "build.sbt"
-                                               "pyproject.toml" ".git"))
+                                               "pyproject.toml" ".git" "package.json"))
     :bind
     (:map projectile-mode-map
           ("C-c p" . projectile-command-map))
