@@ -76,6 +76,7 @@
  '(ediff-current-diff-A ((t (:extend t :background "#003f8e" :foreground "#7285b7"))))
  '(ediff-current-diff-B ((t (:extend t :background "#003f8e" :foreground "#7285b7"))))
  '(font-lock-comment-face ((((type tty)) (:foreground "grey"))))
+ '(highlight ((t (:background "orange3" :inverse-video nil))))
  '(minibuffer-prompt ((t (:foreground "white" :weight bold))))
  '(mode-line-inactive ((((type tty)) (:inherit mode-line :background "black" :foreground "gray" :weight normal))))
  '(org-ellipsis ((((type tty)) (:foreground "LightGoldenrod"))))

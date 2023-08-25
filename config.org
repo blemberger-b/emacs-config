@@ -350,8 +350,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
 
   ;; Bind s-u to revert-buffer command only in UI mode
   (general-define-key
-   :predicate '(window-system)
-   "s-u" 'revert-buffer)
+    "s-u" 'revert-buffer)
 #+end_src
 
 * UI Customizations
@@ -656,14 +655,14 @@ to confirm. It will then open the =*dashboard*= buffer.
 #+END_SRC
 
 * Auto-Complete
-For completion within buffers, we'll use the [[https://company-mode.github.io/][company package]], enabled in all modes. Bind the manual
-completion command to =M-/=, same as default emacs =dabbrev-expand=.
+For completion within buffers, we'll use the [[https://company-mode.github.io/][company package]], only enabled in modes defined later.
 #+BEGIN_SRC emacs-lisp
   (use-package company
     :pin gnu
-    :config
-    (global-company-mode)
-    :bind ("M-/" . company-complete)
+    :hook ((lsp-mode . company-mode)
+           (cider-mode . company-mode))
+    :bind (:map company-active-map
+          ("<tab>" . company-complete-selection))
     :diminish)
 #+END_SRC
 
@@ -1093,14 +1092,21 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
 #+END_SRC
 
 ** Language server mode
+=lsp-mode= package is used for all languages supported by a language server. Set this up to support
+=company= as the completion engine. =C-c l= will be the leader key for all =lsp-mode= bindings.
 #+begin_src emacs-lisp
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
     :init
     (setq lsp-keymap-prefix "C-c l")
+    :custom
+    (lsp-enable-snippet nil "yassnippet support can interfere with company")
     :config
-    (lsp-enable-which-key-integration t))
+    (lsp-enable-which-key-integration t)
+    :bind (:map lsp-mode-map
+                ("<tab>" . company-indent-or-complete-common)))
 #+end_src
+
 * Javascript
 ** Javascript/Typescript Language Server
 Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][typescript language server]] for much functionality.
@@ -1226,7 +1232,8 @@ Major mode for the Cider REPL. Enable subword mode in it, but diminish it.
 #+BEGIN_SRC emacs-lisp
   (add-hook 'cider-repl-mode-hook (lambda ()
                                     (subword-mode 1)
-                                    (diminish 'subword-mode)))
+                                    (diminish 'subword-mode)
+                                    (company-mode)))
 #+END_SRC
 * Scheme
 ** Install & use =xscheme=
