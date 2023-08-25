@@ -1107,7 +1107,13 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
                 ("<tab>" . company-indent-or-complete-common)))
 #+end_src
 
-* Javascript
+** Debugging
+=dap-mode= is similar to =lsp-mode= but for language debugging. It relies on outside debugging
+processors for languages to provide emacs with a debugging interface for that language.
+#+begin_src emacs-lisp
+  (use-package dap-mode)
+#+end_src
+* Javascript/Typescript
 ** Javascript/Typescript Language Server
 Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][typescript language server]] for much functionality.
 *Note:* As described at the above link, this package requires that the
@@ -1118,7 +1124,9 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
     :defer t
     :hook (typescript-mode . lsp-deferred)
     :config
-    (setq typescript-indent-level 2))
+    (setq typescript-indent-level 2)
+    (require 'dap-node)
+    (dap-node-setup))
 #+end_src
 * Python
 ** Poetry Support
