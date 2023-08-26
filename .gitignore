@@ -52,3 +52,13 @@ projects
 
 #Elpy
 /elpy
+
+# DAP
+.dap-breakpoints
+dap-ui-repl-node-history
+
+# Emacs extensions folder
+.extension/
+
+# Emacs network security file
+network-security.data

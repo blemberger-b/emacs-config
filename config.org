@@ -273,6 +273,12 @@ somewhat limited. [[https://github.com/joddie/pcre2el][This package]] introduces
 ** Toggle whitespace-mode
 =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
 off using =C-c w=.
+** Image Types Bug Workaround
+In Mac OS Ventura, apparently, emacs has a problem registering *.svg* image types. As discussed
+[[https://debbugs.gnu.org/cgi/bugreport.cgi?bug=59081][here]], this is a workaround until emacs 29.
+#+begin_src emacs-lisp
+  (setq image-types (cons 'svg image-types))
+#+end_src
 * Modal Editing
 ** God Mode
 Provides a modal editing mode that adheres to the Emacs keybindings as close as possible. See
@@ -389,6 +395,13 @@ only by the terminal settings).
 #+BEGIN_SRC emacs-lisp
   (setq blink-cursor-blinks 0)
 #+END_SRC
+
+** Mouse Highlighting
+By default, hovering the mouse pointer over a link or button sets its face to =highlight=, but this
+is distracting, so disable it.
+#+begin_src emacs-lisp
+  (setq mouse-highlight nil)
+#+end_src
 
 ** Full path in title bar
 #+begin_src emacs-lisp
@@ -1109,9 +1122,18 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
 
 ** Debugging
 =dap-mode= is similar to =lsp-mode= but for language debugging. It relies on outside debugging
-processors for languages to provide emacs with a debugging interface for that language.
+processors for languages to provide emacs with a debugging interface for that language. Enable a
+=dap-stopped= hook that shows the dap keys menu whenever a debugging session has stopped.
 #+begin_src emacs-lisp
-  (use-package dap-mode)
+  (use-package dap-mode
+    :custom
+    (lsp-enable-dap-auto-configure nil)
+    :config
+    (dap-ui-mode 1)
+    (general-define-key
+     :keymaps 'lsp-mode-map
+     :prefix lsp-keymap-prefix
+     "d" '(dap-hydra t :wk "debugger")))
 #+end_src
 * Javascript/Typescript
 ** Javascript/Typescript Language Server
@@ -1126,7 +1148,7 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
     :config
     (setq typescript-indent-level 2)
     (require 'dap-node)
-    (dap-node-setup))
+    (dap-node-setup)) ;; Automatically installs Node debug adapter if needed
 #+end_src
 * Python
 ** Poetry Support
