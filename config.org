@@ -1122,7 +1122,7 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
 
 ** Debugging
 =dap-mode= is similar to =lsp-mode= but for language debugging. It relies on outside debugging
-processors for languages to provide emacs with a debugging interface for that language. Enable a
+adapters for languages to provide emacs with a debugging interface for that language. Enable a
 =dap-stopped= hook that shows the dap keys menu whenever a debugging session has stopped.
 #+begin_src emacs-lisp
   (use-package dap-mode
@@ -1149,6 +1149,22 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
     (setq typescript-indent-level 2)
     (require 'dap-node)
     (dap-node-setup)) ;; Automatically installs Node debug adapter if needed
+#+end_src
+** Node REPL Mode
+Although =dap-mode= allows executing =node= commands in a command-line buffer, it requires to be
+stopped at a breakpoint. This mode allows running =node= as a repl.
+#+begin_src emacs-lisp
+  (use-package nodejs-repl
+    :commands nodejs-repl
+    :after typescript-mode
+    :bind
+    (:map typescript-mode-map
+          ("C-c C-n" . nodejs-repl)
+          ("C-c C-j" . nodejs-repl-send-line)
+          ("C-c C-r" . nodejs-repl-send-region)
+          ("C-c C-c" . nodejs-repl-send-buffer)
+          ("C-c C-f" . nodejs-repl-load-file)
+          ("C-c C-z" . nodejs-repl-switch-to-repl)))
 #+end_src
 * Python
 ** Poetry Support
