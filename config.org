@@ -351,8 +351,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
   ;; Bindings for resizing and moving the frame
   (bsl/control-c-definer
     :prefix "C-c f"
-    "s" 'hydra-frame-resize/body
-    "m" 'hydra-frame-motion/body)
+    "s" 'hydra-frame-resize/body)
 
   ;; Bind s-u to revert-buffer command only in UI mode
   (general-define-key
@@ -794,17 +793,6 @@ Makes the current frame 2/3 as wide. I wrote this.
         (set-frame-width frame (truncate (/ (frame-width frame) 1.5)))))
 #+end_src
 
-** Moving the Frame
-Moves the current frame up/down or left/right.
-#+begin_src emacs-lisp
-  (defun bsl/move-frame (op param &optional frame)
-    "Adjust a motion-type PARAM of FRAME (default: selected-frame) by 15 pixels using OP."
-    (let ((curr-top (frame-parameter frame param))
-          (increment 15))
-      (if (and (eq op '-) (< curr-top increment))
-          (set-frame-parameter frame param 0)
-        (bsl/adjust-frame-param op param increment frame))))
-#+end_src
 ** Frame resize keybindings
 Makes the current frame vertically/horizontally bigger/smaller incrementally.
 #+begin_src emacs-lisp
@@ -824,24 +812,6 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
            (bsl/adjust-frame-param '+ 'width increment nil)) "wider")
     ("]" bsl/one-and-a-half-frame-width "1.5 x width")
     ("[" bsl/two-thirds-frame-width "2/3 width"))
-#+end_src
-
-** Frame motion keybindings
-#+begin_src emacs-lisp
-  (defhydra hydra-frame-motion ()
-    "Frame motion"
-    ("<up>" (lambda ()
-              (interactive)
-              (bsl/move-frame '- 'top)) "up")
-    ("<down>" (lambda ()
-                (interactive)
-                (bsl/move-frame '+ 'top)) "down")
-    ("<left>" (lambda ()
-                (interactive)
-                (bsl/move-frame '- 'left)) "left")
-    ("<right>" (lambda ()
-                 (interactive)
-                 (bsl/move-frame '+ 'left)) "right"))
 #+end_src
 
 * Org Mode
