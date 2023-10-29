@@ -403,6 +403,8 @@ is distracting, so disable it.
 #+end_src
 
 ** Full path in title bar
+Show the buffer name and full path and filename of the buffer (if any) of the current active window in the
+frame's title bar.
 #+begin_src emacs-lisp
   (setq frame-title-format "%b (%f)")
 #+end_src
@@ -1109,7 +1111,7 @@ adapters for languages to provide emacs with a debugging interface for that lang
 ** Javascript/Typescript Language Server
 Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][typescript language server]] for much functionality.
 *Note:* As described at the above link, this package requires that the
-=typescript-language-server= be installed locally via =npm=.
+=typescript-language-server= is installed locally via =npm=.
 #+begin_src emacs-lisp
   (use-package typescript-mode
     :mode ("\\.js\\'" "\\.ts\\'")
@@ -1122,11 +1124,22 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
 #+end_src
 ** Node REPL Mode
 Although =dap-mode= allows executing =node= commands in a command-line buffer, it requires to be
-stopped at a breakpoint. This mode allows running =node= as a repl.
+stopped at a breakpoint. This mode allows running =node= as a repl. To prevent ansi colors in the
+node repl from interfering with emacs themes, we disable node repl colors.
+
+See [[https://github.com/abicky/nodejs-repl.el/issues/37#issuecomment-922893675][here]] for writeup on fixing a bug with =nodejs-repl= which causes the repl prompt to hang and
+give the error: =error in process filter: End of buffer=.
 #+begin_src emacs-lisp
+  (defun dp/nodejs-repl-remove-broken-filter ()
+    (remove-hook 'comint-output-filter-functions 'nodejs-repl--delete-prompt t))
+
   (use-package nodejs-repl
     :commands nodejs-repl
     :after typescript-mode
+    :init
+    (setenv "NODE_DISABLE_COLORS" "1")
+    :hook
+    (nodejs-repl-mode . dp/nodejs-repl-remove-broken-filter)
     :bind
     (:map typescript-mode-map
           ("C-c C-n" . nodejs-repl)
