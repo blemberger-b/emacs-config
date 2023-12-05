@@ -1170,9 +1170,7 @@ for it:
    :after elpy
    :hook (elpy-mode . poetry-tracking-mode)
    :bind (:map python-mode-map
-          ("C-c y" . poetry) ; Bind a key to poetry's dispatcher (menu mode)
-          :map conf-toml-mode-map
-          ("C-c y" . poetry))
+          ("C-c y" . poetry)) ; Bind a key to poetry's dispatcher (menu mode)
    :custom
    (poetry-tracking-strategy 'projectile "check for virtual env when switching projects using projectile"))
 #+end_src
@@ -1191,6 +1189,7 @@ easiest to install =flake= for this using ~pip3 install flake8~.
     (advice-add 'python-mode :before
                 (lambda ()
                   (elpy-enable)
+                  (setq python-shell-completion-native-enable nil) ; Fix necessary for python-shell
                   (diminish 'flymake-mode)
                   (diminish 'highlight-indentation-mode)))
     :custom
