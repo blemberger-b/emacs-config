@@ -291,9 +291,11 @@ off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god
       (god-local-mode 1))
 
   (use-package god-mode
+    :after which-key
     :init
     (god-mode-all)
     :config
+    (which-key-enable-god-mode-support)   ; to make this package work with which-key package
     (add-to-list 'god-exempt-major-modes
                  'cider-repl-mode)
     :bind
@@ -302,10 +304,7 @@ off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god
     (:map god-local-mode-map
           ("i" . god-local-mode)
           ("z" . repeat))
-    :diminish god-local-mode
-    :hook
-    (god-mode-enabled . (lambda () (setq cursor-type 'hollow)))
-    (god-mode-disabled . (lambda () (setq cursor-type 'box))))
+    :diminish god-local-mode)
 #+end_src
 * Custom Keybindings
 ** General
@@ -470,6 +469,7 @@ minibuffer when using =counsel-M-x= to run commands.
     :bind (("M-x" . counsel-M-x)
            ("C-x b" . counsel-ibuffer)
            ("C-x C-f" . counsel-find-file)
+           ("M-y" . counsel-yank-pop)
            :map minibuffer-local-map
            ("C-r" . counsel-minibuffer-history)))
 #+end_src
@@ -487,8 +487,7 @@ This package provides a pop-up menu of command key completions when keys are pre
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
-    :init (which-key-mode)
-          (which-key-enable-god-mode-support)
+    :config (which-key-mode)
     :diminish which-key-mode)
 #+END_SRC
 ** Allow Minibuffer To Become Huge
@@ -546,12 +545,6 @@ suppress, or by specifing them in the =config:= section.
     :config (diminish 'eldoc-mode))
 #+END_SRC
 
-* Kill Ring
-** Turn on helpful kill ring pop-up menu and bind it to =M-y=
-#+BEGIN_SRC emacs-lisp
-  (use-package popup-kill-ring
-    :bind ("M-y" . popup-kill-ring))
-#+END_SRC
 * Terminal
 ** Make bash the default shell for ansi-term
 =bash= command will be located based on the =PATH= in the user's environment.

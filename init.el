@@ -43,7 +43,7 @@
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(sanityinc-tomorrow-blue))
  '(custom-safe-themes
-   '("82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" default))
+   '("76ddb2e196c6ba8f380c23d169cf2c8f561fd2013ad54b987c516d3cabc00216" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" default))
  '(help-window-select t)
  '(hl-todo-keyword-faces
    '(("TODO" . "#dc752f")
@@ -62,7 +62,7 @@
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(nodejs-repl urlenc lsp-mode protobuf-mode auto-dim-other-buffers org-bullets pcre2el plantuml-mode general smex elisp-refs org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim goto-last-change popup-kill-ring diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider which-key use-package))
+   '(nodejs-repl urlenc lsp-mode protobuf-mode auto-dim-other-buffers org-bullets pcre2el plantuml-mode general smex elisp-refs org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen magit gnu-elpa-keyring-update htmlize mwim goto-last-change diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider which-key use-package))
  '(paradox-github-token t nil nil "Customized with use-package paradox")
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 
