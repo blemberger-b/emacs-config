@@ -62,7 +62,7 @@ manager for some reason.
     (dashboard-items '((projects . 5)
                        (recents . 10)))
     (dashboard-banner-logo-title
-     "The more I learn about people, the more I like my dog\t--Mark Twain")
+     "Learning is not just a normal work activity, it is the work.\t--Allen Holub")
     (dashboard-set-footer nil)
     (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
 #+END_SRC
