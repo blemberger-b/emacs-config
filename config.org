@@ -355,6 +355,9 @@ Bind some of the functions in this file to the =C-c= key prefix.
   ;; Bind s-u to revert-buffer command only in UI mode
   (general-define-key
     "s-u" 'revert-buffer)
+
+  ;;; Bind backward-kill-sexp to C-<backspace>
+  (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
 #+end_src
 
 * UI Customizations
@@ -674,28 +677,6 @@ For completion within buffers, we'll use the [[https://company-mode.github.io/][
 #+END_SRC
 
 * Windows
-** Easily navigate between windows
-The [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][windmove]] built-in package, that is enabled by default, allows the use of Shift-arrow-key
-keybindings to move focus to the window in that direction (if there is one). Need to explicitly
-enable these default keybindings.
-
-*** =windmove-default-keybindings=
-Binds C-<arrow-key> to move focus between windows.
-*** =windmove-display-default-keybindings=
-Binds S-<meta>-<arrow-key> to tell emacs in which new window to put the buffer created by the next command.
-*** =windmove-swap-states-default-keybindings=
-Binds S-<super>-<arrow-key> to move the contents of the current window to the window in that direction.
-
-#+begin_src emacs-lisp
-  (use-package windmove
-    :config
-    (windmove-default-keybindings 'ctrl)
-    (windmove-display-default-keybindings)
-    (windmove-swap-states-default-keybindings)
-    :custom 
-    ;; Set option to make new buffers appear in directed window
-    (switch-to-buffer-obey-display-actions 1))
-#+end_src
 ** Keep track of window placements for each frame
 Built-in [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][winner-mode]] provides the ability to toggle previous/next window arrangements for a
 frame using =C-c <left>= and =C-c <right>=.
