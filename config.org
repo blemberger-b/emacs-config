@@ -347,10 +347,11 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "e" 'bsl/config-visit
     "r" 'bsl/config-reload)
 
-  ;; Bindings for resizing and moving the frame
+  ;; Bindings for frame actions
   (bsl/control-c-definer
     :prefix "C-c f"
-    "s" 'hydra-frame-resize/body)
+    "s" 'hydra-frame-resize/body
+    "l" 'bsl/list-number-frames)
 
   ;; Bind s-u to revert-buffer command only in UI mode
   (general-define-key
@@ -790,6 +791,15 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
     ("[" bsl/two-thirds-frame-width "2/3 width"))
 #+end_src
 
+** Display number of open frames
+#+begin_src emacs-lisp
+  (defun bsl/list-number-frames ()
+      "Display the number of visible frames to the echo area."
+      (interactive)
+      (if (display-graphic-p)
+          (message "%d visible frame(s) " (length (visible-frame-list)))
+          (message "no frames in tty mode")))
+#+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]].
 ** UI Tweaks
@@ -948,7 +958,7 @@ text modes to get spellchecking functionality.
   (add-hook 'text-mode-hook (lambda () (turn-on-auto-fill)
                               (flyspell-mode)))
 #+END_SRC
-*** Note: This requires that the =ispell= program be installed in the path of the local system.
+*** Note: This requires that the =ispell= program be installed in the path of the local system. 
 * XML Mode
 ** Turn off flyspell
 =nxml-mode= is the modern major mode for editing xml structured documents. It inherits from
