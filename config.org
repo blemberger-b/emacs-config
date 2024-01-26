@@ -120,7 +120,7 @@ Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
 #+begin_src emacs-lisp
   (use-package golden-ratio-scroll-screen
     :pin melpa
-    :bind (([remap scroll-down-command] . 'golden-ratio-scroll-screen-down)
+    :bind (("C-S-v" . 'golden-ratio-scroll-screen-down)
            ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
 #+end_src
 * Global Settings
