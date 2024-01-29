@@ -1091,6 +1091,11 @@ adapters for languages to provide emacs with a debugging interface for that lang
      :prefix lsp-keymap-prefix
      "d" '(dap-hydra t :wk "debugger")))
 #+end_src
+* PHP
+Use =php-mode= for =.php= files.
+#+begin_src emacs-lisp
+  (use-package php-mode)
+#+end_src
 * Javascript/Typescript
 ** Javascript/Typescript Language Server
 Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/lsp-typescript/][typescript language server]] for much functionality.
