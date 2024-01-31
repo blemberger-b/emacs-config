@@ -339,6 +339,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "K" 'bsl/kill-all-buffers
     "r" 'counsel-recentf
     "h" 'list-command-history
+    "C-S-w" 'window-swap-states
     "M-e" 'sudo-edit)
 
   ;; Bindings for viewing and reloadig this file
@@ -1030,8 +1031,7 @@ installed in the path of the local system).
 This [[https://paredit.org][minor mode]] makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
 for some lisp major modes only. =paredit-newline= does some electric indenting after newlines if
 =electric-indent-mode= is enabled (which it is by default). Also remap the s-expression /slurp/
-and /barf/ commands to keybindings that work in both GUI and TTY. Also need to unbind the
-=C-<right>= and =C-<left>= bindings because they interfere with =windmove=.
+and /barf/ commands to keybindings that work in both GUI and TTY.
 #+BEGIN_SRC emacs-lisp
   (use-package paredit
     :pin melpa-stable
@@ -1044,9 +1044,7 @@ and /barf/ commands to keybindings that work in both GUI and TTY. Also need to u
                  ("C-c M-)" . paredit-forward-barf-sexp)
                  ("C-c M-(" . paredit-backward-barf-sexp)
                  ("C-j" . paredit-newline)
-                 ("M-r" . paredit-raise-sexp)))
-    :config (unbind-key "C-<right>" paredit-mode-map)
-            (unbind-key "C-<left>" paredit-mode-map))
+                 ("M-r" . paredit-raise-sexp))))
 #+END_SRC
 
 ** Colorful matching delimiters
