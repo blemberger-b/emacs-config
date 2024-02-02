@@ -937,19 +937,20 @@ presentation, do =M-x org-tree-slide-mode=.
 Globally enabled keybindings specific for =org-mode=:
 #+begin_src emacs-lisp
   (bsl/meta-o-definer
-    "l" 'org-store-link
-    "a" 'org-agenda
-    "c" 'org-capture
-    "SPC" 'org-babel-mark-block)
+    "C-l" 'org-store-link
+    "C-a" 'org-agenda
+    "C-c" 'org-capture)
 #+end_src
 Keybindings only enabled in =org-mode= buffers:
 #+begin_src emacs-lisp
   (bsl/meta-o-definer
     :keymaps 'org-mode-map
-    "T" 'counsel-org-tag
-    "t" (defhydra my-org-toggles ()
+    "C-S-t" 'counsel-org-tag
+    "C-t" (defhydra my-org-toggles ()
           "My org-mode toggles"
-          ("l" org-toggle-link-display "toggle hyperlinks")))
+          ("l" org-toggle-link-display "toggle hyperlinks"))
+    "SPC" 'org-babel-mark-block
+    "C-b" 'org-table-blank-field)
 #+end_src
 * Text Mode
 ** =text-mode=
