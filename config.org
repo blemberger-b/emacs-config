@@ -691,25 +691,25 @@ frame using =C-c <left>= and =C-c <right>=.
 #+BEGIN_SRC emacs-lisp
   (defun bsl/split-and-follow-horizontally ()
     (interactive)
-    (split-window-below)
+    (split-window-horizontally)
     (balance-windows)
     (other-window 1))
 #+END_SRC
-Bind to the default split horizontally key =C-x 2=.
+Bind to the default split horizontally key =C-x 3=.
 #+BEGIN_SRC emacs-lisp
-  (general-def "C-x 2" 'bsl/split-and-follow-horizontally)
+  (general-def "C-x 3" 'bsl/split-and-follow-horizontally)
 #+END_SRC
 ** Split window vertically & put point in new window
 #+BEGIN_SRC emacs-lisp
   (defun bsl/split-and-follow-vertically ()
     (interactive)
-    (split-window-right)
+    (split-window-vertically)
     (balance-windows)
     (other-window 1))
 #+END_SRC
-Bind to the default split vertically key =C-x 3=.
+Bind to the default split vertically key =C-x 2=.
 #+BEGIN_SRC emacs-lisp
-  (general-def "C-x 3" 'bsl/split-and-follow-vertically)
+  (general-def "C-x 2" 'bsl/split-and-follow-vertically)
 #+END_SRC
 ** Halve other window height
 Tip from [[https://stackoverflow.com/questions/4987760/how-to-change-size-of-split-screen-emacs-windows][here]].
