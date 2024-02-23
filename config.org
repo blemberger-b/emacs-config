@@ -36,6 +36,7 @@ Emacs does not keep track of recently found files by default, so turn it on, and
 reasonable defaults.
 #+begin_src emacs-lisp
   (use-package recentf
+    :demand t
     :config
     (setq recentf-max-saved-items 100
           recentf-exclude '("ido.last" "~/.cache/.*"))
@@ -48,6 +49,7 @@ under =.git= directories and from the recent files list that get treated as edit
 manager for some reason.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
+    :demand t
     :config
     (setq recentf-exclude '(".*autoloads\.el" ".*\.gz" "TAGS" ".*/\.git/.*"))
     (setq dashboard-startup-banner 'logo)
@@ -83,7 +85,6 @@ installed via homebrew.
 Allows efficient editing of YAML files. We want subword mode in this mode.
 #+begin_src emacs-lisp
   (use-package yaml-mode
-    :defer t
     :commands (yaml-mode)
     :hook (yaml-mode . subword-mode))
 #+end_src
@@ -114,7 +115,6 @@ This minor mode allows increasing/decreasing the font size in /all/ buffers. It 
 on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-presentation-mode][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package presentation
-    :defer t
     :pin melpa-stable)
 #+END_SRC
 ** Golden ratio screen scrolling
@@ -293,10 +293,10 @@ off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god
       (god-local-mode 1))
 
   (use-package god-mode
+    :demand t
     :after which-key
-    :init
-    (god-mode-all)
     :config
+    (god-mode-all)
     (which-key-enable-god-mode-support)   ; to make this package work with which-key package
     (add-to-list 'god-exempt-major-modes
                  'cider-repl-mode)
@@ -423,6 +423,7 @@ frame's title bar.
 Install and enable =beacon-mode= for better indicator when changing windows. See [[https://github.com/Malabarba/beacon][here]].
 #+begin_src emacs-lisp
   (use-package beacon
+    :demand t
     :pin melpa-stable
     :init (beacon-mode 1)
     :diminish beacon-mode
@@ -436,6 +437,7 @@ is [[https://github.com/purcell/page-break-lines][page-break-lines]] because it 
 enabled globally for text modes, so we enable it.
 #+begin_src emacs-lisp
   (use-package page-break-lines
+    :demand t
     :pin melpa
     :config (add-to-list 'page-break-lines-modes 'text-mode)
     (global-page-break-lines-mode)
@@ -495,6 +497,7 @@ This package provides a pop-up menu of command key completions when keys are pre
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
+    :demand t
     :config (which-key-mode)
     :diminish which-key-mode)
 #+END_SRC
@@ -517,6 +520,7 @@ of the containing frame:
 off the file line-endings info segment in the mode line, which I don't find very useful.
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
+    :demand t
     :pin melpa-stable
     :config
     (require 'spaceline-config)
@@ -549,6 +553,7 @@ that in this file by using the =:diminish= keyword in =use-package= declarations
 suppress, or by specifing them in the =config:= section.
 #+BEGIN_SRC emacs-lisp
   (use-package diminish
+    :demand t
     :pin melpa-stable
     :config (diminish 'eldoc-mode))
 #+END_SRC
@@ -897,7 +902,6 @@ a setting below.
 Install =htmlize= package to allow exporting =org-mode= files in html format
 #+BEGIN_SRC emacs-lisp
   (use-package htmlize
-    :defer t
     :pin melpa-stable)
 #+END_SRC
 ** Source snippet for emacs-lisp
@@ -922,7 +926,6 @@ In =org-mode=, the key combination =C-c C-, sb= will insert an *bash* block.
 presentation, do =M-x org-tree-slide-mode=.
 #+begin_src emacs-lisp
   (use-package org-tree-slide
-    :defer t
     :pin melpa-stable
     :custom
     (org-tree-slide-in-effect t)
@@ -996,8 +999,7 @@ PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
 =protobuf-mode= is a major mode distributed by the makers of [[https://developers.google.com/protocol-buffers/][protocol buffers]].
 #+begin_src emacs-lisp
   (use-package protobuf-mode
-    :ensure t
-    :defer t)
+    :ensure t)
 #+end_src
 * LaTeX
 =LaTeX= mode comes built-in to emacs as a major mode that is automatically active for files ending
@@ -1106,7 +1108,6 @@ Javascript support in emacs uses a [[https://emacs-lsp.github.io/lsp-mode/page/l
 #+begin_src emacs-lisp
   (use-package typescript-mode
     :mode ("\\.js\\'" "\\.ts\\'")
-    :defer t
     :hook (typescript-mode . lsp-deferred)
     :config
     (setq typescript-indent-level 2)
@@ -1175,7 +1176,6 @@ easiest to install =flake= for this using ~pip3 install flake8~.
 #+begin_src emacs-lisp
   (use-package elpy
     :ensure t
-    :defer t
     :init
     (advice-add 'python-mode :before
                 (lambda ()
@@ -1226,7 +1226,6 @@ key. Also set the following defaults:
 #+BEGIN_SRC emacs-lisp
   (use-package cider
     :pin melpa-stable
-    :defer t
     :init
     (setq cider-repl-display-help-banner nil)
     (setq cider-eldoc-display-context-dependent-info t)
@@ -1308,7 +1307,6 @@ disappear. Courtesy of [[https://stackoverflow.com/a/11059012][jpkotta]].
 =dockerfile-mode= is a major mode helpful for editing Dockerfiles.
 #+begin_src emacs-lisp
   (use-package dockerfile-mode
-    :defer t
     :pin melpa-stable)
 #+end_src
 * Git
@@ -1318,7 +1316,6 @@ to a magit command that shows the current log (commits) for the file in the curr
 buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for files in git projects.
 #+begin_src emacs-lisp
   (use-package magit
-    :defer t
     :pin melpa-stable
     :diminish auto-revert-mode
     :bind

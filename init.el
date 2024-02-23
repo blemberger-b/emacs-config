@@ -1,5 +1,5 @@
 (require 'package)
-(setq package-enable-at-startup nil) ;Setting package-enable-at-startup var to nil
+
 ;; Add melpa to package provider list
 (add-to-list 'package-archives
        '("melpa" . "https://melpa.org/packages/"))
@@ -23,6 +23,10 @@
 ;; installed. See https://github.com/jwiegley/use-package.
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
+
+;;; Set use-package option to always defer loading packages that can autoload
+(setq use-package-always-defer t)
+
 ;; Make sure use-package always installs packages if they are not installed
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
