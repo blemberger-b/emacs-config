@@ -687,6 +687,12 @@ For completion within buffers, we'll use the [[https://company-mode.github.io/][
 #+END_SRC
 
 * Windows
+** Moving windows in Frame
+=windmove= built-in package can move windows up/down/left/right in the frame. Use the standard
+keybindings (=S-s-<arrow-key>=).
+#+begin_src emacs-lisp
+  (windmove-swap-states-default-keybindings)
+#+end_src
 ** Keep track of window placements for each frame
 Built-in [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Window-Convenience.html][winner-mode]] provides the ability to toggle previous/next window arrangements for a
 frame using =C-c <left>= and =C-c <right>=.
