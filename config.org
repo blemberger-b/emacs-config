@@ -338,6 +338,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "b" 'ediff-buffers
     "w" 'hydra-window-resize/body
     "x" 'goto-last-change
+    "k" 'kill-current-buffer
     "K" 'bsl/kill-all-buffers
     "r" 'counsel-recentf
     "h" 'list-command-history
