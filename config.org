@@ -286,20 +286,30 @@ In Mac OS Ventura, apparently, emacs has a problem registering *.svg* image type
 Provides a modal editing mode that adheres to the Emacs keybindings as close as possible. See
 [[https://github.com/emacsorphanage/god-mode][here]]. The =ESC= key is used to toggle on/off =god-mode= in a buffer in GUI mode, =M-[= toggles it
 off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god-mode=. Note that
-=god=mode= is not enabled for all buffer types (e.g. magit, dashboard, etc.).
+=god=mode= is not enabled for all buffer types (e.g. magit, dashboard, etc.). We explicitly enable
+it for =dired-mode= and explicitly disable it for =cider-repl-mode=.
 #+begin_src emacs-lisp
   (defun bsl/set-god-mode-always ()
       (interactive)
       (god-local-mode 1))
+
+  (defun bsl/special-god-mode-p ()
+    "This function returns 'nil' for every special major mode that should
+     have god-mode enabled which would otherwise not be enabled."
+    (and (not (eq major-mode 'dired-mode)) (god-special-mode-p)))
 
   (use-package god-mode
     :demand t
     :after which-key
     :config
     (god-mode-all)
-    (which-key-enable-god-mode-support)   ; to make this package work with which-key package
+    (which-key-enable-god-mode-support) ; allows which-key to work in god-mode
     (add-to-list 'god-exempt-major-modes
                  'cider-repl-mode)
+    (delete 'dired-mode god-exempt-major-modes) ; get rid of dired-mode from exempt modes
+    (delete 'god-special-mode-p god-exempt-predicates) ; get rid of default special mode predicate
+    (add-to-list 'god-exempt-predicates
+                 #'bsl/special-god-mode-p) ; add our own special mode predicate
     :bind
     ("<escape>" . bsl/set-god-mode-always) ; always enable god-local-mode when pressed
     ("M-[" . bsl/set-god-mode-always) ; M-[ is ESC in tty mode
@@ -604,7 +614,8 @@ Define a custom function to do this.
 #+BEGIN_SRC emacs-lisp
   (defun bsl/config-reload ()
     (interactive)
-    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org")))
+    (org-babel-load-file (expand-file-name "~/.emacs.d/config.org"))
+    (god-local-mode 1))
 #+END_SRC
 * Moving Point
 ** Move the point to where I really mean to (MWIM)
