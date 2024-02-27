@@ -820,11 +820,11 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
 ** Display number of open frames
 #+begin_src emacs-lisp
   (defun bsl/list-number-frames ()
-      "Display the number of visible frames to the echo area."
-      (interactive)
-      (if (display-graphic-p)
-          (message "%d visible frame(s) " (length (visible-frame-list)))
-          (message "no frames in tty mode")))
+    "Display the number of frames to the echo area."
+    (interactive)
+    (if (display-graphic-p)
+        (message "%d frame(s) " (length (frame-list)))
+      (message "no frames in tty mode")))
 #+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]].
