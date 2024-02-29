@@ -66,7 +66,7 @@ manager for some reason.
     (dashboard-banner-logo-title
      "I never once in my life ever said I wanted to be the best of all time. Ever. I wanted to be 
   the best I could be, period. I learned that in college. It didn’t matter what the other guys were 
-  doing. It mattered what I was doing.”\t— Tom Brady")
+  doing. It mattered what I was doing.\t— Tom Brady")
     (dashboard-set-footer nil)
     (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
 #+END_SRC
