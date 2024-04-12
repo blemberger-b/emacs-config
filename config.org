@@ -46,7 +46,8 @@ reasonable defaults.
 The =dashboard= package allows setting a better initial buffer when Emacs opens. See [[https://github.com/emacs-dashboard/emacs-dashboard][here]] for info
 and configuration values. We display recent *projectile* projects and recent files. We exclude files
 under =.git= directories and from the recent files list that get treated as edited by the package
-manager for some reason.
+manager for some reason. Also remove the auto-generated footer from the dashboard page by removing
+it from =dashboard-startupify-list=.
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :demand t
@@ -58,6 +59,7 @@ manager for some reason.
           'counsel-projectile-switch-project-by-name)
     (bind-key "n" 'dashboard-next-line dashboard-mode-map)
     (bind-key "p" 'dashboard-previous-line dashboard-mode-map)
+    (setq dashboard-startupify-list (delete 'dashboard-insert-footer dashboard-startupify-list))
     :custom
     (dashboard-page-separator "\n\f\n")
     (dashboard-projects-backend 'projectile)
@@ -67,7 +69,6 @@ manager for some reason.
      "I never once in my life ever said I wanted to be the best of all time. Ever. I wanted to be 
   the best I could be, period. I learned that in college. It didn’t matter what the other guys were 
   doing. It mattered what I was doing.\t— Tom Brady")
-    (dashboard-set-footer nil)
     (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
 #+END_SRC
 ** Install & use =markdown-mode= (from MELPA)
@@ -507,6 +508,7 @@ This package provides a pop-up menu of command key completions when keys are pre
 in the minibuffer. We also suppress it from showing up in the modeline. See [[https://github.com/justbur/emacs-which-key][here]].
 #+BEGIN_SRC emacs-lisp
   (use-package which-key
+    :pin melpa-stable
     :demand t
     :config (which-key-mode)
     :diminish which-key-mode)
