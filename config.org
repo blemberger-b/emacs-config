@@ -303,7 +303,7 @@ it for =dired-mode= and explicitly disable it for =cider-repl-mode=.
     :demand t
     :after which-key
     :config
-    (god-mode-all)
+    (god-mode-all 1)
     (which-key-enable-god-mode-support) ; allows which-key to work in god-mode
     (add-to-list 'god-exempt-major-modes
                  'cider-repl-mode)
