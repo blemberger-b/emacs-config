@@ -244,12 +244,6 @@ are desired can be looked up in any standard ASCII table.
 
 For example, to map =C-,= in *iterm2* so that it works when emacs is run in console mode, I
 configured my iterm2 profile to map =^,= to the escape sequence =[44;5u= since comma is ASCII code 44.
-** Save clipboard strings into kill ring before replacing them
-When one selects something in another program to paste it into Emacs, but kills something in
-Emacs before actually pasting it, this selection is gone unless this variable is non-nil.
-#+begin_src emacs-lisp
-  (setq save-interprogram-paste-before-kill t)
-#+end_src
 ** Save place in opened files
 When you visit a file, point goes to the last place where it was when you previously visited the
 same file. See [[https://www.emacswiki.org/emacs/SavePlace][here]].
@@ -570,6 +564,20 @@ suppress, or by specifing them in the =config:= section.
     :config (diminish 'eldoc-mode))
 #+END_SRC
 
+* Kill Ring
+** Overtype in marked region
+When Delete Selection mode is enabled, typed text replaces the selection
+if the selection is active.  Otherwise, typed text is just inserted at
+point regardless of any selection.
+#+begin_src emacs-lisp
+  (delete-selection-mode 1)
+#+end_src
+** Save clipboard strings into kill ring before replacing them
+When one selects something in another program to paste it into Emacs, but kills something in
+Emacs before actually pasting it, this selection is gone unless this variable is non-nil.
+#+begin_src emacs-lisp
+  (setq save-interprogram-paste-before-kill t)
+#+end_src
 * Terminal
 ** Make bash the default shell for ansi-term
 =bash= command will be located based on the =PATH= in the user's environment.
