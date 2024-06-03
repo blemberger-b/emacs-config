@@ -66,8 +66,7 @@
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(nodejs-repl urlenc lsp-mode protobuf-mode auto-dim-other-buffers org-bullets pcre2el plantuml-mode general smex elisp-refs org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen gnu-elpa-keyring-update htmlize mwim goto-last-change diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider use-package))
- '(paradox-github-token t nil nil "Customized with use-package paradox")
+   '(surround nodejs-repl urlenc lsp-mode protobuf-mode auto-dim-other-buffers org-bullets pcre2el plantuml-mode general smex elisp-refs org-tree-slide projectile yaml-mode beacon markdown-mode transient async clojure-mode dash golden-ratio-scroll-screen gnu-elpa-keyring-update htmlize mwim goto-last-change diminish spaceline company rainbow-delimiters presentation sudo-edit paredit cider use-package))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 
 (custom-set-faces

@@ -118,6 +118,13 @@ on-demand: =M-x presentation-mode=. See [[https://github.com/zonuexe/emacs-prese
   (use-package presentation
     :pin melpa-stable)
 #+END_SRC
+** Surround Text
+[[https://github.com/mkleehammer/surround][surround]] allows surrounding the marked region with an arbitrary string (e.g. =<div>=, ={=, etc.)
+#+begin_src emacs-lisp
+  (use-package surround
+    :bind-keymap
+    ("M-'" . surround-keymap))
+#+end_src
 ** Golden ratio screen scrolling
 Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
 #+begin_src emacs-lisp
