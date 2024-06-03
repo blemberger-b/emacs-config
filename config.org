@@ -20,7 +20,7 @@ A better tool to use for listing and updating packages than the default =list-pa
 starring/unstarring of github repos functionality.
 #+begin_src emacs-lisp
   (use-package paradox
-    :config (paradox-enable)
+    :init (paradox-enable) ; allows running list-packages to run paradox
     :custom (paradox-github-token t))
 #+end_src
 ** Install & use =sudo-edit= (from MELPA)
@@ -144,15 +144,6 @@ interactive shell, which will cause Emacs to startup faster and only use setting
     :config (when (memq window-system '(mac ns))
               (setenv "JAVA_CMD")))       ;Unset JAVA_CMD to keep CIDER's lein from using it
 #+END_SRC
-** Default to TLS 1.3
-Apparently, Emacs 27.2 on Mac OS does not use the correct version of TLS for https connections that
-the =package-list-package= command needs, leading to errors described [[https://emacs.stackexchange.com/questions/68288/error-retrieving-https-elpa-gnu-org-packages-archive-contents][here]]. This is the fix
-described there.
-#+begin_src emacs-lisp
-  (when (and (equal emacs-version "27.2")
-             (eql system-type 'darwin))
-    (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-#+end_src
 ** Turn off emacs start screen
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
