@@ -1341,7 +1341,7 @@ to a magit command that shows the current log (commits) for the file in the curr
 buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for files in git projects.
 #+begin_src emacs-lisp
   (use-package magit
-    :pin melpa-stable
+    :pin melpa
     :diminish auto-revert-mode
     :bind
     ("C-c g" . magit-log-buffer-file))
