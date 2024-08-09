@@ -364,10 +364,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
 
   ;; Global keybindings
   (general-define-key
-   "s-u" 'revert-buffer                   ; treemacs-is-never-other-window
-   "<f8>" 'treemacs-select-window
-   "C-<f8>" 'treemacs-select-window       ; F8 key opens/closes treemacs window
-   )
+   "s-u" 'revert-buffer)
   ;;; Bind backward-kill-sexp to C-<backspace>
   (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
 #+end_src
@@ -1410,6 +1407,8 @@ Allows opening a side-panel that gives a tree view of the directory hierarchy an
 #+begin_src emacs-lisp
   (use-package treemacs
     :pin melpa
+    :bind (("C-c `" . treemacs-select-window)
+           ("C-c C-`" . treemacs-select-window))
     :config
     (setq treemacs-is-never-other-window t)
     (setq treemacs-no-png-images t))
