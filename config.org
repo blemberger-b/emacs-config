@@ -362,10 +362,12 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "s" 'hydra-frame-resize/body
     "l" 'bsl/list-number-frames)
 
-  ;; Bind s-u to revert-buffer command only in UI mode
+  ;; Global keybindings
   (general-define-key
-    "s-u" 'revert-buffer)
-
+   "s-u" 'revert-buffer                   ; treemacs-is-never-other-window
+   "<f8>" 'treemacs-select-window
+   "C-<f8>" 'treemacs-select-window       ; F8 key opens/closes treemacs window
+   )
   ;;; Bind backward-kill-sexp to C-<backspace>
   (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
 #+end_src
@@ -424,6 +426,13 @@ frame's title bar.
 #+BEGIN_SRC emacs-lisp
   (global-display-line-numbers-mode)
 #+END_SRC
+** Turn off line numbers for some modes
+No line numbers for windows in =term-mode= or =treemacs-mode=
+#+begin_src emacs-lisp
+  (dolist (mode '(term-mode-hook
+                  treemacs-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
 ** Beacon mode
 Install and enable =beacon-mode= for better indicator when changing windows. See [[https://github.com/Malabarba/beacon][here]].
 #+begin_src emacs-lisp
@@ -593,10 +602,6 @@ Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "s-t") 'ansi-term)
 #+END_SRC
-** Turn off line numbers for shell terminals
-#+begin_src emacs-lisp
-  (add-hook 'term-mode-hook (lambda () (display-line-numbers-mode 0)))
-#+end_src
 * Dired
 For directory editing & file system operations within emacs.
 ** Enable =dired-x=
@@ -1241,8 +1246,8 @@ key. Also set the following defaults:
   status line.
 - =cider-prompt-for-symbol= Here, we set this variable to only prompt for the symbol if the lookup
   for the symbol at point fails.
-- =cider-repl-pop-to-buffer-on-connect= Display the REPL buffer on connect, but don't move focus to
-  it.
+- =cider-repl-pop-to-buffer-on-connect= Don't display the REPL buffer on connect, it can be viewed
+  using =C-c C-z=. 
 - =cider-repl-wrap-history= Wrap when navigating history.
 - =cider-repl-display-output-before-window-boundaries= Scroll the REPL buffer prompt down when
   output is displayed.
@@ -1261,7 +1266,7 @@ key. Also set the following defaults:
     (setq cider-repl-result-prefix "=> ")
     (unless window-system (setq cider-use-overlays nil))
     (setq cider-prompt-for-symbol nil)
-    (setq cider-repl-pop-to-buffer-on-connect 'display-only)
+    (setq cider-repl-pop-to-buffer-on-connect nil)
     (setq cider-repl-wrap-history t)
     (setq cider-repl-display-output-before-window-boundaries t)
     (let ((cider-lein-var (getenv "CIDER_LEIN")))
@@ -1397,12 +1402,27 @@ and present on the system PATH (example: =brew install ripgrep=).
                          (eval 'counsel-projectile-switch-project-action)))))
 #+end_src
 
-** =treemacs= integration with =projectile=
+** =treemacs=
+Allows opening a side-panel that gives a tree view of the directory hierarchy and other hierarchies.
+- =treemacs-is-never-other-window= keeps the treemacs window out of the =C-x o= window view
+  rotation.
+- =treemacs-no-png-images= uses text-mode (no GUI) in the treemacs window.
+#+begin_src emacs-lisp
+  (use-package treemacs
+    :pin melpa
+    :config
+    (setq treemacs-is-never-other-window t)
+    (setq treemacs-no-png-images t))
+#+end_src
 
+** =treemacs= integration with =projectile=
+Allows adding projectile projects to the treemacs window.
 #+begin_src emacs-lisp
   (use-package treemacs-projectile
-    :requires (treemacs projectile))
-#+end_src
+    :after treemacs projectile
+    :bind (:map treemacs-mode-map
+                ("C-c C-p p" . treemacs-projectile)))
+    #+end_src
 * Diff
 Use built-in =ediff= for viewing and editing file differences. Bind the function to diff two files
 which are prompted for to a useful custom key (=C-c d=). Also, bind the function to diff to
