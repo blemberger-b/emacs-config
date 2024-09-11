@@ -79,8 +79,7 @@ installed via homebrew.
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . markdown-mode)
-           ("\\.markdown\\'" . markdown-mode))
-    :init (setq markdown-command "/usr/local/bin/markdown"))
+           ("\\.markdown\\'" . markdown-mode)))
 #+END_SRC
 ** Install & use =yaml-mode=
 Allows efficient editing of YAML files. We want subword mode in this mode.
