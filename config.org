@@ -1403,6 +1403,7 @@ Allows opening a side-panel that gives a tree view of the directory hierarchy an
 - =treemacs-is-never-other-window= keeps the treemacs window out of the =C-x o= window view
   rotation.
 - =treemacs-no-png-images= uses text-mode (no GUI) in the treemacs window.
+- =treemacs-read-string-input= makes treemacs use the minibuffer for all manual input
 #+begin_src emacs-lisp
   (use-package treemacs
     :pin melpa
@@ -1410,7 +1411,8 @@ Allows opening a side-panel that gives a tree view of the directory hierarchy an
            ("C-c C-`" . treemacs-select-window))
     :config
     (setq treemacs-is-never-other-window t)
-    (setq treemacs-no-png-images t))
+    (setq treemacs-no-png-images t)
+    (setq treemacs-read-string-input 'from-minibuffer))
 #+end_src
 
 ** =treemacs= integration with =projectile=
