@@ -584,20 +584,12 @@ Emacs before actually pasting it, this selection is gone unless this variable is
   (setq save-interprogram-paste-before-kill t)
 #+end_src
 * Terminal
-** Make bash the default shell for ansi-term
-=bash= command will be located based on the =PATH= in the user's environment.
-#+BEGIN_SRC emacs-lisp
-  (defvar my-term-shell "bash")
-  (defadvice ansi-term (before force-bash)
-    (interactive (list my-term-shell)))
-  (ad-activate 'ansi-term)
-#+END_SRC
-** Bind ansi-term command
-to =s-t=
+** Bind =shell= command to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-t") 'ansi-term)
+  (global-set-key (kbd "s-t") 'shell)
 #+END_SRC
+Basically, use =C-c= to prefix the normal bash terminal key bindings (ex. =C-c C-p=, etc.).
 * Dired
 For directory editing & file system operations within emacs.
 ** Enable =dired-x=
