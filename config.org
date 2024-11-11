@@ -1174,8 +1174,7 @@ to every poetry project only for use by =elpy= is to install the dependencies in
 environment and to set the poetry configuration option =virtualenvs.options.system-site-packages= to
 =true=. This can be done with the command =poetry config virtualenvs.options.system-site-packages true=.
 
-Install [[https://github.com/cybniv/poetry.el][Emacs integration]]
-for it:
+Install [[https://github.com/cybniv/poetry.el][Emacs integration]] for it:
 #+begin_src emacs-lisp
   (use-package poetry
    :ensure t
