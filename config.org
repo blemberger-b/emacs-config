@@ -248,21 +248,13 @@ same file. See [[https://www.emacswiki.org/emacs/SavePlace][here]].
   (save-place-mode 1)
 #+end_src
 ** Regular Expression Builder
-=re-builder= is a built-in emacs major mode for interactively building Regular Expressions. Set
-the regexp syntax support to *pcre* (see below), which are the types of regexes that I use
-most. For elisp type regexes, use =reb-change-syntax= to change the syntax to *string* syntax,
+=re-builder= is a built-in emacs major mode for interactively building Regular Expressions. Set the
+regular expression syntax to *string*, which is a better form for Emacs Lisp style regular
+expressions. For other type regexes, use =reb-change-syntax= to change the syntax to another syntax,
 which prevents the need for escaping so many backslashes in the expression.
 #+begin_src emacs-lisp
   (require 're-builder)
-  (setq reb-re-syntax 'pcre)
-#+end_src
-** Perl Compatile Regular Expressions
-The default regular expression handling in emacs is meant to support elisp, and as such is
-somewhat limited. [[https://github.com/joddie/pcre2el][This package]] introduces support commands and built-in integration with
-=re-builder= to support PCREs.
-#+begin_src emacs-lisp
-  (use-package pcre2el
-    :pin melpa)
+  (setq reb-re-syntax 'string)
 #+end_src
 ** Toggle whitespace-mode
 =whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
