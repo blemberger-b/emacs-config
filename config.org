@@ -71,15 +71,17 @@ it from =dashboard-startupify-list=.
   doing. It mattered what I was doing.\t— Tom Brady")
     (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
 #+END_SRC
-** Install & use =markdown-mode= (from MELPA)
-This package provides a major mode for editing markdown files. It requires the =markdown= command be
-installed via homebrew.
+** Markdown
+This package provides a major mode for editing markdown files. It requires the =multimarkdown= command be
+installed via homebrew on Mac, or simply =markdown= on other OSes.
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
     :commands (markdown-mode gfm-mode)
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . markdown-mode)
-           ("\\.markdown\\'" . markdown-mode)))
+           ("\\.markdown\\'" . markdown-mode))
+    :config (when (memq window-system '(mac ns))
+              (setq markdown-command "multimarkdown")))
 #+END_SRC
 ** Install & use =yaml-mode=
 Allows efficient editing of YAML files. We want subword mode in this mode.
