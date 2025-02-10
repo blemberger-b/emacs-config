@@ -771,24 +771,24 @@ Helper function used to adjust frame size and position.
         (set-frame-parameter frame param (funcall op (frame-parameter frame param) increment))))
 #+end_src
 
-** 1.5 x Frame Width
-Makes the current frame 1.5 times as wide. I wrote this.
+** 1 and 1/4 Frame Width
+Makes the current frame 1.25 times as wide. I wrote this.
 #+begin_src emacs-lisp
-  (defun bsl/one-and-a-half-frame-width (&optional frame)
-    "Make the width of FRAME one and a half times wider (default: selected-frame)."
+  (defun bsl/widen-frame (&optional frame)
+    "Make the width of FRAME one and a quarter times wider (default: selected-frame)."
     (interactive)
     (if (display-graphic-p)
-        (set-frame-width frame (truncate (* (frame-width frame) 1.5)))))
+        (set-frame-width frame (truncate (* (frame-width frame) 1.25)))))
 #+end_src
 
-** 2/3 Frame Width
-Makes the current frame 2/3 as wide. I wrote this.
+** 3/4 Frame Width
+Makes the current frame 3/4 as wide. I wrote this.
 #+begin_src emacs-lisp
-  (defun bsl/two-thirds-frame-width (&optional frame)
-    "2/3 the width of FRAME (default: selected-frame)."
+  (defun bsl/narrow-frame (&optional frame)
+    "3/4 the width of FRAME (default: selected-frame)."
     (interactive)
     (if (display-graphic-p)
-        (set-frame-width frame (truncate (/ (frame-width frame) 1.5)))))
+        (set-frame-width frame (truncate (* (frame-width frame) 0.75)))))
 #+end_src
 
 ** Frame resize keybindings
@@ -808,8 +808,8 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
     ("w" (lambda (&optional increment)
            (interactive "p")
            (bsl/adjust-frame-param '+ 'width increment nil)) "wider")
-    ("]" bsl/one-and-a-half-frame-width "1.5 x width")
-    ("[" bsl/two-thirds-frame-width "2/3 width"))
+    ("]" bsl/widen-frame "1.25 x width")
+    ("[" bsl/narrow-frame "3/4 width"))
 #+end_src
 
 ** Display number of open frames
@@ -822,7 +822,7 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
       (message "no frames in tty mode")))
 #+end_src
 * Org Mode
-See [[https://orgmode.org/index.html][org-mode]].
+See [[https://orgmode.org/index.html][org-mode]]. 
 ** UI Tweaks
 Replace the three dot ellipsis for collapsed headings (...) with a downward pointing triangle
 character.
