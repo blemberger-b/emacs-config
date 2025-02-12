@@ -310,6 +310,7 @@ The [[https://github.com/noctuid/general.el][general]] package is useful for org
     (general-create-definer bsl/control-c-definer
       :prefix "C-c")
     (general-create-definer bsl/meta-o-definer
+      :keymaps 'org-mode-map
       :prefix "M-o"))
 #+end_src
 ** Repetitive Action Shortcuts
@@ -483,7 +484,9 @@ minibuffer when using =counsel-M-x= to run commands.
            ("C-x C-f" . counsel-find-file)
            ("M-y" . counsel-yank-pop)
            :map minibuffer-local-map
-           ("C-r" . counsel-minibuffer-history)))
+           ("C-r" . counsel-minibuffer-history)
+           :map org-mode-map
+           ([remap org-goto] . counsel-org-goto)))
 #+end_src
 ** M-x Enhancement
 Emacs uses the  =M-x= keybinding to execute commands. This installs [[https://github.com/nonsequitur/smex][smex]], which works well with
