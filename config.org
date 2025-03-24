@@ -1398,7 +1398,9 @@ Allows opening a side-panel that gives a tree view of the directory hierarchy an
   (use-package treemacs
     :pin melpa
     :bind (("C-c `" . treemacs-select-window)
-           ("C-c C-`" . treemacs-select-window))
+           ("C-c C-`" . treemacs-select-window)
+           ("C-c C-p f" . treemacs-find-file)
+           ("C-c C-p C-f" . treemacs-find-file))
     :config
     (setq treemacs-is-never-other-window t)
     (setq treemacs-no-png-images t)
