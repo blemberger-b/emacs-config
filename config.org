@@ -1320,6 +1320,15 @@ disappear. Courtesy of [[https://stackoverflow.com/a/11059012][jpkotta]].
                         buffer)))
   (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
 #+end_src
+* Gnuplot
+Requires =gnuplot= executable to be installed in the =PATH=.
+#+begin_src emacs-lisp
+  (use-package gnuplot
+    :pin melpa
+    :mode ("\\.gp$" . gnuplot-mode)
+    ;; we shouldn't need to do this but we do
+    :hook (gnuplot-mode . god-local-mode))
+#+end_src
 * Docker
 ** Install & use =dockerfile-mode=
 =dockerfile-mode= is a major mode helpful for editing Dockerfiles.
