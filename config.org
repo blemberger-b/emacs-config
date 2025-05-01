@@ -1326,7 +1326,7 @@ disappear. Courtesy of [[https://stackoverflow.com/a/11059012][jpkotta]].
 Requires =gnuplot= executable to be installed in the =PATH=.
 #+begin_src emacs-lisp
   (use-package gnuplot
-    :pin melpa
+    :pin melpa-stable
     :mode ("\\.gp$" . gnuplot-mode)
     ;; we shouldn't need to do this but we do
     :hook (gnuplot-mode . god-local-mode))
