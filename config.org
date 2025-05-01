@@ -665,9 +665,11 @@ as it's window when there is more than one window visible. It will still prompt 
 #+begin_src emacs-lisp
   (defun bsl/kill-buffer ()
     (interactive)
-    (if (one-window-p)
-      (kill-buffer (current-buffer))
-      (kill-buffer-and-window)))
+    (if (xor (eq (treemacs-current-visibility) 'visible) (eq (count-windows nil) 2))
+      ; there are other windows in this frame other than treemacs: can kill this window
+      (kill-buffer-and-window)
+      ; we're the only window in the frame other than treemacs: leave it
+      (kill-buffer (current-buffer))))
 
   ;;; Bind it to the same keybinding as kill-buffer
   (global-set-key [remap kill-buffer] 'bsl/kill-buffer)
@@ -1398,7 +1400,9 @@ and present on the system PATH (example: =brew install ripgrep=).
 #+end_src
 
 ** =treemacs=
-Allows opening a side-panel that gives a tree view of the directory hierarchy and other hierarchies.
+Allows opening a side-panel that gives a tree view of the directory hierarchy and other
+hierarchies. Demand to load the package at startup, as some of its functions may need to be
+immediately available.
 - =treemacs-is-never-other-window= keeps the treemacs window out of the =C-x o= window view
   rotation.
 - =treemacs-no-png-images= uses text-mode (no GUI) in the treemacs window.
@@ -1406,6 +1410,7 @@ Allows opening a side-panel that gives a tree view of the directory hierarchy an
 #+begin_src emacs-lisp
   (use-package treemacs
     :pin melpa
+    :demand t
     :bind (("C-c `" . treemacs-select-window)
            ("C-c C-`" . treemacs-select-window)
            ("C-c C-p f" . treemacs-find-file)
