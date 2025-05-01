@@ -196,17 +196,20 @@ Set the number of spaces corresponding to a tab character, unless overridden by 
   (setq-default tab-width 2)
 #+end_src
 
-** Set =whitespace-mode= highlighting column
-The value of this variable determines the column number for lines in buffers viewed in
-=whitespace-mode= are shown in highlighted color. =nil= means to use the value of =fill-column=.
-#+begin_src emacs-lisp
-  (setq whitespace-line-column nil)
-#+end_src
 ** Tab key behavior regarding indentation
 The value of this variable determines how the tab key behaves when struck. This setting only does
 indentation when the point is at the beginning of a line.
 #+begin_src emacs-lisp
   (setq-default tab-always-indent nil)
+#+end_src
+** Toggle whitespace-mode
+=whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
+off using =C-c w=.
+** Set =whitespace-mode= highlighting column
+The value of this variable determines the column number for lines in buffers viewed in
+=whitespace-mode= are shown in highlighted color. =nil= means to use the value of =fill-column=.
+#+begin_src emacs-lisp
+  (setq whitespace-line-column nil)
 #+end_src
 ** Replace 'yes-or-no' prompts everywhere with 'y-or-n' prompts
 #+BEGIN_SRC emacs-lisp
@@ -256,9 +259,6 @@ which prevents the need for escaping so many backslashes in the expression.
   (require 're-builder)
   (setq reb-re-syntax 'string)
 #+end_src
-** Toggle whitespace-mode
-=whitespace-mode= is useful for showing whitespace characters on the screen. Toggle it on or
-off using =C-c w=.
 ** Image Types Bug Workaround
 In Mac OS Ventura, apparently, emacs has a problem registering *.svg* image types. As discussed
 [[https://debbugs.gnu.org/cgi/bugreport.cgi?bug=59081][here]], this is a workaround until emacs 29.
@@ -403,6 +403,16 @@ By default, hovering the mouse pointer over a link or button sets its face to =h
 is distracting, so disable it.
 #+begin_src emacs-lisp
   (setq mouse-highlight nil)
+#+end_src
+
+** Highlighting On Demand
+Anywhere a "symbol" under point appears in the current buffer can be highlighted using
+=highlight-symbol-at-point= bound by default to =C-x h .=. Highlighting in the buffer can be turned
+off for all highlights by calling =revert-buffer= (bound here to =s-u=) or to unhighlight a symbol,
+move point to any of the highlighted symbols and use =unhighlight-regexp= (bound to =C-x w r=) or to
+unhighlight all use =C-u C-x w r=).
+#+begin_src emacs-lisp
+  (global-hi-lock-mode)
 #+end_src
 
 ** Full path in title bar
