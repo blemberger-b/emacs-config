@@ -273,10 +273,14 @@ off in tty mode, while =i= can go out of =god-mode= (like "insert") when in =god
 =god=mode= is not enabled for all buffer types (e.g. magit, dashboard, etc.). We explicitly enable
 it for =dired-mode= and explicitly disable it for =cider-repl-mode=.
 #+begin_src emacs-lisp
+  (defconst bsl/god-excluded-modes '(cider-repl-mode
+                                     calc-trail-mode))
+
   (defun bsl/special-god-mode-p ()
     "This function returns a truthy value for every major mode that should
      not have god-mode enabled."
-    (or (eq major-mode 'cider-repl-mode) (god-special-mode-p)))
+    (or (god-special-mode-p)
+        (member major-mode bsl/god-excluded-modes)))
 
   (defun bsl/set-god-mode-always ()
     "Force god-mode in the local buffer except when the buffer's major mode 
@@ -291,8 +295,10 @@ it for =dired-mode= and explicitly disable it for =cider-repl-mode=.
     :config
     (god-mode-all 1)
     (which-key-enable-god-mode-support) ; allows which-key to work in god-mode
-    (add-to-list 'god-exempt-major-modes
-                 'cider-repl-mode) ; don't start CIDER REPL in god-mode
+    ;; Add all my desired excluded modes to god-exempt-major-modes
+    (dolist (m bsl/god-excluded-modes)
+            (add-to-list 'god-exempt-major-modes
+                         m))
     :bind
     ("<escape>" . bsl/set-god-mode-always) ; always enable god-local-mode when pressed
     ("M-[" . bsl/set-god-mode-always) ; M-[ is ESC in tty mode
@@ -1262,6 +1268,7 @@ key. Also set the following defaults:
     (setq cider-allow-jack-in-without-project t)
     (setq nrepl-log-messages t)
     (setq cider-repl-result-prefix "=> ")
+    (setq cider-use-tooltips nil)
     (unless window-system (setq cider-use-overlays nil))
     (setq cider-prompt-for-symbol nil)
     (setq cider-repl-pop-to-buffer-on-connect nil)
