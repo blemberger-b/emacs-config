@@ -39,7 +39,7 @@ reasonable defaults.
     :demand t
     :config
     (setq recentf-max-saved-items 100
-          recentf-exclude '("ido.last" "~/.cache/.*"))
+          recentf-exclude (list (concat user-emacs-directory ".cache/.*")))
     (recentf-mode 1))
 #+end_src
 ** Dashboard
