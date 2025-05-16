@@ -62,3 +62,6 @@ dap-ui-repl-node-history
 
 # Emacs network security file
 network-security.data
+
+# Emacs cached packages?
+eln-cache/
