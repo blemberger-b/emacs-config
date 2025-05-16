@@ -1340,13 +1340,10 @@ disappear. Courtesy of [[https://stackoverflow.com/a/11059012][jpkotta]].
   (add-hook 'compilation-finish-functions 'bury-compile-buffer-if-successful)
 #+end_src
 * Gnuplot
-Requires =gnuplot= executable to be installed in the =PATH=.
+The built-in =gnuplot-mode= is really old and bad, so just use =prog-mode= for files ending in =.gp=.
 #+begin_src emacs-lisp
-  (use-package gnuplot
-    :pin melpa-stable
-    :mode ("\\.gp$" . gnuplot-mode)
-    ;; we shouldn't need to do this but we do
-    :hook (gnuplot-mode . god-local-mode))
+  (add-to-list 'auto-mode-alist 
+               '("\\.gp$" . prog-mode))
 #+end_src
 * Docker
 ** Install & use =dockerfile-mode=
