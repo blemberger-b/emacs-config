@@ -707,9 +707,8 @@ For completion within buffers, we'll use the [[https://company-mode.github.io/][
   (use-package company
     :pin gnu
     :hook ((lsp-mode . company-mode)
-           (cider-mode . company-mode))
-    :bind (:map company-active-map
-          ("<tab>" . company-complete-selection))
+           (cider-mode . company-mode)
+           (cider-repl-mode . company-mode))
     :diminish)
 #+END_SRC
 
