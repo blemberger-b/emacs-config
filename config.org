@@ -39,7 +39,8 @@ reasonable defaults.
     :demand t
     :config
     (setq recentf-max-saved-items 100
-          recentf-exclude (list (concat user-emacs-directory ".cache/.*")))
+          recentf-exclude (list (concat user-emacs-directory "bookmarks")
+                                (concat user-emacs-directory ".cache/.*")))
     (recentf-mode 1))
 #+end_src
 ** Dashboard
@@ -530,6 +531,14 @@ which also don't allow scrolling the minibuffer. So allow the minibuffer to beco
 of the containing frame:
 #+begin_src emacs-lisp
   (setq max-mini-window-height 0.9)
+#+end_src
+* Bookmarks
+Emacs has built-in bookmarks support which persist across sessions. This package enhances the
+bookmark support to recognize =projectile= projects.
+#+begin_src emacs-lisp
+  (use-package bookmark-in-project
+    :pin melpa
+    :bind (([remap bookmark-jump] . bookmark-in-project-jump)))
 #+end_src
 * Mode Line
 ** Turn on column mode display of (line,col) in mode line
