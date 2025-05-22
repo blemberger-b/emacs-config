@@ -681,7 +681,7 @@ as it's window when there is more than one window visible. It will still prompt 
 #+begin_src emacs-lisp
   (defun bsl/kill-buffer ()
     (interactive)
-    (if (xor (eq (treemacs-current-visibility) 'visible) (eq (count-windows nil) 2))
+    (if (or (> (count-windows nil) 2) (and (=(count-windows nil) 2) (not (eq (treemacs-current-visibility) 'visible))))
       ; there are other windows in this frame other than treemacs: can kill this window
       (kill-buffer-and-window)
       ; we're the only window in the frame other than treemacs: leave it
