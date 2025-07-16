@@ -1212,9 +1212,22 @@ Install [[https://github.com/cybniv/poetry.el][Emacs integration]] for it:
 #+end_src
 ** Elpy
 [[https://elpy.readthedocs.io/en/latest/index.html][Elpy]] is a package that adds IDE functionality for Python projects. Defer loading it until I'm
-working on a python buffer, and diminish some minor mode indicators that come with =elpy=. On some
-Macs, the =python= command is not linked to Python 3.x automatically, so give the python command for
-Elpy to use.
+working on a python buffer, and diminish some minor mode indicators that come with =elpy=.
+
+Elpy works best with projects managed in a python virtual environment, so since I use *poetry* to
+manage my virtualenvs, configure elpy to use the one configured by poetry.
+
+To use poetry projects with Elpy, I need to add these PyPI packages to /every/ project in it's
+poetry *dev dependencies* configuration:
+
+#+begin_src toml
+  [tool.poetry.group.elpy.dependencies]
+  # These stupid dependencies need to be put in each project in order for elpy IDE in emacs to work
+  # since elpy is configured to use the virtualenv provided by poetry for each project
+  jedi = "*"
+  black = "*"
+#+end_src
+
 *Note:* =elpy= requires a syntax checking python package to be installed on the local system. It is
 easiest to install =flake= for this using ~pip3 install flake8~.
 #+begin_src emacs-lisp

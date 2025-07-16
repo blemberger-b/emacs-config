@@ -47,6 +47,9 @@ projects
 # Cache dir used by winner-mode
 /.cache
 
+# Cookies dir
+/url
+
 # LSP sessions
 /.lsp-session*
 
