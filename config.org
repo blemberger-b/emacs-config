@@ -586,7 +586,9 @@ suppress, or by specifing them in the =config:= section.
   (use-package diminish
     :demand t
     :pin melpa-stable
-    :config (diminish 'eldoc-mode))
+    :config
+      (diminish 'eldoc-mode)
+      (diminish 'flymake-mode))
 #+END_SRC
 
 * Kill Ring
@@ -1120,6 +1122,12 @@ The python shell is a comint inferior shell implemented in built-in =python-mode
 seems to work will with python version 3.10. There needs to be a shell command on the system PATH named =python3.10=.
 #+begin_src emacs-lisp
   (setq python-shell-interpreter "python3.10")
+#+end_src
+** eglot
+Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing python language features. A python LSP server must be
+installed in the system PATH. A good choice to use is =jedi-language-server=.
+#+begin_src emacs-lisp
+  (add-hook 'python-mode-hook 'eglot-ensure)
 #+end_src
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
