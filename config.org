@@ -151,6 +151,11 @@ interactive shell, which will cause Emacs to startup faster and only use setting
     :config (when (memq window-system '(mac ns))
               (setenv "JAVA_CMD")))       ;Unset JAVA_CMD to keep CIDER's lein from using it
 #+END_SRC
+** Open Emacs Maximized
+The initial Emacs frame in GUI mode will open as a maximized window.
+#+begin_src emacs-lisp
+  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+#+end_src
 ** Turn off emacs start screen
 #+BEGIN_SRC emacs-lisp
   (setq inhibit-startup-message t)
@@ -368,7 +373,8 @@ Bind some of the functions in this file to the =C-c= key prefix.
 
   ;; Global keybindings
   (general-define-key
-   "s-u" 'revert-buffer)
+   "s-u" 'revert-buffer
+   "M-s" 'avy-goto-char)
   ;;; Bind backward-kill-sexp to C-<backspace>
   (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
 #+end_src
