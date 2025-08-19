@@ -47,15 +47,26 @@
    [default default default italic underline success warning error])
  '(custom-enabled-themes '(sanityinc-tomorrow-blue))
  '(custom-safe-themes
-   '("76ddb2e196c6ba8f380c23d169cf2c8f561fd2013ad54b987c516d3cabc00216"
-     "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" default))
+   '("76ddb2e196c6ba8f380c23d169cf2c8f561fd2013ad54b987c516d3cabc00216" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" default))
  '(help-window-select t)
  '(hl-todo-keyword-faces
-   '(("TODO" . "#dc752f") ("NEXT" . "#dc752f") ("THEM" . "#2d9574") ("PROG" . "#4f97d7")
-     ("OKAY" . "#4f97d7") ("DONT" . "#f2241f") ("FAIL" . "#f2241f") ("DONE" . "#86dc2f")
-     ("NOTE" . "#b1951d") ("KLUDGE" . "#b1951d") ("HACK" . "#b1951d") ("TEMP" . "#b1951d")
-     ("FIXME" . "#dc752f") ("XXX+" . "#dc752f") ("\\?\\?\\?+" . "#dc752f")))
- '(package-selected-packages nil)
+   '(("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX+" . "#dc752f")
+     ("\\?\\?\\?+" . "#dc752f")))
+ '(package-selected-packages
+   '(eglot yaml-mode which-key use-package urlenc typescript-mode treemacs-projectile surround sudo-edit spaceline smex rainbow-delimiters pyvenv protobuf-mode presentation popup-kill-ring plantuml-mode php-mode paredit paradox page-break-lines org-tree-slide org-bullets nodejs-repl mwim magit lsp-jedi json-process-client js2-refactor ivy-rich htmlize highlight-indentation goto-last-change golden-ratio-scroll-screen god-mode general exec-path-from-shell dockerfile-mode diminish dashboard dap-mode counsel-projectile company color-theme-sanityinc-tomorrow cider bookmark-in-project beacon auto-dim-other-buffers all-the-icons))
  '(paradox-github-token t nil nil "Customized with use-package paradox")
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 

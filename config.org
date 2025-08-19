@@ -173,7 +173,12 @@ Emacs can automatically create backup files. This tells Emacs to put all backups
   (setq backup-directory-alist `(("." . ,
                                   (concat user-emacs-directory "backups"))))
 #+end_src
-
+** Pairing Parenthesis
+Enable built-in =electric-pair-mode=, which automatically creates the matching pair of parenthesis,
+brackets, or braces.
+#+begin_src emacs-lisp
+  (electric-pair-mode 1)
+#+end_src
 ** Vertical Scrolling
 Scroll up to this many lines to bring point back on screen.
 #+begin_src emacs-lisp
@@ -1127,6 +1132,7 @@ seems to work will with python version 3.10. There needs to be a shell command o
 Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing python language features. A python LSP server must be
 installed in the system PATH. A good choice to use is =jedi-language-server=.
 #+begin_src emacs-lisp
+  (require 'eglot)
   (add-hook 'python-mode-hook 'eglot-ensure)
 #+end_src
 * Clojure
