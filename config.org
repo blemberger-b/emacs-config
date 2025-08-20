@@ -353,6 +353,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "K" 'bsl/kill-all-buffers
     "r" 'counsel-recentf
     "h" 'list-command-history
+    "k" 'bsl/close-treemacs
     "C-<down>" 'windmove-display-down
     "C-<up>" 'windmove-display-up
     "C-<left>" 'windmove-display-left
@@ -375,6 +376,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
   (general-define-key
    "s-u" 'revert-buffer
    "M-s" 'avy-goto-char)
+
   ;;; Bind backward-kill-sexp to C-<backspace>
   (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
 #+end_src
@@ -1322,11 +1324,17 @@ immediately available.
 - =treemacs-no-png-images= uses text-mode (no GUI) in the treemacs window.
 - =treemacs-read-string-input= makes treemacs use the minibuffer for all manual input
 #+begin_src emacs-lisp
+
+  (defun bsl/close-treemacs ()
+    (interactive)
+    (if (eq (treemacs-current-visibility) 'visible)
+        (delete-window (treemacs-get-local-window))))
+
   (use-package treemacs
     :pin melpa
     :demand t
-    :bind (("C-c `" . treemacs-select-window)
-           ("C-c C-`" . treemacs-select-window)
+    :bind (("C-c C-`" . treemacs-select-window)
+           ("C-c `" . treemacs-select-window)
            ("C-c C-p f" . treemacs-find-file)
            ("C-c C-p C-f" . treemacs-find-file))
     :config
