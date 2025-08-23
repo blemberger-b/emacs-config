@@ -600,8 +600,7 @@ suppress, or by specifing them in the =config:= section.
     :demand t
     :pin melpa-stable
     :config
-      (diminish 'eldoc-mode)
-      (diminish 'flymake-mode))
+      (diminish 'eldoc-mode))
 #+END_SRC
 
 * Kill Ring
@@ -1124,6 +1123,21 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
     )
 #+END_SRC
 
+** Flycheck Mode Line
+=flymake= is an on-the-fly syntax checker built in to emacs that interfaces with an LSP
+server. Here, we turn off its mode-line indicator.
+#+begin_src emacs-lisp
+  (require 'flymake)
+  (setq flymake-mode-line-format nil)
+#+end_src
+
+** Eldoc Documentation Help
+=eldoc= is a built-in emacs feature that shows relevant documentation for a symbol at point. Here,
+we make sure that the pop-up documentation in the echo area does not exceed 8 lines.
+#+begin_src emacs-lisp
+  (require 'eldoc)
+  (setq eldoc-echo-area-use-multiline-p 8)
+#+end_src
 * PHP
 Use =php-mode= for =.php= files.
 #+begin_src emacs-lisp
@@ -1137,8 +1151,8 @@ seems to work will with python version 3.10. There needs to be a shell command o
   (setq python-shell-interpreter "python3.10")
 #+end_src
 ** eglot
-Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing python language features. A python LSP server must be
-installed in the system PATH. A good choice to use is =jedi-language-server=.
+Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing programming language features. A python LSP server must be
+installed in the system PATH. A good choice to use is =jedi-language-server=. 
 #+begin_src emacs-lisp
   (require 'eglot)
   (add-hook 'python-mode-hook 'eglot-ensure)
