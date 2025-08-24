@@ -726,13 +726,16 @@ to confirm. It will then open the =*dashboard*= buffer.
 
 * Auto-Complete
 For completion within buffers, we'll use the [[https://company-mode.github.io/][company package]], only enabled in modes defined later.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (use-package company
     :pin gnu
     :hook ((cider-mode . company-mode)
-           (cider-repl-mode . company-mode))
+           (cider-repl-mode . company-mode)
+           (python-mode . company-mode))
+    :bind (:map company-mode-map
+           ("C-M-i" . company-complete))
     :diminish)
-#+END_SRC
+#+end_src
 
 * Windows
 ** Moving windows in Frame
