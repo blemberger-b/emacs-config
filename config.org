@@ -1159,6 +1159,9 @@ installed in the system PATH. A good choice to use is =jedi-language-server=.
 #+begin_src emacs-lisp
   (require 'eglot)
   (add-hook 'python-mode-hook 'eglot-ensure)
+  ;; Map super-r to eglot-rename to rename all symbols in buffer
+  (general-def eglot-mode-map
+   "s-r" 'eglot-rename)
 #+end_src
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
