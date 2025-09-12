@@ -482,7 +482,8 @@ enabled globally for text modes, so we enable it.
 install it, install the =counsel= package, which requires =ivy= as well as =swiper=.
 
 Additionally, install [[https://github.com/Yevgnen/ivy-rich][ivy-rich]], which among other things, provides command descriptions in the
-minibuffer when using =counsel-M-x= to run commands.
+minibuffer when using =counsel-M-x= to run commands. [[https://stable.melpa.org/#/ivy-hydra][ivy-hydra]] shows useful keys/commands in the
+minibuffer when invoking counsel/swiper, etc by typing =C-o=.
 #+begin_src emacs-lisp
   (use-package ivy
     :diminish
@@ -506,6 +507,10 @@ minibuffer when using =counsel-M-x= to run commands.
     :pin melpa ; melpa-stable version currently has a bug
     :init
     (ivy-rich-mode 1))
+
+  (use-package ivy-hydra
+    :requires ivy
+    :pin melpa-stable)
 
   (use-package counsel
     :pin melpa
@@ -546,12 +551,27 @@ of the containing frame:
   (setq max-mini-window-height 0.9)
 #+end_src
 * Bookmarks
+** Limit bookmark scope to current project
 Emacs has built-in bookmarks support which persist across sessions. This package enhances the
 bookmark support to recognize =projectile= projects.
 #+begin_src emacs-lisp
   (use-package bookmark-in-project
-    :pin melpa
-    :bind (([remap bookmark-jump] . bookmark-in-project-jump)))
+    :commands (bookmark-in-project-jump
+               bookmark-in-project-jump-next
+               bookmark-in-project-jump-previous
+               bookmark-in-project-delete-all)
+
+    ;; Example key bindings.
+    :bind (("M-n" . bookmark-in-project-jump-next)
+           ("M-p" . bookmark-in-project-jump-previous)
+           ("M-*" . bookmark-in-project-toggle)
+           ("M-o" . bookmark-in-project-jump)))
+#+end_src
+** Keybinding to rename bookmarks
+This overrides the default binding for =move-to-window-line-top-bottom= which is a navigation
+function that I never use.
+#+begin_src emacs-lisp
+  (general-def "M-r" 'bookmark-rename)
 #+end_src
 * Mode Line
 ** Turn on column mode display of (line,col) in mode line
@@ -1141,8 +1161,16 @@ we make sure that the pop-up documentation in the echo area does not exceed 8 li
   (require 'eldoc)
   (setq eldoc-echo-area-use-multiline-p 8)
 #+end_src
+* Language Server Protocol Servers
+Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing programming language features. 
+#+begin_src emacs-lisp
+  (require 'eglot)
+  ;; Map super-r to eglot-rename to rename all symbols in buffer
+  (general-def eglot-mode-map
+    "s-r" 'eglot-rename)
+#+end_src
 * PHP
-Use =php-mode= for =.php= files.
+Use =php-mode= for =.php= files.        
 #+begin_src emacs-lisp
   (use-package php-mode)
 #+end_src
@@ -1153,15 +1181,47 @@ seems to work will with python version 3.10. There needs to be a shell command o
 #+begin_src emacs-lisp
   (setq python-shell-interpreter "python3.10")
 #+end_src
-** eglot
-Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing programming language features. A python LSP server must be
-installed in the system PATH. A good choice to use is =jedi-language-server=. 
+** LSP Support
+LSP interaction is managed through =eglot=. A python LSP server must be installed in the system
+PATH. A good choice to use is =jedi-language-server=. Eglot is disabled by default in all python
+buffers. To enable it use this key:
 #+begin_src emacs-lisp
-  (require 'eglot)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-  ;; Map super-r to eglot-rename to rename all symbols in buffer
-  (general-def eglot-mode-map
-   "s-r" 'eglot-rename)
+  (bsl/control-c-definer :keymaps 'python-mode-map "M-j" 'eglot)
+#+end_src
+** Virtual Environment Handling
+Eglot works to interact with the LSP server for all built-in python code, but any packages that are
+installed via a virtual environment are not made available to the LSP server by default. This
+package tries to do that by allowing you to run =pyvenv-activate= and select your virtual
+environment directory. The activate/deactivate hooks run when a virtual env is activated/deactivated
+using pyenv and is done to support the virtual environment in new =python-shell= sessions.
+#+begin_src emacs-lisp
+  (use-package pyvenv
+    :ensure t
+    :config
+    (pyvenv-mode t)
+    ;; Set correct Python interpreter
+    (setq pyvenv-post-activate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
+    (setq pyvenv-post-deactivate-hooks
+          (list (lambda ()
+                  (setq python-shell-interpreter "python3.10")))))
+#+end_src
+Function to activate =uv='s default virtual environment
+#+begin_src emacs-lisp
+  (defun bsl/activate-uv-venv ()
+      (interactive)
+      (let ((venv-candidate-dir (concat (projectile-project-root) ".venv")))
+        (if (file-directory-p venv-candidate-dir) 
+          (pyvenv-activate venv-candidate-dir)
+          (message "%s not found!" venv-candidate-dir))))
+#+end_src
+
+Set some python mode specific key bindings for activating and deactivating the virtual environment.
+#+begin_src emacs-lisp
+  (bsl/control-c-definer :keymaps 'python-mode-map "M-A" 'pyvenv-activate) ; prompt for virtual env
+  (bsl/control-c-definer :keymaps 'python-mode-map "M-a" 'bsl/activate-uv-venv)
+  (bsl/control-c-definer :keymaps 'python-mode-map "M-d" 'pyvenv-deactivate)
 #+end_src
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
@@ -1343,6 +1403,8 @@ immediately available.
   rotation.
 - =treemacs-no-png-images= uses text-mode (no GUI) in the treemacs window.
 - =treemacs-read-string-input= makes treemacs use the minibuffer for all manual input
+- =treemacs-hide-gitignored-files-mode= hides i=.gitignore=d files by default. Can be turned off
+  with the toggle =t i=
 #+begin_src emacs-lisp
 
   (defun bsl/close-treemacs ()
@@ -1360,7 +1422,8 @@ immediately available.
     :config
     (setq treemacs-is-never-other-window t)
     (setq treemacs-no-png-images t)
-    (setq treemacs-read-string-input 'from-minibuffer))
+    (setq treemacs-read-string-input 'from-minibuffer)
+    (treemacs-hide-gitignored-files-mode 1))
 #+end_src
 
 ** =treemacs= integration with =projectile=

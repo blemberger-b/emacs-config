@@ -66,8 +66,7 @@
      ("XXX+" . "#dc752f")
      ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(eglot yaml-mode which-key use-package urlenc typescript-mode treemacs-projectile surround sudo-edit spaceline smex rainbow-delimiters pyvenv protobuf-mode presentation popup-kill-ring plantuml-mode php-mode paredit paradox page-break-lines org-tree-slide org-bullets nodejs-repl mwim magit lsp-jedi json-process-client js2-refactor ivy-rich htmlize highlight-indentation goto-last-change golden-ratio-scroll-screen god-mode general exec-path-from-shell dockerfile-mode diminish dashboard dap-mode counsel-projectile company color-theme-sanityinc-tomorrow cider bookmark-in-project beacon auto-dim-other-buffers all-the-icons))
- '(paradox-github-token t nil nil "Customized with use-package paradox")
+   '(ivy-hydra eglot yaml-mode which-key use-package urlenc typescript-mode treemacs-projectile surround sudo-edit spaceline smex rainbow-delimiters protobuf-mode presentation popup-kill-ring plantuml-mode php-mode paredit paradox page-break-lines org-tree-slide org-bullets nodejs-repl mwim magit lsp-jedi json-process-client js2-refactor ivy-rich htmlize highlight-indentation goto-last-change golden-ratio-scroll-screen god-mode general exec-path-from-shell dockerfile-mode diminish dashboard dap-mode counsel-projectile company color-theme-sanityinc-tomorrow cider bookmark-in-project beacon auto-dim-other-buffers all-the-icons))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 
 (custom-set-faces
