@@ -1176,10 +1176,13 @@ Use =php-mode= for =.php= files.
 #+end_src
 * Python
 ** python-shell
-The python shell is a comint inferior shell implemented in built-in =python-mode=. At this time, it only
-seems to work will with python version 3.10. There needs to be a shell command on the system PATH named =python3.10=.
+The python shell is a comint inferior shell implemented in built-in =python-mode=. At this time, it
+only seems to work will with python version 3.10. There needs to be a shell command on the system
+PATH named =python3.10=. Also add a hook so that all python shells start with eglot to ensure code
+completion, etc.
 #+begin_src emacs-lisp
   (setq python-shell-interpreter "python3.10")
+  (add-hook 'inferior-python-mode-hook 'eglot-ensure)
 #+end_src
 ** LSP Support
 LSP interaction is managed through =eglot=. A python LSP server must be installed in the system
@@ -1187,6 +1190,10 @@ PATH. A good choice to use is =jedi-language-server=. Eglot is disabled by defau
 buffers. To enable it use this key:
 #+begin_src emacs-lisp
   (bsl/control-c-definer :keymaps 'python-mode-map "M-j" 'eglot)
+#+end_src
+To disconnect and kill the LSP server, use this key:
+#+begin_src emacs-lisp
+  (bsl/control-c-definer :keymaps 'python-mode-map "M-q" 'eglot-shutdown)
 #+end_src
 ** Virtual Environment Handling
 Eglot works to interact with the LSP server for all built-in python code, but any packages that are
