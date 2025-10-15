@@ -65,10 +65,14 @@ it from =dashboard-startupify-list=.
     (dashboard-page-separator "\n\f\n")
     (dashboard-projects-backend 'projectile)
     (dashboard-items '((projects . 5)
-                       (recents . 10)))
+                       (recents . 10)
+                       (agenda . 5)))
     (dashboard-banner-logo-title
      "Ad astra per aspera.")
-    (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
+    (dashboard-item-shortcuts '((recents . "r") (projects . "j") (agenda . "a")))
+    (dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-todo)
+    (dashboard-week-agenda nil)
+    (dashboard-agenda-sort-strategy '(time-up)))
 #+END_SRC
 ** Markdown
 This package provides a major mode for editing markdown files. It requires the =multimarkdown= command be
@@ -349,11 +353,13 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "b" 'ediff-buffers
     "w" 'hydra-window-resize/body
     "x" 'goto-last-change
-    "k" 'kill-current-buffer
     "K" 'bsl/kill-all-buffers
     "r" 'counsel-recentf
     "h" 'list-command-history
     "k" 'bsl/close-treemacs
+    "G" 'org-capture
+    "A" 'org-agenda
+    "L" 'org-store-link
     "C-<down>" 'windmove-display-down
     "C-<up>" 'windmove-display-up
     "C-<left>" 'windmove-display-left
@@ -449,7 +455,8 @@ frame's title bar.
 No line numbers for windows in =term-mode= or =treemacs-mode=
 #+begin_src emacs-lisp
   (dolist (mode '(term-mode-hook
-                  treemacs-mode-hook))
+                  treemacs-mode-hook
+                  which-key-mode))
     (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 ** Beacon mode
@@ -817,8 +824,6 @@ one. Do not enable this in tty mode.
 #+begin_src emacs-lisp
   (use-package auto-dim-other-buffers
     :pin melpa
-    :custom
-    (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil "Try to keep from dimming window on switch to minibuffer")
     :hook (after-init . (lambda () (when window-system
                                      (auto-dim-other-buffers-mode t)))))
 #+end_src
@@ -888,6 +893,11 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
 #+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]]. 
+** Work Org Mode Files
+One work computer, set a variable for my documents folder. 
+#+begin_src emacs-lisp
+  (setq one-drive-dir (getenv "ONEDRIVE_DIR"))
+#+end_src
 ** UI Tweaks
 Replace the three dot ellipsis for collapsed headings (...) with a downward pointing triangle
 character.
@@ -922,7 +932,8 @@ Replace the native asterisk headline   format string (e.g. =***=) with unicode b
 #+end_src
 ** Common Tags
 These tags will always appear in =org-mode= tag list commands (such as =counsel-org-tag=)
-whether the tags are already in the file or not.
+whether the tags are already in the file or not. Format is a association list with the tag as a
+string and a character as the value, where the character is the shortcut key.
 #+begin_src emacs-lisp
   (setq org-tag-alist
         '(("work" . ?w)
@@ -935,14 +946,17 @@ These settings apply to =org-agenda= views.
 #+begin_src emacs-lisp
   (setq org-agenda-start-with-log-mode t)
 #+end_src
+*** Filter closed scheduled tasks out of agenda view
+#+begin_src emacs-lisp
+  (setq org-agenda-skip-scheduled-if-done t)
+#+end_src
 *** Define directories that have agenda files
 Some of these paths won't exist on all of my computers, but that's OK, we're ignoring that with
 a setting below.
 #+begin_src emacs-lisp
-  (let ((one-drive-dir (getenv "ONEDRIVE_DIR")))
-    (setq org-agenda-files (list
-                            (concat one-drive-dir "/work-notes")
-                            "~/training/emacs/org-mode")))
+  (setq org-agenda-files (list
+                          (concat one-drive-dir "/work-notes")
+                          "~/repos/personal/gtd"))
 #+end_src
 *** Ignore non-existent agenda files & file paths
 #+begin_src emacs-lisp
@@ -975,6 +989,37 @@ a setting below.
                ((org-agenda-max-todos 20)
                 (org-agenda-overriding-header "Low Effort Tasks")))))
     #+end_src
+*** Refiling
+Refiling provides for a way to quickly move tasks from one heading/file to another.
+#+begin_src emacs-lisp
+  (setq org-refile-targets
+        '((nil :maxlevel . 1)
+          ("work-archive.org" :maxlevel . 1)
+          ("personal-archive.org" :maxlevel . 1)))
+#+end_src
+
+Save all org buffers after refiling.
+#+begin_src emacs-lisp
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+#+end_src
+** Capture Settings
+Capture mode is invoked in any buffer with a keybinding defined below. It is useful for making quick
+lists. Keep separate capture lists for personal and work usage. Enter the specified key prefix to
+choose either.
+#+begin_src emacs-lisp
+  (let ((work-capture-file (concat one-drive-dir "/work-notes/work.org")))
+    (setq org-capture-templates
+      (list (list "w" "Work Inbox" 'entry (list 'file+headline work-capture-file "Inbox")
+                  "* TODO %?\n  %i")
+            '("p" "Personal Inbox" entry (file+headline "~/repos/personal/gtd/personal.org" "Inbox")
+              "* TODO %?\n  %i"))))
+#+end_src
+
+Bind a quick key for capture of "Work Inbox" items.
+#+begin_src emacs-lisp
+  (general-def "C-c I"
+    (lambda () (interactive) (org-capture nil "w")))
+#+end_src
 ** Htmlize
 Install =htmlize= package to allow exporting =org-mode= files in html format
 #+BEGIN_SRC emacs-lisp
@@ -1020,21 +1065,13 @@ presentation, do =M-x org-tree-slide-mode=.
 #+end_src
 
 ** Custom =org-mode= keybindings
-Globally enabled keybindings specific for =org-mode=:
-#+begin_src emacs-lisp
-  (bsl/meta-o-definer
-    "C-l" 'org-store-link
-    "C-a" 'org-agenda
-    "C-c" 'org-capture)
-#+end_src
 Keybindings only enabled in =org-mode= buffers:
 #+begin_src emacs-lisp
   (bsl/meta-o-definer
-    :keymaps 'org-mode-map
     "C-S-t" 'counsel-org-tag
     "C-t" (defhydra my-org-toggles ()
-          "My org-mode toggles"
-          ("l" org-toggle-link-display "toggle hyperlinks"))
+            "My org-mode toggles"
+            ("l" org-toggle-link-display "toggle hyperlinks"))
     "SPC" 'org-babel-mark-block
     "C-b" 'org-table-blank-field)
 #+end_src
