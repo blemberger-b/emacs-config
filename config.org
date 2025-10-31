@@ -65,14 +65,10 @@ it from =dashboard-startupify-list=.
     (dashboard-page-separator "\n\f\n")
     (dashboard-projects-backend 'projectile)
     (dashboard-items '((projects . 5)
-                       (recents . 10)
-                       (agenda . 5)))
+                       (recents . 10)))
     (dashboard-banner-logo-title
      "Ad astra per aspera.")
-    (dashboard-item-shortcuts '((recents . "r") (projects . "j") (agenda . "a")))
-    (dashboard-filter-agenda-entry 'dashboard-filter-agenda-by-todo)
-    (dashboard-week-agenda nil)
-    (dashboard-agenda-sort-strategy '(todo-state-down time-up)))
+    (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
 #+END_SRC
 ** Markdown
 This package provides a major mode for editing markdown files. It requires the =multimarkdown= command be
@@ -740,18 +736,14 @@ as it's window when there is more than one window visible. It will still prompt 
   ;;; Bind it to the same keybinding as kill-buffer
   (global-set-key [remap kill-buffer] 'bsl/kill-buffer)
 #+end_src
-** Kill all non-Org-Agenda buffers
+** Kill all buffers
 This command will kill all killable buffers. If any buffers have unsaved changes, you'll be prompted
-to confirm. It will then open the =*dashboard*= buffer. Since the =*dashboard*= buffer shows an *Org
-Agenda* view, if it's open we don't kill it or any of the =org-mode= files that =org-agenda= sources
-from.
+to confirm. It will then open the =*dashboard*= buffer.
 #+BEGIN_SRC emacs-lisp
   (defun bsl/kill-all-buffers ()
     (interactive)
     (mapc 'kill-buffer
-          (seq-filter
-           (lambda (buf) (not (string= (buffer-name buf) "*Org Agenda*")))
-           (buffer-list)))
+          (buffer-list))
     (dashboard-refresh-buffer)
     (delete-other-windows))
 #+END_SRC
@@ -1010,7 +1002,6 @@ Refiling provides for a way to quickly move tasks from one heading/file to anoth
           ("work-archive.org" :maxlevel . 1)
           ("personal-archive.org" :maxlevel . 1)))
 #+end_src
-
 Save all org buffers after refiling.
 #+begin_src emacs-lisp
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
@@ -1027,11 +1018,15 @@ choose either.
             '("p" "Personal Inbox" entry (file+headline "~/repos/personal/gtd/personal.org" "Inbox")
               "* TODO %?\n  %i"))))
 #+end_src
-
 Bind a quick key for capture of "Work Inbox" items.
 #+begin_src emacs-lisp
   (bsl/control-c-definer "I"
     (lambda () (interactive) (org-capture nil "w")))
+#+end_src
+Bind a quick key for capture of "Personal Inbox" items.
+#+begin_src emacs-lisp
+  (bsl/control-c-definer "P"
+    (lambda () (interactive) (org-capture nil "p")))
 #+end_src
 ** Htmlize
 Install =htmlize= package to allow exporting =org-mode= files in html format
