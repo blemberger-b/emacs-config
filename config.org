@@ -957,9 +957,10 @@ These settings apply to =org-agenda= views.
 #+end_src
 *** Define directories that have agenda files
 Some of these paths won't exist on all of my computers, but that's OK, we're ignoring that with
-a setting below.
+a setting below. ~customize-set-variable~ instead of ~setq~ prevents the value of the custom
+variable being written to ~init.el~.
 #+begin_src emacs-lisp
-  (setq org-agenda-files (list
+  (customize-set-variable 'org-agenda-files (list
                           (concat one-drive-dir "/work-notes")
                           "~/repos/personal/gtd"))
 #+end_src
@@ -1080,7 +1081,6 @@ Keybindings only enabled in =org-mode= buffers:
     "C-t" (defhydra my-org-toggles ()
             "My org-mode toggles"
             ("l" org-toggle-link-display "toggle hyperlinks"))
-    "SPC" 'org-babel-mark-block
     "C-b" 'org-table-blank-field)
 #+end_src
 * Text Mode
