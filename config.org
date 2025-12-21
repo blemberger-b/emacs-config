@@ -200,11 +200,10 @@ override this behavior.
 #+begin_src emacs-lisp
   (setq-default indent-tabs-mode nil)
 #+end_src
-
 ** Set default tab width
 Set the number of spaces corresponding to a tab character, unless overridden by buffers or modes.
 #+begin_src emacs-lisp
-  (setq-default tab-width 2)
+  (setq-default tab-width 4)
 #+end_src
 
 ** Tab key behavior regarding indentation
@@ -346,7 +345,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "s" 'whitespace-mode
     "v" 'bsl/halve-other-window-height
     "d" 'ediff-files
-    "b" 'ediff-buffers
+    "b" 'ediff-current-file
     "w" 'hydra-window-resize/body
     "x" 'goto-last-change
     "K" 'bsl/kill-all-buffers
@@ -641,10 +640,10 @@ Emacs before actually pasting it, this selection is gone unless this variable is
   (setq save-interprogram-paste-before-kill t)
 #+end_src
 * Terminal
-** Bind =shell= command to =s-t=
+** Bind shell command to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-t") 'shell)
+  (global-set-key (kbd "s-t") 'ansi-term)
 #+END_SRC
 Basically, use =C-c= to prefix the normal bash terminal key bindings (ex. =C-c C-p=, etc.).
 * Dired
@@ -947,6 +946,11 @@ string and a character as the value, where the character is the shortcut key.
 #+end_src
 ** Agenda Settings
 These settings apply to =org-agenda= views.
+*** Keybinding for =org-agenda-list=
+=org-agenda-list= is the daily/weekly agenda view.
+#+begin_src emacs-lisp
+  (general-define-key "M-`" 'org-agenda-list)
+#+end_src
 *** Start =org-mode= with agenda logging.
 #+begin_src emacs-lisp
   (setq org-agenda-start-with-log-mode t)
@@ -1220,6 +1224,12 @@ Use =php-mode= for =.php= files.
   (use-package php-mode)
 #+end_src
 * Python
+** Consistent tab widths & indentation
+Prevent =python-mode= from trying to guess the tab width when it opens a file. Instead, the above
+defined =tab-width= default variable will be always used.
+#+begin_src emacs-lisp
+  (setq python-indent-guess-indent-offset nil) ; default is t
+#+end_src
 ** python-shell
 The python shell is a comint inferior shell implemented in built-in =python-mode=. At this time, it
 only seems to work will with python version 3.10. There needs to be a shell command on the system
@@ -1229,7 +1239,7 @@ completion, etc.
   (setq python-shell-interpreter "python3.10")
   (add-hook 'inferior-python-mode-hook 'eglot-ensure)
 #+end_src
-** LSP Support
+** LSP Support for Python
 LSP interaction is managed through =eglot=. A python LSP server must be installed in the system
 PATH. A good choice to use is =jedi-language-server=. Eglot is disabled by default in all python
 buffers. To enable it use this key:
@@ -1364,15 +1374,31 @@ Define a function to start a scheme process in the current buffer. Run it with =
                      (get-buffer-create new-buff-name)))
     (reposition-window))
 #+end_src
-* C
+* C/C++
 ** Keybindings for Compile & Debugging
-These keybindings work in both C language mode and Makefile mode
+These keybindings work in both C language mode and Makefile mode. ~compile~ command in =cc-mode=
+will work on both Linux and Mac OS, since on Mac, the ~gcc~ command is installed by default and is
+an "alias" for LLVM's =clang=. To debug, run the appropriate debug command below for =gcc=: ~gdb~ or
+for =clang=: ~lldb~.
 #+begin_src emacs-lisp
   (general-def
      '(c-mode-base-map makefile-mode-map)
-     "C-c C-l" 'compile
-     "C-c C-d" 'gud-gdb)
+     "C-c M-c" 'compile
+     "C-c M-d g" 'gud-gdb
+     "C-c M-d l" 'lldb)
 #+end_src
+** LSP Support for C/C++
+LSP interaction is managed through =eglot=. A C/C++ LSP server must be installed in the system
+PATH. A good choice to use is =clangd=, which is installed by default on Mac OS. Eglot is disabled
+by default in all C/C++ buffers. To enable it use this key:
+#+begin_src emacs-lisp
+  (bsl/control-c-definer :keymaps 'c-mode-map "M-j" 'eglot)
+#+end_src
+To disconnect and kill the LSP server, use this key:
+#+begin_src emacs-lisp
+  (bsl/control-c-definer :keymaps 'c-mode-map "M-q" 'eglot-shutdown)
+#+end_src
+
 * Gnuplot
 The built-in =gnuplot-mode= is really old and bad, so just use =prog-mode= for files ending in =.gp=.
 #+begin_src emacs-lisp
@@ -1393,7 +1419,7 @@ to a magit command that shows the current log (commits) for the file in the curr
 buffer. Diminish the emacs built-in =auto-revert-mode= which gets enabled for files in git projects.
 #+begin_src emacs-lisp
   (use-package magit
-    :pin melpa
+    :pin melpa-stable
     :diminish auto-revert-mode
     :bind
     ("C-c g" . magit-log-buffer-file))
