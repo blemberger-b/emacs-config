@@ -1398,7 +1398,12 @@ To disconnect and kill the LSP server, use this key:
 #+begin_src emacs-lisp
   (bsl/control-c-definer :keymaps 'c-mode-map "M-q" 'eglot-shutdown)
 #+end_src
-
+* Kotlin
+I use Kotlin mostly as a DSL for Gradle.
+#+begin_src emacs-lisp
+  (use-package kotlin-mode
+    :pin nongnu)
+#+end_src
 * Gnuplot
 The built-in =gnuplot-mode= is really old and bad, so just use =prog-mode= for files ending in =.gp=.
 #+begin_src emacs-lisp
