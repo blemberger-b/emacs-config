@@ -1195,20 +1195,22 @@ it only in prog-mode and its descendants, and in =cider-repl-mode=.
     )
 #+END_SRC
 
-** Flycheck Mode Line
+** Syntax Checking
 =flymake= is an on-the-fly syntax checker built in to emacs that interfaces with an LSP
 server. Here, we turn off its mode-line indicator.
 #+begin_src emacs-lisp
   (require 'flymake)
   (setq flymake-mode-line-format nil)
+  (bsl/control-c-definer :keymaps 'flymake-mode-map
+    "F p" 'flymake-goto-prev-error
+    "F n" 'flymake-goto-next-error)
 #+end_src
-
 ** Eldoc Documentation Help
 =eldoc= is a built-in emacs feature that shows relevant documentation for a symbol at point. Here,
-we make sure that the pop-up documentation in the echo area does not exceed 8 lines.
+we make sure that the pop-up documentation in the echo area does not exceed 1 line.
 #+begin_src emacs-lisp
   (require 'eldoc)
-  (setq eldoc-echo-area-use-multiline-p 8)
+  (setq eldoc-echo-area-use-multiline-p nil)
 #+end_src
 * Language Server Protocol Servers
 Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing programming language features. 
@@ -1249,6 +1251,25 @@ buffers. To enable it use this key:
 To disconnect and kill the LSP server, use this key:
 #+begin_src emacs-lisp
   (bsl/control-c-definer :keymaps 'python-mode-map "M-q" 'eglot-shutdown)
+#+end_src
+** PEP 8 Reformatter
+~black~ must be installed, it is available via ~pipx~ (~pipx --global install
+black~).
+#+begin_src emacs-lisp
+  (use-package python-black
+    :demand t
+    :after python
+    :bind (:map python-mode-map
+           ("C-c B r" . python-black-region)
+           ("C-c B b" . python-black-buffer)))
+#+end_src
+** PEP 8 On-The Fly Linting
+~flake8~ must be installed, it is available in Homebrew. This command is
+executed and output is shown in a separate buffer when the =python-check=
+command is run (bound to =C-c C-v=).
+#+begin_src emacs-lisp
+  (setq-default python-check-command
+                "flake8 --color never --max-line-length 88")
 #+end_src
 ** Virtual Environment Handling
 Eglot works to interact with the LSP server for all built-in python code, but any packages that are

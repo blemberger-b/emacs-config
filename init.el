@@ -66,9 +66,10 @@
                    json-process-client kotlin-mode lsp-jedi magit mwim
                    nodejs-repl org-bullets org-tree-slide page-break-lines
                    paradox paredit php-mode plantuml-mode popup-kill-ring
-                   presentation protobuf-mode pyvenv rainbow-delimiters smex
-                   spaceline sudo-edit surround treemacs-projectile
-                   typescript-mode urlenc use-package which-key yaml-mode))
+                   presentation protobuf-mode python-black pyvenv
+                   rainbow-delimiters smex spaceline sudo-edit surround
+                   treemacs-projectile typescript-mode urlenc use-package
+                   which-key yaml-mode))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(safe-local-variable-values
    '((eval setq-local org-blank-before-new-entry
