@@ -100,9 +100,6 @@ associates =*.puml= files with =puml-mode=.
     :custom
     (plantuml-default-exec-mode 'executable)
     :config
-    ;; Default .svg types won't work on Mac OS Ventura due to Emacs 28 bug
-    (when (memq window-system '(mac ns))
-      (setq plantuml-output-type "png"))
     :mode ("\\.puml\\'" . plantuml-mode))
 #+end_src
 ** URL Encoding/Decoding
@@ -1413,11 +1410,11 @@ LSP interaction is managed through =eglot=. A C/C++ LSP server must be installed
 PATH. A good choice to use is =clangd=, which is installed by default on Mac OS. Eglot is disabled
 by default in all C/C++ buffers. To enable it use this key:
 #+begin_src emacs-lisp
-  (bsl/control-c-definer :keymaps 'c-mode-map "M-j" 'eglot)
+  (bsl/control-c-definer :keymaps 'c-mode-base-map "M-j" 'eglot)
 #+end_src
 To disconnect and kill the LSP server, use this key:
 #+begin_src emacs-lisp
-  (bsl/control-c-definer :keymaps 'c-mode-map "M-q" 'eglot-shutdown)
+  (bsl/control-c-definer :keymaps 'c-mode-base-map "M-q" 'eglot-shutdown)
 #+end_src
 * Kotlin
 I use Kotlin mostly as a DSL for Gradle.
