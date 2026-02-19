@@ -751,7 +751,7 @@ For completion within buffers, we'll use the [[https://company-mode.github.io/][
     :pin gnu
     :hook ((cider-mode . company-mode)
            (cider-repl-mode . company-mode)
-           (python-mode . company-mode)
+           (python-ts-mode . company-mode)
            (emacs-lisp-mode . company-mode))
     :bind (:map company-mode-map
            ("C-M-i" . company-complete))
@@ -937,9 +937,11 @@ whether the tags are already in the file or not. Format is a association list wi
 string and a character as the value, where the character is the shortcut key.
 #+begin_src emacs-lisp
   (setq org-tag-alist
-        '(("meeting" . ?m)
+        '(("story" . ?s)
+          ("meeting" . ?m)
           ("training" . ?t)
-          ("doc" . ?d)))
+          ("doc" . ?d)
+          ("revisit" . ?r)))
 #+end_src
 ** Agenda Settings
 These settings apply to =org-agenda= views.
@@ -980,7 +982,8 @@ variable being written to ~init.el~.
 *** Define custom workflow keywords
 #+begin_src emacs-lisp
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")))
+        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+          (sequence "|" "CANCELED(c!)")))
 #+end_src
 *** Define custom agenda views
     Create a dashboard and other agenda views of my own. See this [[https://orgmode.org/manual/Custom-Agenda-Views.html#Custom-Agenda-Views][topic]] in the =org-mode= manual for more information.
@@ -1223,6 +1226,42 @@ Use =php-mode= for =.php= files.
   (use-package php-mode)
 #+end_src
 * Python
+** Treesitter
+[[https://www.masteringemacs.org/article/how-to-get-started-tree-sitter][tree-sitter]] is a built-in package in Emacs 29 that, when activated, creates a
+syntax tree for a source code buffer.
+
+*Prerequisites:* 
+ - Emacs 29 or higher must be installed. You can check if tree-sitter is
+   supported in your version of emacs by evaluating the *non-interactive* elisp function
+   ~treesit-available-p~. 
+ - You /must/ have an /ABI compatible/ version of the [[https://github.com/tree-sitter/tree-sitter-python/tree/v0.23.6][tree-sitter python grammar
+   library]] installed. To see the ABI version of the treesitter support in your
+   version of emacs, evaluating the non-interactive elisp function ~treesit-library-abi-version~.
+ - Find a compatible version of [[https://github.com/tree-sitter/tree-sitter-python/tree/v0.23.6][tree-sitter-python]] from the documenation [[https://tree-sitter.github.io/tree-sitter/using-parsers/7-abi-versions.html#abi-versions][here]].
+ - From the [[https://github.com/tree-sitter/tree-sitter-python/tree/v0.23.6][tree-sitter-python]] gitlab repo, pick a tag corresponding to the desired
+   version number, and note the *tag* value (i.e. copy to clipboard).
+ - In emacs, run the interactive command
+   ~treesit-install-language-grammar~. Enter =python= for the language, and use
+   the defaults for all prompts except for the tag, where you should specify the
+   value from above.
+ - Restart Emacs
+ - To confirm that python's tree-sitter is working, evaluate the
+   *non-interactive* elisp expression ~(treesit-language-available-p 'python)~
+
+Here, we replace the default =python-mode=
+with the =python-ts-mode= that has built-in support for treesitter.
+#+begin_src emacs-lisp
+    (setq major-mode-remap-alist
+          '((python-mode . python-ts-mode)))
+#+end_src
+*Note:* Keybindings still need to be done for =python-ts-mode-map= rather than
+ =python-mode=map= and hooks need to be made for =python-ts-mode-hook= rather
+ than =python-mode-hook=.
+
+*Note:* Someday the author may release [[https://github.com/mickeynp/combobulate][combobulate]] to MELPA, a python tree-sitter based
+package, that provides many ease of use features for python development. On that
+day, try installing it now that the hard part of tree-sitter support is set up.
+
 ** Consistent tab widths & indentation
 Prevent =python-mode= from trying to guess the tab width when it opens a file. Instead, the above
 defined =tab-width= default variable will be always used.
@@ -1243,11 +1282,11 @@ LSP interaction is managed through =eglot=. A python LSP server must be installe
 PATH. A good choice to use is =jedi-language-server=. Eglot is disabled by default in all python
 buffers. To enable it use this key:
 #+begin_src emacs-lisp
-  (bsl/control-c-definer :keymaps 'python-mode-map "M-j" 'eglot)
+  (bsl/control-c-definer :keymaps 'python-ts-mode-map "M-j" 'eglot)
 #+end_src
 To disconnect and kill the LSP server, use this key:
 #+begin_src emacs-lisp
-  (bsl/control-c-definer :keymaps 'python-mode-map "M-q" 'eglot-shutdown)
+  (bsl/control-c-definer :keymaps 'python-ts-mode-map "M-q" 'eglot-shutdown)
 #+end_src
 ** PEP 8 Reformatter
 ~black~ must be installed, it is available via ~pipx~ (~pipx --global install
@@ -1256,7 +1295,7 @@ black~).
   (use-package python-black
     :demand t
     :after python
-    :bind (:map python-mode-map
+    :bind (:map python-ts-mode-map
            ("C-c B r" . python-black-region)
            ("C-c B b" . python-black-buffer)))
 #+end_src
@@ -1299,9 +1338,9 @@ Function to activate =uv='s default virtual environment
 
 Set some python mode specific key bindings for activating and deactivating the virtual environment.
 #+begin_src emacs-lisp
-  (bsl/control-c-definer :keymaps 'python-mode-map "M-A" 'pyvenv-activate) ; prompt for virtual env
-  (bsl/control-c-definer :keymaps 'python-mode-map "M-a" 'bsl/activate-uv-venv)
-  (bsl/control-c-definer :keymaps 'python-mode-map "M-d" 'pyvenv-deactivate)
+  (bsl/control-c-definer :keymaps 'python-ts-mode-map "M-A" 'pyvenv-activate) ; prompt for virtual env
+  (bsl/control-c-definer :keymaps 'python-ts-mode-map "M-a" 'bsl/activate-uv-venv)
+  (bsl/control-c-definer :keymaps 'python-ts-mode-map "M-d" 'pyvenv-deactivate)
 #+end_src
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.

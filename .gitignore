@@ -68,3 +68,6 @@ network-security.data
 
 # Emacs cached packages?
 eln-cache/
+
+# Files installed with treesitter package
+tree-sitter
