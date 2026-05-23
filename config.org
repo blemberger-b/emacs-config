@@ -99,6 +99,7 @@ associates =*.puml= files with =puml-mode=.
     :pin melpa
     :custom
     (plantuml-default-exec-mode 'executable)
+    (plantuml-svg-background "white")
     :config
     :mode ("\\.puml\\'" . plantuml-mode))
 #+end_src
@@ -1039,6 +1040,12 @@ Install =htmlize= package to allow exporting =org-mode= files in html format
   (use-package htmlize
     :pin melpa-stable)
 #+END_SRC
+** Export Formats
+Customize org-mode to support the =md= backend for markdown, as well as some
+default ones.
+#+begin_src emacs-lisp
+  (setq org-export-backends '(ascii html md))
+#+end_src
 ** Source snippet for emacs-lisp
 In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* block.
 #+BEGIN_SRC emacs-lisp
@@ -1255,6 +1262,20 @@ with the =python-ts-mode= that has built-in support for treesitter.
 package, that provides many ease of use features for python development. On that
 day, try installing it now that the hard part of tree-sitter support is set up.
 
+* Language Server Protocol Servers
+Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing programming language features. 
+#+begin_src emacs-lisp
+  (require 'eglot)
+  ;; Map super-r to eglot-rename to rename all symbols in buffer
+  (general-def eglot-mode-map
+    "s-r" 'eglot-rename)
+#+end_src
+* PHP
+Use =php-mode= for =.php= files.        
+#+begin_src emacs-lisp
+  (use-package php-mode)
+#+end_src
+* Python
 ** Consistent tab widths & indentation
 Prevent =python-mode= from trying to guess the tab width when it opens a file. Instead, the above
 defined =tab-width= default variable will be always used.
@@ -1300,6 +1321,11 @@ command is run (bound to =C-c C-v=).
   (setq-default python-check-command
                 "flake8 --color never --max-line-length 88")
 #+end_src
+** Python Debugging
+=C-c D= will open a python [[https://docs.python.org/3/library/pdb.html][PDB]] debugging session
+#+begin_src emacs-lisp
+  (bsl/control-c-definer :keymaps 'python-ts-mode-map "D" 'realgud:pdb)
+#+end_src
 ** Virtual Environment Handling
 Eglot works to interact with the LSP server for all built-in python code, but any packages that are
 installed via a virtual environment are not made available to the LSP server by default. This
@@ -1335,25 +1361,6 @@ Set some python mode specific key bindings for activating and deactivating the v
   (bsl/control-c-definer :keymaps 'python-ts-mode-map "M-a" 'bsl/activate-uv-venv)
   (bsl/control-c-definer :keymaps 'python-ts-mode-map "M-d" 'pyvenv-deactivate)
 #+end_src
-** Python Debugging
-=C-c D= will open a python [[https://docs.python.org/3/library/pdb.html][PDB]] debugging session
-#+begin_src emacs-lisp
-  (bsl/control-c-definer :keymaps 'python-ts-mode-map "D" 'realgud:pdb)
-#+end_src
-* Language Server Protocol Servers
-Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing programming language features. 
-#+begin_src emacs-lisp
-  (require 'eglot)
-  ;; Map super-r to eglot-rename to rename all symbols in buffer
-  (general-def eglot-mode-map
-    "s-r" 'eglot-rename)
-#+end_src
-* PHP
-Use =php-mode= for =.php= files.        
-#+begin_src emacs-lisp
-  (use-package php-mode)
-#+end_src
-* Python
 * Clojure
 In addition to [[Programming Modes][Programming Modes]] settings, the following settings apply only to editing clojure files and buffers.
 ** Set indent mode for clojure buffers
@@ -1473,6 +1480,11 @@ I use Kotlin mostly as a DSL for Gradle.
 #+begin_src emacs-lisp
   (use-package kotlin-mode
     :pin nongnu)
+#+end_src
+* Terraform
+#+begin_src emacs-lisp
+  (use-package terraform-mode
+    :custom (terraform-indent-level 4))
 #+end_src
 * Gnuplot
 The built-in =gnuplot-mode= is really old and bad, so just use =prog-mode= for files ending in =.gp=.
