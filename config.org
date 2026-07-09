@@ -1005,8 +1005,8 @@ Refiling provides for a way to quickly move tasks from one heading/file to anoth
 #+begin_src emacs-lisp
   (setq org-refile-targets
         '((nil :maxlevel . 1)
-          ("work-archive.org" :maxlevel . 1)
-          ("personal-archive.org" :maxlevel . 1)))
+          ("work.org_archive" :maxlevel . 1)
+          ("personal.org_archive" :maxlevel . 1)))
 #+end_src
 Save all org buffers after refiling.
 #+begin_src emacs-lisp
@@ -1483,8 +1483,7 @@ I use Kotlin mostly as a DSL for Gradle.
 #+end_src
 * Terraform
 #+begin_src emacs-lisp
-  (use-package terraform-mode
-    :custom (terraform-indent-level 4))
+  (use-package terraform-mode)
 #+end_src
 * Gnuplot
 The built-in =gnuplot-mode= is really old and bad, so just use =prog-mode= for files ending in =.gp=.
