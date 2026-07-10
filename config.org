@@ -1283,12 +1283,16 @@ defined =tab-width= default variable will be always used.
   (setq python-indent-guess-indent-offset nil) ; default is t
 #+end_src
 ** python-shell
-The python shell is a comint inferior shell implemented in built-in =python-mode=. At this time, it
-only seems to work will with python version 3.10. There needs to be a shell command on the system
-PATH named =python3.10=. Also add a hook so that all python shells start with eglot to ensure code
-completion, etc.
+The python shell is a comint inferior shell implemented in built-in
+=python-mode=. At this time, it only works with the python REPL that shipped
+with version 3.10. There needs to be an environment variable set as such:
+#+begin_src bash
+  export PYTHON_BASIC_REPL=1
+#+end_src
+to ensure that the older REPL is used with python shell. Also add a hook so that
+all python shells start with eglot to ensure code completion, etc.
 #+begin_src emacs-lisp
-  (setq python-shell-interpreter "python3.10")
+  (setq python-shell-interpreter "python3")
   (add-hook 'inferior-python-mode-hook 'eglot-ensure)
 #+end_src
 ** LSP Support for Python
@@ -1343,7 +1347,7 @@ using pyenv and is done to support the virtual environment in new =python-shell=
                   (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
     (setq pyvenv-post-deactivate-hooks
           (list (lambda ()
-                  (setq python-shell-interpreter "python3.10")))))
+                  (setq python-shell-interpreter "python3")))))
 #+end_src
 Function to activate =uv='s default virtual environment
 #+begin_src emacs-lisp
