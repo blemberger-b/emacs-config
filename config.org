@@ -1139,6 +1139,19 @@ PATH. It comes pre-installed as part of *libxml* on most Mac OS systems.
   (use-package protobuf-mode
     :ensure t)
 #+end_src
+* PDF
+This mode will open PDF files in emacs and provide full search/mark/copy
+functionality.
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+      :defer t
+      :init (pdf-loader-install)
+      :hook ((pdf-view-mode . (lambda () (auto-revert-mode -1)))
+             (pdf-view-mode . (lambda () (company-mode -))))
+      :bind (:map pdf-view-mode-map
+                ("C-s"   . isearch-forward)
+                ("C-M-s" . pdf-occur)))
+#+end_src
 * LaTeX
 =LaTeX= mode comes built-in to emacs as a major mode that is automatically active for files ending
 with =.tex= and that have =LaTeX= specific header information in them.
