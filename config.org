@@ -1473,11 +1473,31 @@ These keybindings work in both C language mode and Makefile mode. ~compile~ comm
 will work on both Linux and Mac OS, since on Mac, the ~gcc~ command is installed by default and is
 an "alias" for LLVM's =clang=. To debug, run the appropriate debug command below for =gcc=: ~gdb~ or
 for =clang=: ~lldb~.
+
+Define a C++ compile command that just runs g++:
+#+begin_src emacs-lisp
+  (defun bsl/cpp-compile-current-file ()
+    "Dynamically set `compile-command` for the current C++ buffer and run compile."
+    (interactive)
+    (let* ((file (buffer-file-name))
+           (ext (when file (file-name-extension file)))
+           (base (when file (file-name-sans-extension file))))
+      ;; Only override the command if it is a .cpp file
+      (if (and ext (string= (downcase ext) "cpp"))
+          (setq-local compile-command
+                      (format "clang++ -Wall -Wextra -std=c++11 -g -fdiagnostics-color=always %s -o %s"
+                              (file-name-nondirectory file)
+                              (file-name-nondirectory base))))
+      ;; Trigger the standard compile command
+      (call-interactively 'compile)
+      (kill-local-variable 'compile-command)))
+#+end_src
 #+begin_src emacs-lisp
   (setq compilation-read-command nil)
   (general-def
      '(c-mode-base-map makefile-mode-map)
-     "C-c M-c" 'compile
+     "C-c M-c" 'bsl/cpp-compile-current-file
+     "C-c M-m" 'compile ;; really "make -k"
      "C-c M-d n" 'gud-gdb
      "C-c M-d l" 'lldb)
 #+end_src
