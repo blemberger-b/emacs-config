@@ -1469,10 +1469,19 @@ Define a function to start a scheme process in the current buffer. Run it with =
 #+end_src
 * C/C++
 ** Keybindings for Compile & Debugging
-These keybindings work in both C language mode and Makefile mode. ~compile~ command in =cc-mode=
-will work on both Linux and Mac OS, since on Mac, the ~gcc~ command is installed by default and is
-an "alias" for LLVM's =clang=. To debug, run the appropriate debug command below for =gcc=: ~gdb~ or
-for =clang=: ~lldb~.
+These keybindings work in both C language mode and Makefile mode. The ~compile~
+command in =cc-mode= will work on both Linux and Mac OS, as we configure
+~compile-command~ to use LLVM's =clang=. In C++ buffers, the
+~bsl/cpp-compile-current-file~ function will pass the current file buffer to
+~clang~, first routing the command through ~bear~. Both LLVM and ~bear~ must be
+installed locally.
+
+When **eglot** is used to invoke an LSP server for a C++ file, ~clangd~ should
+be specified as the command. A ~.clangd~ file can be placed in any projectile
+project's root directory to tell ~clangd~ to look for compilation commands in
+the ~build~ subdirectory.
+
+To debug, run the appropriate debug command for =clang=: ~lldb~.
 
 Define a C++ compile command that just runs g++:
 #+begin_src emacs-lisp
@@ -1481,12 +1490,15 @@ Define a C++ compile command that just runs g++:
     (interactive)
     (let* ((file (buffer-file-name))
            (ext (when file (file-name-extension file)))
-           (base (when file (file-name-sans-extension file))))
+           (base (when file (file-name-sans-extension file)))
+           (build-dir (concat (projectile-project-root) "build/")))
       ;; Only override the command if it is a .cpp file
       (if (and ext (string= (downcase ext) "cpp"))
           (setq-local compile-command
-                      (format "clang++ -Wall -Wextra -std=c++11 -g %s -o ../build/%s"
+                      (format "bear --output %scompile_commands.json -- clang++ -Wall -Wextra -std=c++11 -g %s -o %s%s"
+                              build-dir
                               (file-name-nondirectory file)
+                              build-dir
                               (file-name-nondirectory base))))
       ;; Trigger the standard compile command
       (call-interactively 'compile)
