@@ -168,7 +168,6 @@ The initial Emacs frame in GUI mode will open as a maximized window.
 #+BEGIN_SRC emacs-lisp
   (setq auto-save-default nil)
 #+END_SRC
-
 ** Backup files go in a dedicated directory
 Emacs can automatically create backup files. This tells Emacs to put all backups in
 ~/.emacs.d/backups. More info [[http://www.gnu.org/software/emacs/manual/html_node/elisp/Backup-Files.html][here]].
@@ -353,6 +352,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "G" 'org-capture
     "A" 'org-agenda
     "L" 'org-store-link
+    "e" 'hippie-expand
     "C-<down>" 'windmove-display-down
     "C-<up>" 'windmove-display-up
     "C-<left>" 'windmove-display-left
@@ -1485,7 +1485,7 @@ Define a C++ compile command that just runs g++:
       ;; Only override the command if it is a .cpp file
       (if (and ext (string= (downcase ext) "cpp"))
           (setq-local compile-command
-                      (format "clang++ -Wall -Wextra -std=c++11 -g -fdiagnostics-color=always %s -o %s"
+                      (format "clang++ -Wall -Wextra -std=c++11 -g %s -o ../build/%s"
                               (file-name-nondirectory file)
                               (file-name-nondirectory base))))
       ;; Trigger the standard compile command
