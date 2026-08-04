@@ -1004,9 +1004,7 @@ variable being written to ~init.el~.
 Refiling provides for a way to quickly move tasks from one heading/file to another.
 #+begin_src emacs-lisp
   (setq org-refile-targets
-        '((nil :maxlevel . 1)
-          ("work.org_archive" :maxlevel . 1)
-          ("personal.org_archive" :maxlevel . 1)))
+        '((nil :maxlevel . 1)))
 #+end_src
 Save all org buffers after refiling.
 #+begin_src emacs-lisp
@@ -1274,7 +1272,18 @@ with the =python-ts-mode= that has built-in support for treesitter.
 *Note:* Someday the author may release [[https://github.com/mickeynp/combobulate][combobulate]] to MELPA, a python tree-sitter based
 package, that provides many ease of use features for python development. On that
 day, try installing it now that the hard part of tree-sitter support is set up.
-
+** Close Compilation Window
+For all programming modes that use the =compile= function, close the compilation
+results window after 5 seconds if there were no /errors/. For warnings, it will
+still close.
+#+begin_src emacs-lisp
+  (setq compilation-finish-functions
+        (lambda (buf str)
+          (if (null (string-match ".*exited abnormally.*" str))
+              ;; No errors: close the window after a brief delay
+              (run-at-time "5 sec" nil 'delete-windows-on buf)
+            (message "Compilation failed: Errors found."))))
+#+end_src
 * Language Server Protocol Servers
 Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for managing programming language features. 
 #+begin_src emacs-lisp
