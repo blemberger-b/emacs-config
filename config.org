@@ -1477,10 +1477,9 @@ Define a function to start a scheme process in the current buffer. Run it with =
     (reposition-window))
 #+end_src
 * C/C++
-** Keybindings for Compile & Debugging
-These keybindings work in both C language mode and Makefile mode. The ~compile~
-command in =cc-mode= will work on both Linux and Mac OS, as we configure
-~compile-command~ to use LLVM's =clang=. In C++ buffers, the
+** Compile Settings
+The ~compile~ command in =cc-mode= will work on both Linux and Mac OS, as we
+configure ~compile-command~ to use LLVM's =clang=. In C++ buffers, the
 ~bsl/cpp-compile-current-file~ function will pass the current file buffer to
 ~clang~, first routing the command through ~bear~. Both LLVM and ~bear~ must be
 installed locally.
@@ -1489,8 +1488,6 @@ When **eglot** is used to invoke an LSP server for a C++ file, ~clangd~ should
 be specified as the command. A ~.clangd~ file can be placed in any projectile
 project's root directory to tell ~clangd~ to look for compilation commands in
 the ~build~ subdirectory.
-
-To debug, run the appropriate debug command for =clang=: ~lldb~.
 
 Define a C++ compile command that just runs g++:
 #+begin_src emacs-lisp
@@ -1513,14 +1510,56 @@ Define a C++ compile command that just runs g++:
       (call-interactively 'compile)
       (kill-local-variable 'compile-command)))
 #+end_src
+
+Turn off the =compile= command's prompt for a command line:
 #+begin_src emacs-lisp
   (setq compilation-read-command nil)
+#+end_src
+** Debugger Settings
+Use realgud-lldb package to use the =clang= debugger: ~lldb~.
+#+begin_src emacs-lisp
+  (use-package realgud-lldb
+    :ensure t
+    :pin melpa-stable)
+#+end_src
+
+Define a function to start =lldb= on the executable produced by compiling the current =.cpp= file:
+#+begin_src emacs-lisp
+  (require 'realgud-lldb)
+  (defun bsl/cpp-debug-current-file ()
+    "Start the lldb debugger on the executable built from the current C++ buffer."
+    (interactive)
+    (let* ((file (buffer-file-name))
+           (ext (when file (file-name-extension file)))
+           (base (when file (file-name-sans-extension file)))
+           (build-dir (concat (projectile-project-root) "build/"))
+           (executable (when base (concat build-dir (file-name-nondirectory base)))))
+      (unless (and ext (member (downcase ext) '("c" "cpp")))
+        (user-error "Not a .c or .cpp buffer"))
+      (if (file-executable-p executable)
+          (let ((src-buffer (current-buffer)))
+            (realgud--lldb (concat "lldb " executable))
+            (let ((cmd-buffer (current-buffer)))
+              (split-window-right)
+              (other-window 1)
+              (switch-to-buffer src-buffer)
+              (realgud:attach-cmd-buffer cmd-buffer)))
+          (let ((chosen (read-file-name "Executable not found. Select from build dir: "
+                                      build-dir nil t)))
+            (realgud--lldb (concat "lldb " chosen))))))
+#+end_src
+
+** Keybindings for Compile & Debugging
+These keybindings work in both C/C++ language mode and Makefile mode. 
+
+#+begin_src emacs-lisp
   (general-def
      '(c-mode-base-map makefile-mode-map)
      "C-c M-c" 'bsl/cpp-compile-current-file
+     "C-c M-d" 'bsl/cpp-debug-current-file
      "C-c M-m" 'compile ;; really "make -k"
-     "C-c M-d n" 'gud-gdb
-     "C-c M-d l" 'lldb)
+     "C-c M-a" 'realgud:attach-cmd-buffer
+  )
 #+end_src
 ** LSP Support for C/C++
 LSP interaction is managed through =eglot=. A C/C++ LSP server must be installed in the system
