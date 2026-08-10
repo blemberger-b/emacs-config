@@ -131,6 +131,72 @@ Scroll by 61.8% of the current screen height when using =C-v= and =M-v=.
     :bind (("C-S-v" . 'golden-ratio-scroll-screen-down)
            ([remap scroll-up-command] . 'golden-ratio-scroll-screen-up)))
 #+end_src
+* Custom Keybindings
+** General
+The [[https://github.com/noctuid/general.el][general]] package is useful for organizing custom keybindings.
+#+begin_src emacs-lisp
+  (use-package general
+    :config
+    (general-create-definer bsl/control-c-definer
+      :prefix "C-c")
+    (general-create-definer bsl/meta-o-definer
+      :keymaps 'org-mode-map
+      :prefix "M-o"))
+#+end_src
+** Repetitive Action Shortcuts
+The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
+command is invoked using the normal keybinding, repetitive invocations of the command can be
+accomplished with a single key.
+#+begin_src emacs-lisp
+  (require 'hydra) ;; package is a dependency of ivy
+#+end_src
+** Keybindings
+Bind some of the functions in this file to the =C-c= key prefix.
+#+begin_src emacs-lisp
+  (bsl/control-c-definer
+    "C-l" 'bsl/copy-whole-line
+    "l" 'bsl/copy-whole-line
+    "s" 'whitespace-mode
+    "v" 'bsl/halve-other-window-height
+    "d" 'ediff-files
+    "b" 'ediff-current-file
+    "w" 'hydra-window-resize/body
+    "x" 'goto-last-change
+    "K" 'bsl/kill-all-buffers
+    "r" 'counsel-recentf
+    "h" 'list-command-history
+    "k" 'bsl/close-treemacs
+    "G" 'org-capture
+    "A" 'org-agenda
+    "L" 'org-store-link
+    "e" 'hippie-expand
+    "C-<down>" 'windmove-display-down
+    "C-<up>" 'windmove-display-up
+    "C-<left>" 'windmove-display-left
+    "C-<right>" 'windmove-display-right
+    "M-e" 'sudo-edit)
+
+  ;; Bindings for viewing and reloadig this file
+  (bsl/control-c-definer
+    :prefix "C-c c"
+    "e" 'bsl/config-visit
+    "r" 'bsl/config-reload)
+
+  ;; Bindings for frame actions
+  (bsl/control-c-definer
+    :prefix "C-c f"
+    "s" 'hydra-frame-resize/body
+    "l" 'bsl/list-number-frames)
+
+  ;; Global keybindings
+  (general-define-key
+   "s-u" 'revert-buffer
+   "M-s" 'avy-goto-char)
+
+  ;;; Bind backward-kill-sexp to C-<backspace>
+  (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
+#+end_src
+
 * Global Settings
 ** Install & run =exec-path-from-shell=
 On Mac OS, an Emacs instance started from the graphical user interface will have a different
@@ -272,6 +338,214 @@ In Mac OS Ventura, apparently, emacs has a problem registering *.svg* image type
 #+begin_src emacs-lisp
   (setq image-types (cons 'svg image-types))
 #+end_src
+** Environment Variable Paths
+On work computer, set a variable for my documents folder. 
+#+begin_src emacs-lisp
+  (setq one-drive-dir (getenv "ONEDRIVE_DIR"))
+#+end_src
+Set a variable for the folder containing personal tech notes
+#+begin_src emacs-lisp
+  (setq pers-tech-notes (getenv "PERS_TECH_NOTES_DIR"))
+#+end_src
+** UI Tweaks
+Replace the three dot ellipsis for collapsed headings (...) with a downward pointing triangle
+character.
+#+begin_src emacs-lisp
+  (setq org-ellipsis " \u25bc")
+#+end_src
+Open all .org files with collapsed headlines. Since we are also using =save-place-mode=, the last
+visited block will be opened.
+#+begin_src emacs-lisp
+  (setq org-startup-folded t)
+#+end_src
+** Navigation Tweaks
+Make =C-a= and =C-e= keybindings to move to beginning/end of headlines.
+#+begin_src emacs-lisp
+  (setq org-special-ctrl-a/e t)
+#+end_src
+** Indentation
+Activate =org-indent-mode= mode, which instead of inserting whitespace characters before each
+non-headline line, puts virtual indentation in to line up the body of the text with headlines.
+#+begin_src emacs-lisp
+  (setq org-startup-indented t)
+  (add-hook 'org-mode-hook (lambda () (diminish 'org-indent-mode)))
+#+end_src
+** Space Before Headlines
+#+begin_src emacs-lisp
+  (customize-set-variable 'org-blank-before-new-entry 
+                          '((heading . nil)
+                            (plain-list-item . auto)))
+#+end_src
+
+** Headline Bullets
+Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
+#+begin_src emacs-lisp
+  (use-package org-bullets
+    :after org
+    :hook (org-mode . org-bullets-mode)
+    :custom
+    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
+#+end_src
+** Common Tags
+These tags will always appear in =org-mode= tag list commands (such as =counsel-org-tag=)
+whether the tags are already in the file or not. Format is a association list with the tag as a
+string and a character as the value, where the character is the shortcut key.
+#+begin_src emacs-lisp
+  (setq org-tag-alist
+        '(("story" . ?s)
+          ("meeting" . ?m)
+          ("training" . ?t)
+          ("doc" . ?d)
+          ("revisit" . ?r)))
+#+end_src
+** Agenda Settings
+These settings apply to =org-agenda= views.
+*** Keybinding for =org-agenda-list=
+=org-agenda-list= is the daily/weekly agenda view.
+#+begin_src emacs-lisp
+  (general-define-key "M-`" 'org-agenda-list)
+#+end_src
+*** Start =org-mode= with agenda logging.
+#+begin_src emacs-lisp
+  (setq org-agenda-start-with-log-mode t)
+#+end_src
+*** Filter closed scheduled tasks out of agenda view
+#+begin_src emacs-lisp
+  (setq org-agenda-skip-scheduled-if-done t)
+#+end_src
+*** Define directories that have agenda files
+Some of these paths won't exist on all of my computers, but that's OK, we're ignoring that with
+a setting below. ~customize-set-variable~ instead of ~setq~ prevents the value of the custom
+variable being written to ~init.el~.
+#+begin_src emacs-lisp
+  (customize-set-variable 'org-agenda-files (list
+                          (concat one-drive-dir "/work-notes")
+                          "~/repos/personal/gtd"))
+#+end_src
+*** Ignore non-existent agenda files & file paths
+#+begin_src emacs-lisp
+  (setq org-agenda-skip-unavailable-files t)
+#+end_src
+*** Add log statements on activities with timestamps.
+#+begin_src emacs-lisp
+  (setq org-log-done 'time)
+#+end_src
+*** Put org log in the drawer.
+#+begin_src emacs-lisp
+  (setq org-log-into-drawer t)
+#+end_src
+*** Define custom workflow keywords
+#+begin_src emacs-lisp
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+          (sequence "|" "CANCELED(c!)")))
+#+end_src
+*** Define custom agenda views
+    Create a dashboard and other agenda views of my own. See this [[https://orgmode.org/manual/Custom-Agenda-Views.html#Custom-Agenda-Views][topic]] in the =org-mode= manual for more information.
+    #+begin_src emacs-lisp
+      (setq org-agenda-custom-commands
+            '(("d" "Dashboard"
+               ((agenda "" ((org-deadline-warning-days 7)))
+                (todo "NEXT"
+                      ((org-agenda-overriding-header "Next Tasks")))
+                (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+              ("W" "Work Non-Doc Tasks" tags-todo "+work-docs")
+              ("e" "Low Effort Tasks" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+               ((org-agenda-max-todos 20)
+                (org-agenda-overriding-header "Low Effort Tasks")))))
+    #+end_src
+*** Refiling
+Refiling provides for a way to quickly move tasks from one heading/file to another.
+#+begin_src emacs-lisp
+  (setq org-refile-targets
+        '((nil :maxlevel . 1)))
+#+end_src
+Save all org buffers after refiling.
+#+begin_src emacs-lisp
+  (advice-add 'org-refile :after 'org-save-all-org-buffers)
+#+end_src
+** Capture Settings
+Capture mode is invoked in any buffer with a keybinding defined below. It is useful for making quick
+lists. Keep separate capture lists for personal and work usage. Enter the specified key prefix to
+choose either.
+#+begin_src emacs-lisp
+  (let ((work-capture-file (concat one-drive-dir "/work-notes/work.org")))
+    (setq org-capture-templates
+      (list (list "w" "Work Inbox" 'entry (list 'file+headline work-capture-file "Inbox")
+                  "* TODO %?\n  %i")
+            '("p" "Personal Inbox" entry (file+headline "~/repos/personal/gtd/personal.org" "Inbox")
+              "* TODO %?\n  %i"))))
+#+end_src
+Bind a quick key for capture of "Work Inbox" items.
+#+begin_src emacs-lisp
+  (bsl/control-c-definer "I"
+    (lambda () (interactive) (org-capture nil "w")))
+#+end_src
+Bind a quick key for capture of "Personal Inbox" items.
+#+begin_src emacs-lisp
+  (bsl/control-c-definer "P"
+    (lambda () (interactive) (org-capture nil "p")))
+#+end_src
+** Htmlize
+Install =htmlize= package to allow exporting =org-mode= files in html format
+#+BEGIN_SRC emacs-lisp
+  (use-package htmlize
+    :pin melpa-stable)
+#+END_SRC
+** Export Formats
+Customize org-mode to support the =md= backend for markdown, as well as some
+default ones.
+#+begin_src emacs-lisp
+  (setq org-export-backends '(ascii html md))
+#+end_src
+** Source snippet for emacs-lisp
+In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* block.
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("el" . "src emacs-lisp"))
+#+END_SRC
+** Source snippet for bash code
+In =org-mode=, the key combination =C-c C-, sb= will insert an *bash* block.
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("sb" . "src bash"))
+#+END_SRC
+** Source snippet for undetermined code
+#+begin_src emacs-lisp
+  (add-to-list 'org-structure-template-alist
+               '("sp" . "src prog"))
+#+end_src
+** Tables
+Make =org-table-copy-down= command /not/ increment the previous value
+#+begin_src emacs-lisp
+  (setq org-table-copy-increment nil)
+#+end_src
+** Presentations
+[[https://github.com/takaxp/org-tree-slide][org-tree-slide]] mode can be used to create an interactive slide show in =org-mode=. To start a
+presentation, do =M-x org-tree-slide-mode=.
+#+begin_src emacs-lisp
+  (use-package org-tree-slide
+    :pin melpa-stable
+    :custom
+    (org-tree-slide-in-effect t)
+    (org-tree-slide-activate-message "presentation started")
+    (org-tree-slide-deactivate-message "presentation ended")
+    (org-tree-slide-header t)
+    (org-tree-slide-breadcrumbs " // ")
+    (org-image-actual-width nil)
+    (org-tree-slide-simple-profile))
+#+end_src
+
+** Custom =org-mode= keybindings
+Keybindings only enabled in =org-mode= buffers:
+#+begin_src emacs-lisp
+  (bsl/meta-o-definer
+    "C-S-t" 'counsel-org-tag
+    "C-t" (defhydra my-org-toggles ()
+            "My org-mode toggles"
+            ("l" org-toggle-link-display "toggle hyperlinks"))
+    "C-b" 'org-table-blank-field)
+#+end_src
 * Modal Editing
 ** God Mode
 Provides a modal editing mode that adheres to the Emacs keybindings as close as possible. See
@@ -314,72 +588,6 @@ it for =dired-mode= and explicitly disable it for =cider-repl-mode=.
           ("z" . repeat))
     :diminish god-local-mode)
 #+end_src
-* Custom Keybindings
-** General
-The [[https://github.com/noctuid/general.el][general]] package is useful for organizing custom keybindings.
-#+begin_src emacs-lisp
-  (use-package general
-    :config
-    (general-create-definer bsl/control-c-definer
-      :prefix "C-c")
-    (general-create-definer bsl/meta-o-definer
-      :keymaps 'org-mode-map
-      :prefix "M-o"))
-#+end_src
-** Repetitive Action Shortcuts
-The [[https://github.com/abo-abo/hydra][hydra]] package allows commands to be bound to short keybindings (called "heads"). After the
-command is invoked using the normal keybinding, repetitive invocations of the command can be
-accomplished with a single key.
-#+begin_src emacs-lisp
-  (require 'hydra) ;; package is a dependency of ivy
-#+end_src
-** Keybindings
-Bind some of the functions in this file to the =C-c= key prefix.
-#+begin_src emacs-lisp
-  (bsl/control-c-definer
-    "C-l" 'bsl/copy-whole-line
-    "l" 'bsl/copy-whole-line
-    "s" 'whitespace-mode
-    "v" 'bsl/halve-other-window-height
-    "d" 'ediff-files
-    "b" 'ediff-current-file
-    "w" 'hydra-window-resize/body
-    "x" 'goto-last-change
-    "K" 'bsl/kill-all-buffers
-    "r" 'counsel-recentf
-    "h" 'list-command-history
-    "k" 'bsl/close-treemacs
-    "G" 'org-capture
-    "A" 'org-agenda
-    "L" 'org-store-link
-    "e" 'hippie-expand
-    "C-<down>" 'windmove-display-down
-    "C-<up>" 'windmove-display-up
-    "C-<left>" 'windmove-display-left
-    "C-<right>" 'windmove-display-right
-    "M-e" 'sudo-edit)
-
-  ;; Bindings for viewing and reloadig this file
-  (bsl/control-c-definer
-    :prefix "C-c c"
-    "e" 'bsl/config-visit
-    "r" 'bsl/config-reload)
-
-  ;; Bindings for frame actions
-  (bsl/control-c-definer
-    :prefix "C-c f"
-    "s" 'hydra-frame-resize/body
-    "l" 'bsl/list-number-frames)
-
-  ;; Global keybindings
-  (general-define-key
-   "s-u" 'revert-buffer
-   "M-s" 'avy-goto-char)
-
-  ;;; Bind backward-kill-sexp to C-<backspace>
-  (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
-#+end_src
-
 * UI Customizations
 ** Set geometry of the initial emacs frame
 Window size will be 40 characters tall x 157 characters wide.
@@ -876,6 +1084,15 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
     ("]" bsl/widen-frame "1.25 x width")
     ("[" bsl/narrow-frame "3/4 width"))
 #+end_src
+** Open Tech Notes
+Quick keybindings to open my technical notes files.
+#+begin_src emacs-lisp
+  (defhydra hydra-open-tech-notes ()
+    "Open Tech Notes"
+    ("p" (lambda (&optional increment)
+           (interactive "p")
+           (find-file (concat pers-tech-notes "notes.org")))))
+#+end_src
 
 ** Display number of open frames
 #+begin_src emacs-lisp
@@ -888,210 +1105,6 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
 #+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]]. 
-** Work Org Mode Files
-One work computer, set a variable for my documents folder. 
-#+begin_src emacs-lisp
-  (setq one-drive-dir (getenv "ONEDRIVE_DIR"))
-#+end_src
-** UI Tweaks
-Replace the three dot ellipsis for collapsed headings (...) with a downward pointing triangle
-character.
-#+begin_src emacs-lisp
-  (setq org-ellipsis " \u25bc")
-#+end_src
-Open all .org files with collapsed headlines. Since we are also using =save-place-mode=, the last
-visited block will be opened.
-#+begin_src emacs-lisp
-  (setq org-startup-folded t)
-#+end_src
-** Navigation Tweaks
-Make =C-a= and =C-e= keybindings to move to beginning/end of headlines.
-#+begin_src emacs-lisp
-  (setq org-special-ctrl-a/e t)
-#+end_src
-** Indentation
-Activate =org-indent-mode= mode, which instead of inserting whitespace characters before each
-non-headline line, puts virtual indentation in to line up the body of the text with headlines.
-#+begin_src emacs-lisp
-  (setq org-startup-indented t)
-  (add-hook 'org-mode-hook (lambda () (diminish 'org-indent-mode)))
-#+end_src
-** Space Before Headlines
-#+begin_src emacs-lisp
-  (customize-set-variable 'org-blank-before-new-entry 
-                          '((heading . nil)
-                            (plain-list-item . auto)))
-#+end_src
-
-** Headline Bullets
-Replace the native asterisk headline   format string (e.g. =***=) with unicode bullet characters
-#+begin_src emacs-lisp
-  (use-package org-bullets
-    :after org
-    :hook (org-mode . org-bullets-mode)
-    :custom
-    (org-bullets-bullet-list '("◉" "○" "●" "○" "●" "○" "●")))
-#+end_src
-** Common Tags
-These tags will always appear in =org-mode= tag list commands (such as =counsel-org-tag=)
-whether the tags are already in the file or not. Format is a association list with the tag as a
-string and a character as the value, where the character is the shortcut key.
-#+begin_src emacs-lisp
-  (setq org-tag-alist
-        '(("story" . ?s)
-          ("meeting" . ?m)
-          ("training" . ?t)
-          ("doc" . ?d)
-          ("revisit" . ?r)))
-#+end_src
-** Agenda Settings
-These settings apply to =org-agenda= views.
-*** Keybinding for =org-agenda-list=
-=org-agenda-list= is the daily/weekly agenda view.
-#+begin_src emacs-lisp
-  (general-define-key "M-`" 'org-agenda-list)
-#+end_src
-*** Start =org-mode= with agenda logging.
-#+begin_src emacs-lisp
-  (setq org-agenda-start-with-log-mode t)
-#+end_src
-*** Filter closed scheduled tasks out of agenda view
-#+begin_src emacs-lisp
-  (setq org-agenda-skip-scheduled-if-done t)
-#+end_src
-*** Define directories that have agenda files
-Some of these paths won't exist on all of my computers, but that's OK, we're ignoring that with
-a setting below. ~customize-set-variable~ instead of ~setq~ prevents the value of the custom
-variable being written to ~init.el~.
-#+begin_src emacs-lisp
-  (customize-set-variable 'org-agenda-files (list
-                          (concat one-drive-dir "/work-notes")
-                          "~/repos/personal/gtd"))
-#+end_src
-*** Ignore non-existent agenda files & file paths
-#+begin_src emacs-lisp
-  (setq org-agenda-skip-unavailable-files t)
-#+end_src
-*** Add log statements on activities with timestamps.
-#+begin_src emacs-lisp
-  (setq org-log-done 'time)
-#+end_src
-*** Put org log in the drawer.
-#+begin_src emacs-lisp
-  (setq org-log-into-drawer t)
-#+end_src
-*** Define custom workflow keywords
-#+begin_src emacs-lisp
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-          (sequence "|" "CANCELED(c!)")))
-#+end_src
-*** Define custom agenda views
-    Create a dashboard and other agenda views of my own. See this [[https://orgmode.org/manual/Custom-Agenda-Views.html#Custom-Agenda-Views][topic]] in the =org-mode= manual for more information.
-    #+begin_src emacs-lisp
-      (setq org-agenda-custom-commands
-            '(("d" "Dashboard"
-               ((agenda "" ((org-deadline-warning-days 7)))
-                (todo "NEXT"
-                      ((org-agenda-overriding-header "Next Tasks")))
-                (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
-              ("W" "Work Non-Doc Tasks" tags-todo "+work-docs")
-              ("e" "Low Effort Tasks" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
-               ((org-agenda-max-todos 20)
-                (org-agenda-overriding-header "Low Effort Tasks")))))
-    #+end_src
-*** Refiling
-Refiling provides for a way to quickly move tasks from one heading/file to another.
-#+begin_src emacs-lisp
-  (setq org-refile-targets
-        '((nil :maxlevel . 1)))
-#+end_src
-Save all org buffers after refiling.
-#+begin_src emacs-lisp
-  (advice-add 'org-refile :after 'org-save-all-org-buffers)
-#+end_src
-** Capture Settings
-Capture mode is invoked in any buffer with a keybinding defined below. It is useful for making quick
-lists. Keep separate capture lists for personal and work usage. Enter the specified key prefix to
-choose either.
-#+begin_src emacs-lisp
-  (let ((work-capture-file (concat one-drive-dir "/work-notes/work.org")))
-    (setq org-capture-templates
-      (list (list "w" "Work Inbox" 'entry (list 'file+headline work-capture-file "Inbox")
-                  "* TODO %?\n  %i")
-            '("p" "Personal Inbox" entry (file+headline "~/repos/personal/gtd/personal.org" "Inbox")
-              "* TODO %?\n  %i"))))
-#+end_src
-Bind a quick key for capture of "Work Inbox" items.
-#+begin_src emacs-lisp
-  (bsl/control-c-definer "I"
-    (lambda () (interactive) (org-capture nil "w")))
-#+end_src
-Bind a quick key for capture of "Personal Inbox" items.
-#+begin_src emacs-lisp
-  (bsl/control-c-definer "P"
-    (lambda () (interactive) (org-capture nil "p")))
-#+end_src
-** Htmlize
-Install =htmlize= package to allow exporting =org-mode= files in html format
-#+BEGIN_SRC emacs-lisp
-  (use-package htmlize
-    :pin melpa-stable)
-#+END_SRC
-** Export Formats
-Customize org-mode to support the =md= backend for markdown, as well as some
-default ones.
-#+begin_src emacs-lisp
-  (setq org-export-backends '(ascii html md))
-#+end_src
-** Source snippet for emacs-lisp
-In =org-mode=, the key combination =C-c C-, el= will insert an *emacs-lisp* block.
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-structure-template-alist
-               '("el" . "src emacs-lisp"))
-#+END_SRC
-** Source snippet for bash code
-In =org-mode=, the key combination =C-c C-, sb= will insert an *bash* block.
-#+BEGIN_SRC emacs-lisp
-  (add-to-list 'org-structure-template-alist
-               '("sb" . "src bash"))
-#+END_SRC
-** Source snippet for undetermined code
-#+begin_src emacs-lisp
-  (add-to-list 'org-structure-template-alist
-               '("sp" . "src prog"))
-#+end_src
-** Tables
-Make =org-table-copy-down= command /not/ increment the previous value
-#+begin_src emacs-lisp
-  (setq org-table-copy-increment nil)
-#+end_src
-** Presentations
-[[https://github.com/takaxp/org-tree-slide][org-tree-slide]] mode can be used to create an interactive slide show in =org-mode=. To start a
-presentation, do =M-x org-tree-slide-mode=.
-#+begin_src emacs-lisp
-  (use-package org-tree-slide
-    :pin melpa-stable
-    :custom
-    (org-tree-slide-in-effect t)
-    (org-tree-slide-activate-message "presentation started")
-    (org-tree-slide-deactivate-message "presentation ended")
-    (org-tree-slide-header t)
-    (org-tree-slide-breadcrumbs " // ")
-    (org-image-actual-width nil)
-    (org-tree-slide-simple-profile))
-#+end_src
-
-** Custom =org-mode= keybindings
-Keybindings only enabled in =org-mode= buffers:
-#+begin_src emacs-lisp
-  (bsl/meta-o-definer
-    "C-S-t" 'counsel-org-tag
-    "C-t" (defhydra my-org-toggles ()
-            "My org-mode toggles"
-            ("l" org-toggle-link-display "toggle hyperlinks"))
-    "C-b" 'org-table-blank-field)
-#+end_src
 * Text Mode
 ** =text-mode=
 In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
