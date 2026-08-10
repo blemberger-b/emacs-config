@@ -170,6 +170,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
     "A" 'org-agenda
     "L" 'org-store-link
     "e" 'hippie-expand
+    "t" 'hydra-open-tech-notes/body
     "C-<down>" 'windmove-display-down
     "C-<up>" 'windmove-display-up
     "C-<left>" 'windmove-display-left
@@ -195,6 +196,28 @@ Bind some of the functions in this file to the =C-c= key prefix.
 
   ;;; Bind backward-kill-sexp to C-<backspace>
   (global-set-key [remap backward-kill-word] 'backward-kill-sexp)
+#+end_src
+
+** Display number of open frames
+#+begin_src emacs-lisp
+  (defun bsl/list-number-frames ()
+    "Display the number of frames to the echo area."
+    (interactive)
+    (if (display-graphic-p)
+        (message "%d frame(s) " (length (frame-list)))
+      (message "no frames in tty mode")))
+#+end_src
+** Open Tech Notes
+Quick keybindings to open my technical notes files.
+#+begin_src emacs-lisp
+  (defhydra hydra-open-tech-notes ()
+    "Open Tech Notes"
+    ("p" (lambda (&optional increment)
+           (interactive "p")
+           (find-file (concat pers-tech-notes "/notes.org"))))
+    ("w" (lambda (&optional increment)
+           (interactive "p")
+           (find-file "~/repos/personal/bayer-tech-notes/notes.org"))))
 #+end_src
 
 * Global Settings
@@ -1083,25 +1106,6 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
            (bsl/adjust-frame-param '+ 'width increment nil)) "wider")
     ("]" bsl/widen-frame "1.25 x width")
     ("[" bsl/narrow-frame "3/4 width"))
-#+end_src
-** Open Tech Notes
-Quick keybindings to open my technical notes files.
-#+begin_src emacs-lisp
-  (defhydra hydra-open-tech-notes ()
-    "Open Tech Notes"
-    ("p" (lambda (&optional increment)
-           (interactive "p")
-           (find-file (concat pers-tech-notes "notes.org")))))
-#+end_src
-
-** Display number of open frames
-#+begin_src emacs-lisp
-  (defun bsl/list-number-frames ()
-    "Display the number of frames to the echo area."
-    (interactive)
-    (if (display-graphic-p)
-        (message "%d frame(s) " (length (frame-list)))
-      (message "no frames in tty mode")))
 #+end_src
 * Org Mode
 See [[https://orgmode.org/index.html][org-mode]]. 
