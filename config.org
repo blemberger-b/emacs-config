@@ -210,7 +210,7 @@ Bind some of the functions in this file to the =C-c= key prefix.
 ** Open Tech Notes
 Quick keybindings to open my technical notes files.
 #+begin_src emacs-lisp
-  (defhydra hydra-open-tech-notes ()
+  (defhydra hydra-open-tech-notes (:exit t)
     "Open Tech Notes"
     ("p" (lambda (&optional increment)
            (interactive "p")
