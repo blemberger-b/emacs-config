@@ -214,10 +214,10 @@ Quick keybindings to open my technical notes files.
     "Open Tech Notes"
     ("p" (lambda (&optional increment)
            (interactive "p")
-           (find-file (concat pers-tech-notes "/notes.org"))))
+           (find-file (concat pers-tech-notes "/notes.org"))) "personal")
     ("w" (lambda (&optional increment)
            (interactive "p")
-           (find-file "~/repos/personal/bayer-tech-notes/notes.org"))))
+           (find-file "~/repos/personal/bayer-tech-notes/notes.org")) "work"))
 #+end_src
 
 * Global Settings
