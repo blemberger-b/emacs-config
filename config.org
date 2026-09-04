@@ -813,12 +813,31 @@ function that I never use.
 ** Spaceline
 =spaceline= is a better mode line from the [[https://www.spacemacs.org/][spacemacs distribution]]. Use the spacemacs-emacs theme, but turn
 off the file line-endings info segment in the mode line, which I don't find very useful.
+
+=spaceline='s built-in =python-pyvenv= segment (already part of =spaceline-emacs-theme=) only
+displays when the buffer's =major-mode= is exactly =python-mode=. Since [[Treesitter][=python-mode=
+is remapped to =python-ts-mode=]] in this config, that segment never activates. Redefine the
+segment so it also recognizes =python-ts-mode=, restoring the virtual environment indicator
+(activated via =pyvenv-activate=) in the mode line. This redefinition *must* happen before
+=spaceline-emacs-theme= is called, since spaceline compiles the modeline (including segment
+definitions) at install time; redefining a segment afterwards has no effect until the modeline is
+recompiled. Also prefix the venv name with ~venv:~ so it is not confused with the project name or
+filename when they happen to match.
 #+BEGIN_SRC emacs-lisp
   (use-package spaceline
     :demand t
     :pin melpa-stable
     :config
     (require 'spaceline-config)
+    (spaceline-define-segment python-pyvenv
+      "The current python venv.  Works with `pyvenv'."
+      (when (and active
+                 (derived-mode-p 'python-mode 'python-ts-mode)
+                 (bound-and-true-p pyvenv-virtual-env-name))
+        (propertize (concat "venv:" pyvenv-virtual-env-name)
+                    'face 'spaceline-python-venv
+                    'help-echo (format "Virtual environment (via pyvenv): %s"
+                                       pyvenv-virtual-env))))
     (spaceline-emacs-theme)
     (spaceline-toggle-buffer-encoding-abbrev-off)
     (setq spaceline-highlight-face-func 'bsl/spaceline-highlight-face-func))
