@@ -65,10 +65,10 @@
          json-process-client kotlin-mode lsp-jedi magit mcp mwim nodejs-repl
          org-bullets org-tree-slide page-break-lines paradox paredit pdf-tools
          php-mode plantuml-mode polymode popup-kill-ring presentation
-         protobuf-mode python-black pyvenv rainbow-delimiters realgud-lldb
-         request shell-maker smex spaceline sudo-edit surround terraform-mode
-         track-changes treemacs-projectile typescript-mode urlenc use-package
-         which-key yaml-mode))
+         protobuf-mode python-black python-insert-docstring pyvenv
+         rainbow-delimiters realgud-lldb request shell-maker smex spaceline
+         sudo-edit surround terraform-mode track-changes treemacs-projectile
+         typescript-mode urlenc use-package which-key yaml-mode))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(safe-local-variable-values
    '((eval setq-local org-blank-before-new-entry
