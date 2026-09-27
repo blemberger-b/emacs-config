@@ -57,18 +57,18 @@
      ("KLUDGE" . "#b1951d") ("HACK" . "#b1951d") ("TEMP" . "#b1951d")
      ("FIXME" . "#dc752f") ("XXX+" . "#dc752f") ("\\?\\?\\?+" . "#dc752f")))
  '(package-selected-packages
-   '(aio all-the-icons auto-dim-other-buffers beacon bookmark-in-project cider
-         color-theme-sanityinc-tomorrow company counsel-projectile dap-mode
-         dashboard diminish dockerfile-mode exec-path-from-shell general
-         god-mode golden-ratio-scroll-screen goto-last-change
-         highlight-indentation htmlize ivy-hydra ivy-rich js2-refactor
-         json-process-client kotlin-mode lsp-jedi magit mcp mwim nodejs-repl
-         org-bullets org-tree-slide page-break-lines paradox paredit pdf-tools
-         php-mode plantuml-mode polymode popup-kill-ring presentation
-         protobuf-mode python-black python-insert-docstring pyvenv
-         rainbow-delimiters realgud-lldb request shell-maker smex spaceline
-         sudo-edit surround terraform-mode track-changes treemacs-projectile
-         typescript-mode urlenc use-package which-key yaml-mode))
+   '(annalist auto-dim-other-buffers beacon bookmark-in-project cider
+              color-theme-sanityinc-tomorrow company counsel-projectile dap-mode
+              dashboard diminish dockerfile-mode exec-path-from-shell general
+              git-commit gnuplot god-mode golden-ratio-scroll-screen goto-chg
+              goto-last-change highlight-indentation htmlize ivy-hydra ivy-rich
+              kotlin-mode magit mwim nodejs-repl org-bullets org-tree-slide
+              page-break-lines paradox paredit pcre2el pdf-tools php-mode
+              plantuml-mode poetry popup pos-tip presentation protobuf-mode
+              python-black python-insert-docstring rainbow-delimiters
+              realgud-lldb smex spaceline sudo-edit surround terraform-mode
+              treemacs-projectile typescript-mode urlenc use-package which-key
+              yaml-mode yasnippet))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(safe-local-variable-values
    '((eval setq-local org-blank-before-new-entry

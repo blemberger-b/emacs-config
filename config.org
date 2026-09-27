@@ -888,10 +888,21 @@ Emacs before actually pasting it, this selection is gone unless this variable is
   (setq save-interprogram-paste-before-kill t)
 #+end_src
 * Terminal
+** Open a bash shell to the right
+This custom command opens a bash shell to the right of the currently active
+window.
+#+begin_src emacs-lisp
+  (defun bsl/split-window-right-and-shell ()
+    "Split the current window vertically (side-by-side) and open a shell in the new window."
+    (interactive)
+    (split-window-right)
+    (other-window 1)
+    (shell))
+#+end_src
 ** Bind shell command to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-t") 'ansi-term)
+  (global-set-key (kbd "s-t") 'bsl/split-window-right-and-shell)
 #+END_SRC
 Basically, use =C-c= to prefix the normal bash terminal key bindings (ex. =C-c C-p=, etc.).
 * Dired
@@ -1577,12 +1588,13 @@ Define a function to start =lldb= on the executable produced by compiling the cu
            (ext (when file (file-name-extension file)))
            (base (when file (file-name-sans-extension file)))
            (build-dir (concat (projectile-project-root) "build/"))
-           (executable (when base (concat build-dir (file-name-nondirectory base)))))
+           (executable (when base (concat build-dir (file-name-nondirectory base))))
+           (lldb-command "lldb -O \"settings set use-color true\" -- "))
       (unless (and ext (member (downcase ext) '("c" "cpp")))
         (user-error "Not a .c or .cpp buffer"))
       (if (file-executable-p executable)
           (let ((src-buffer (current-buffer)))
-            (realgud--lldb (concat "lldb " executable))
+            (realgud--lldb (concat lldb-command executable))
             (let ((cmd-buffer (current-buffer)))
               (split-window-right)
               (other-window 1)
@@ -1590,7 +1602,7 @@ Define a function to start =lldb= on the executable produced by compiling the cu
               (realgud:attach-cmd-buffer cmd-buffer)))
           (let ((chosen (read-file-name "Executable not found. Select from build dir: "
                                       build-dir nil t)))
-            (realgud--lldb (concat "lldb " chosen))))))
+            (realgud--lldb (concat lldb-command chosen))))))
 #+end_src
 
 ** Keybindings for Compile & Debugging
