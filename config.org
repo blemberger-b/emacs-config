@@ -278,7 +278,7 @@ Scroll up to this many lines to bring point back on screen.
 ** Set default fill column
 Set the default column to 80 where emacs will attempt to auto-fill in those modes that support it.
 #+BEGIN_SRC emacs-lisp
-  (setq-default fill-column 80)
+  (setq-default fill-column 200)
 #+END_SRC
 ** No tab characters
 Make indentation use space characters only and not tab characters. Note that some major modes
