@@ -1565,10 +1565,20 @@ Define a C++ compile command that just runs ~clang++~:
       (call-interactively 'compile)
       (kill-local-variable 'compile-command)))
 #+end_src
-
-Turn off the =compile= command's prompt for a command line:
+** Turn off the =compile= command's prompt for a command line:
 #+begin_src emacs-lisp
   (setq compilation-read-command nil)
+#+end_src
+** Make the Compile results always appear in a separate window
+This prevents the auto-close of the compilation results window from taking over
+another window.
+#+begin_src emacs-lisp
+  (add-to-list 'display-buffer-alist
+               '("\\*compilation\\*"
+                 (display-buffer-reuse-window display-buffer-in-side-window)
+                 (side . bottom)
+                 (reusable-frames . visible)
+                 (window-height . 0.3)))
 #+end_src
 ** Debugger Settings
 Use realgud-lldb package to use the =clang= debugger: ~lldb~.
