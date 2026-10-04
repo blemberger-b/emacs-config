@@ -1544,7 +1544,7 @@ be specified as the command. A ~.clangd~ file can be placed in any projectile
 project's root directory to tell ~clangd~ to look for compilation commands in
 the ~build~ subdirectory.
 
-Define a C++ compile command that just runs g++:
+Define a C++ compile command that just runs ~clang++~:
 #+begin_src emacs-lisp
   (defun bsl/cpp-compile-current-file ()
     "Dynamically set `compile-command` for the current C++ buffer and run compile."
