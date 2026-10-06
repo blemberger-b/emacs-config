@@ -1280,7 +1280,7 @@ named [[https://github.com/realgud/realgud][realgud]] is available on MELPA. Cha
 always use Python 3.
 #+begin_src emacs-lisp
   (use-package realgud
-    :pin melpa-stable
+    :pin melpa
     :custom (realgud:pdb-command-name "python3 -m pdb"))
 #+end_src
 This package installs interfaces to popular debuggers like =pdb=, =gdb=, and =lldb=.
@@ -1585,7 +1585,7 @@ Use realgud-lldb package to use the =clang= debugger: ~lldb~.
 #+begin_src emacs-lisp
   (use-package realgud-lldb
     :ensure t
-    :pin melpa-stable)
+    :pin melpa)
 #+end_src
 
 Define a function to start =lldb= on the executable produced by compiling the current =.cpp= file:
