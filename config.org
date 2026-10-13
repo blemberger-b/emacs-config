@@ -1009,15 +1009,17 @@ to confirm. It will then open the =*dashboard*= buffer.
 * Auto-Complete
 For completion within buffers, we'll use the [[https://company-mode.github.io/][company package]], only enabled in modes defined later.
 #+begin_src emacs-lisp
-  (use-package company
-    :pin gnu
-    :hook ((cider-mode . company-mode)
-           (cider-repl-mode . company-mode)
-           (python-ts-mode . company-mode)
-           (emacs-lisp-mode . company-mode))
-    :bind (:map company-mode-map
-           ("C-M-i" . company-complete))
-    :diminish)
+    (use-package company
+      :pin gnu
+      :hook ((cider-mode . company-mode)
+             (cider-repl-mode . company-mode)
+             (python-ts-mode . company-mode)
+             (emacs-lisp-mode . company-mode)
+             (js-ts-mode . company-mode)
+             (typescript-ts-mode . company-mode))
+      :bind (:map company-mode-map
+             ("C-M-i" . company-complete))
+      :diminish)
 #+end_src
 
 * Windows
@@ -1306,11 +1308,16 @@ syntax tree for a source code buffer.
  - To confirm that python's tree-sitter is working, evaluate the
    *non-interactive* elisp expression ~(treesit-language-available-p 'python)~
 
-Here, we replace the default =python-mode=
-with the =python-ts-mode= that has built-in support for treesitter.
+Here, we replace the default programming language major modes with their corresponding tree-sitter (=-ts=) modes.
 #+begin_src emacs-lisp
-    (setq major-mode-remap-alist
-          '((python-mode . python-ts-mode)))
+  (setq major-mode-remap-alist
+        '((python-mode . python-ts-mode)
+          (js-mode . js-ts-mode)
+          ;; auto-mode-alist maps .js files to `javascript-mode' (an alias of
+          ;; `js-mode'), and major-mode-remap-alist does exact symbol
+          ;; matching, so this alias must be remapped separately.
+          (javascript-mode . js-ts-mode)
+          (typescript-mode . typescript-ts-mode)))
 #+end_src
 *Note:* Keybindings still need to be done for =python-ts-mode-map= rather than
  =python-mode=map= and hooks need to be made for =python-ts-mode-hook= rather
@@ -1343,6 +1350,65 @@ Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for ma
 Use =php-mode= for =.php= files.        
 #+begin_src emacs-lisp
   (use-package php-mode)
+#+end_src
+* Javascript/Typescript
+** Tree-sitter Grammar
+Emacs 30's bundled tree-sitter runtime only supports grammar ABI 14, but the
+=tree-sitter-javascript= grammar moved to ABI 15 starting with v0.25.0. Pin the
+grammar source to v0.23.1 (last ABI-14 release) to avoid a "version-mismatch"
+warning, then install it with =M-x treesit-install-language-grammar RET javascript RET=.
+#+begin_src emacs-lisp
+  (setq treesit-language-source-alist
+        '((javascript "https://github.com/tree-sitter/tree-sitter-javascript" "v0.23.1")))
+#+end_src
+** LSP Support for Javascript/Typescript
+LSP interaction is managed through =eglot=. A *typescript* LSP server must be installed in the system PATH. A
+good choice to use is =typescript-language-server=. Enable the language server in all typescript and javascript buffers:
+#+begin_src emacs-lisp
+  (use-package eglot
+    :ensure t)
+
+  (add-hook 'js-ts-mode-hook #'eglot-ensure)
+  (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+#+end_src
+** Interactive REPL
+Use =js-comint= to run a Node.js REPL and send code from a =.js= buffer to it.
+Because the REPL runs over a pty, Node's =repl= module detects a TTY and
+enables its own raw-mode "terminal" line editing (including the "preview"
+redraw feature), which uses cursor-movement escapes that =comint= cannot
+render correctly. This produces garbled, stuttering output (e.g. typing
+=1 + 1= shows up as "> 1> 1 > 1 +> 1 + > 1 + 1"). Disable both "terminal"
+and "preview" so Node reads plain lines and lets =comint= own all echoing.
+
+Disabling "terminal" mode means Node's =.editor= command (which =js-comint=
+normally uses to send multi-line snippets) no longer works, since =.editor=
+itself requires raw-mode terminal support and gets rejected as an invalid
+REPL keyword. Replace it with Node's =.load <file>= command instead, which
+writes the snippet to a temp file and loads it -- this works fine without a
+real terminal and produces clean output for multi-line sends.
+#+begin_src emacs-lisp
+  (use-package js-comint
+    :ensure t
+    :config
+    (setq js-comint-code-format
+          (replace-regexp-in-string
+           "\"preview\": true,"
+           "\"preview\": false,\n\"terminal\": false,"
+           js-comint-code-format))
+    (defun js-comint-send-string (str)
+      "Send STR to repl, using a temp file + .load for multi-line input."
+      (let ((lines (split-string str "\n")))
+        (if (= (length lines) 1)
+            (comint-send-string (js-comint-get-process) (concat str "\n"))
+          (let ((temp-file (make-temp-file "js-comint" nil ".js" str)))
+            (comint-send-string (js-comint-get-process)
+                                 (format ".load %s\n" temp-file))
+            (run-at-time 2 nil (lambda () (ignore-errors (delete-file temp-file))))))))
+    :hook (js-ts-mode . (lambda ()
+                           (local-set-key (kbd "C-c C-c") #'js-comint-send-buffer)
+                           (local-set-key (kbd "C-c C-r") #'js-comint-send-region)
+                           (local-set-key (kbd "C-c C-l") #'js-comint-send-last-sexp)
+                           (local-set-key (kbd "C-c C-z") #'js-comint-start-or-switch-to-repl))))
 #+end_src
 * Python
 ** Consistent tab widths & indentation
