@@ -1386,6 +1386,13 @@ itself requires raw-mode terminal support and gets rejected as an invalid
 REPL keyword. Replace it with Node's =.load <file>= command instead, which
 writes the snippet to a temp file and loads it -- this works fine without a
 real terminal and produces clean output for multi-line sends.
+
+Node's REPL also cannot run static ES Module =import= statements (it always
+evaluates top-level code as a CommonJS script, where =import= is a syntax
+error) -- only dynamic =import()= is supported. Rewrite =import= lines to
+their dynamic-import equivalent before sending, so snippets copied straight
+out of a =.js= source file "just work" in the REPL. The REPL already
+supports top-level =await=, so =await import(...)= works directly.
 #+begin_src emacs-lisp
   (use-package js-comint
     :ensure t
@@ -1395,9 +1402,27 @@ real terminal and produces clean output for multi-line sends.
            "\"preview\": true,"
            "\"preview\": false,\n\"terminal\": false,"
            js-comint-code-format))
+    (defun js-comint--import-to-dynamic (line)
+      "Rewrite an ES module LINE to a dynamic import expression Node's REPL can run."
+      (cond
+       ((string-match "^import\\s-+\\*\\s-+as\\s-+\\([[:word:]_$]+\\)\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
+        (format "const %s = await import('%s');" (match-string 1 line) (match-string 2 line)))
+       ((string-match "^import\\s-+\\([[:word:]_$]+\\)\\s-*,\\s-*{\\s-*\\([^}]*\\)}\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
+        (format "const { default: %s, %s } = await import('%s');"
+                (match-string 1 line) (string-trim (match-string 2 line)) (match-string 3 line)))
+       ((string-match "^import\\s-+{\\s-*\\([^}]*\\)}\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
+        (format "const { %s } = await import('%s');"
+                (string-trim (match-string 1 line)) (match-string 2 line)))
+       ((string-match "^import\\s-+\\([[:word:]_$]+\\)\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
+        (format "const { default: %s } = await import('%s');" (match-string 1 line) (match-string 2 line)))
+       ((string-match "^import\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
+        (format "await import('%s');" (match-string 1 line)))
+       (t line)))
     (defun js-comint-send-string (str)
-      "Send STR to repl, using a temp file + .load for multi-line input."
-      (let ((lines (split-string str "\n")))
+      "Send STR to repl, using a temp file + .load for multi-line input.
+Rewrites ES module `import' lines to dynamic imports along the way."
+      (let* ((lines (mapcar #'js-comint--import-to-dynamic (split-string str "\n")))
+             (str (string-join lines "\n")))
         (if (= (length lines) 1)
             (comint-send-string (js-comint-get-process) (concat str "\n"))
           (let ((temp-file (make-temp-file "js-comint" nil ".js" str)))
