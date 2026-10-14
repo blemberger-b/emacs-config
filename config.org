@@ -1143,12 +1143,12 @@ Makes the current frame vertically/horizontally bigger/smaller incrementally.
 See [[https://orgmode.org/index.html][org-mode]]. 
 * Text Mode
 ** =text-mode=
-In text mode, you generally want to auto-wrap or "auto-fill" lines of text, so this makes that
-happen but only in =text-mode= and its derivatives. We also enable =flyspell-mode= minor mode in all
-text modes to get spellchecking functionality.
+In text mode, you generally want to insert newlines or "auto-fill" lines of text while still enabling "soft-wrap", so this makes that happen but only in =text-mode= and its derivatives. We also enable
+=flyspell-mode= minor mode in all text modes to get spellchecking functionality.
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'text-mode-hook (lambda () (turn-on-auto-fill)
+  (add-hook 'text-mode-hook (lambda () (turn-on-auto-fill) ; auto-fill mode inserts newlines
+                              (turn-on-visual-line-mode) ; visual-line-mode soft wraps at window boundary
                               (flyspell-mode)))
 #+END_SRC
 *** Note: This requires that the =ispell= program be installed in the path of the local system. 
