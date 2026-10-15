@@ -888,7 +888,14 @@ Emacs before actually pasting it, this selection is gone unless this variable is
   (setq save-interprogram-paste-before-kill t)
 #+end_src
 * Terminal
-<<<<<<< HEAD
+Emacs terminal mode works by creating a new shell subprocess. Therefore, keybindings for this buffer change whether the buffer is in "line" or "character" mode. Line mode treats the keybindings in the
+buffer like a normal emacs buffer, while character treats the keybindings as in a terminal shell. To switch between these modes use:
+
+| switch to mode | keybinding |
+|----------------+------------|
+| char           | C-c C-k    |
+| line           | C-c C-j    |
+
 ** Open a bash shell to the right
 This custom command opens a bash shell to the right of the currently active
 window.
@@ -1025,8 +1032,7 @@ For completion within buffers, we'll use the [[https://company-mode.github.io/][
            (python-ts-mode . company-mode)
            (emacs-lisp-mode . company-mode)
            (js-ts-mode . company-mode)
-           (typescript-ts-mode . company-mode)
-           (js-comint-mode . company-mode))
+           (typescript-ts-mode . company-mode))
     :bind (:map company-mode-map
            ("C-M-i" . company-complete))
     :diminish)
@@ -1382,68 +1388,32 @@ good choice to use is =typescript-language-server=. Enable the language server i
   (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
 #+end_src
 ** Interactive REPL
-Use =js-comint= to run a Node.js REPL and send code from a =.js= buffer to it.
-Because the REPL runs over a pty, Node's =repl= module detects a TTY and
-enables its own raw-mode "terminal" line editing (including the "preview"
-redraw feature), which uses cursor-movement escapes that =comint= cannot
-render correctly. This produces garbled, stuttering output (e.g. typing
-=1 + 1= shows up as "> 1> 1 > 1 +> 1 + > 1 + 1"). Disable both "terminal"
-and "preview" so Node reads plain lines and lets =comint= own all echoing.
+The best solution for javascript/typescript REPL functionality within Emacs is to use =ansi-term= (activated via =s-t=) and then start a =node= session. The below code will try to resolve =node= and
+add it to the Emacs process' =PATH= environment variable.
+** Make nvm's Node visible to Emacs (=exec-path=/=eglot=, etc.)
+=nvm= is lazy-loaded in =.bash_profile= for faster shell startup: =node=/=npm=/=npx=/=nvm= are just shell functions that source =nvm.sh= (which actually puts Node's =bin= dir on =PATH=) only the first
+time one of them is *invoked as a command*. =exec-path-from-shell= only sources =.bash_profile= and reads back environment variables -- it never calls =node=, so that lazy loader never fires, and
+nvm's Node =bin= directory never makes it into Emacs's =exec-path=. This breaks anything that shells out to a Node-based binary found via =exec-path=, e.g. Eglot looking for
+=typescript-language-server=.
 
-Disabling "terminal" mode means Node's =.editor= command (which =js-comint=
-normally uses to send multi-line snippets) no longer works, since =.editor=
-itself requires raw-mode terminal support and gets rejected as an invalid
-REPL keyword. Replace it with Node's =.load <file>= command instead, which
-writes the snippet to a temp file and loads it -- this works fine without a
-real terminal and produces clean output for multi-line sends.
-
-Node's REPL also cannot run static ES Module =import= statements (it always
-evaluates top-level code as a CommonJS script, where =import= is a syntax
-error) -- only dynamic =import()= is supported. Rewrite =import= lines to
-their dynamic-import equivalent before sending, so snippets copied straight
-out of a =.js= source file "just work" in the REPL. The REPL already
-supports top-level =await=, so =await import(...)= works directly.
+Fix: trigger the same lazy-load nvm does, once, in a disposable login shell at startup, and prepend the resolved bin directory to =exec-path=/=PATH=.
 #+begin_src emacs-lisp
-  (use-package js-comint
-    :ensure t
-    :config
-    (setq js-comint-code-format
-          (replace-regexp-in-string
-           "\"preview\": true,"
-           "\"preview\": false,\n\"terminal\": false,"
-           js-comint-code-format))
-    (defun js-comint--import-to-dynamic (line)
-      "Rewrite an ES module LINE to a dynamic import expression Node's REPL can run."
-      (cond
-       ((string-match "^import\\s-+\\*\\s-+as\\s-+\\([[:word:]_$]+\\)\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
-        (format "const %s = await import('%s');" (match-string 1 line) (match-string 2 line)))
-       ((string-match "^import\\s-+\\([[:word:]_$]+\\)\\s-*,\\s-*{\\s-*\\([^}]*\\)}\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
-        (format "const { default: %s, %s } = await import('%s');"
-                (match-string 1 line) (string-trim (match-string 2 line)) (match-string 3 line)))
-       ((string-match "^import\\s-+{\\s-*\\([^}]*\\)}\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
-        (format "const { %s } = await import('%s');"
-                (string-trim (match-string 1 line)) (match-string 2 line)))
-       ((string-match "^import\\s-+\\([[:word:]_$]+\\)\\s-+from\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
-        (format "const { default: %s } = await import('%s');" (match-string 1 line) (match-string 2 line)))
-       ((string-match "^import\\s-+['\"]\\([^'\"]+\\)['\"];?\\s-*$" line)
-        (format "await import('%s');" (match-string 1 line)))
-       (t line)))
-    (defun js-comint-send-string (str)
-      "Send STR to repl, using a temp file + .load for multi-line input.
-Rewrites ES module `import' lines to dynamic imports along the way."
-      (let* ((lines (mapcar #'js-comint--import-to-dynamic (split-string str "\n")))
-             (str (string-join lines "\n")))
-        (if (= (length lines) 1)
-            (comint-send-string (js-comint-get-process) (concat str "\n"))
-          (let ((temp-file (make-temp-file "js-comint" nil ".js" str)))
-            (comint-send-string (js-comint-get-process)
-                                 (format ".load %s\n" temp-file))
-            (run-at-time 2 nil (lambda () (ignore-errors (delete-file temp-file))))))))
-    :hook (js-ts-mode . (lambda ()
-                           (local-set-key (kbd "C-c C-c") #'js-comint-send-buffer)
-                           (local-set-key (kbd "C-c C-r") #'js-comint-send-region)
-                           (local-set-key (kbd "C-c C-l") #'js-comint-send-last-sexp)
-                           (local-set-key (kbd "C-c C-z") #'js-comint-start-or-switch-to-repl))))
+  (defun bsl/nvm-node-bin-dir ()
+    "Resolve nvm's current default Node `bin' directory.
+  Triggers nvm's lazy-load wrapper functions in a throwaway login shell,
+  the same way a real terminal would the first time `node' is invoked."
+    (let* ((cmd "node --version >/dev/null 2>&1; dirname \"$(command -v node)\"")
+           (output (string-trim
+                    (shell-command-to-string
+                     (format "bash -l -c %s" (shell-quote-argument cmd))))))
+      (when (and (not (string-empty-p output)) (file-directory-p output))
+        output)))
+
+  (when (memq window-system '(mac ns x))
+    (let ((bin-dir (bsl/nvm-node-bin-dir)))
+      (when (and bin-dir (not (member bin-dir exec-path)))
+        (add-to-list 'exec-path bin-dir)
+        (setenv "PATH" (concat bin-dir ":" (getenv "PATH"))))))
 #+end_src
 * Python
 ** Consistent tab widths & indentation
