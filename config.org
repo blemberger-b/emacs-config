@@ -1032,7 +1032,7 @@ For completion within buffers, we'll use the [[https://company-mode.github.io/][
            (python-ts-mode . company-mode)
            (emacs-lisp-mode . company-mode)
            (js-ts-mode . company-mode)
-           (typescript-ts-mode . company-mode))
+           (typescript-mode . company-mode))
     :bind (:map company-mode-map
            ("C-M-i" . company-complete))
     :diminish)
@@ -1332,8 +1332,7 @@ Here, we replace the default programming language major modes with their corresp
           ;; auto-mode-alist maps .js files to `javascript-mode' (an alias of
           ;; `js-mode'), and major-mode-remap-alist does exact symbol
           ;; matching, so this alias must be remapped separately.
-          (javascript-mode . js-ts-mode)
-          (typescript-mode . typescript-ts-mode)))
+          (javascript-mode . js-ts-mode)))
 #+end_src
 *Note:* Keybindings still need to be done for =python-ts-mode-map= rather than
  =python-mode=map= and hooks need to be made for =python-ts-mode-hook= rather
@@ -1385,7 +1384,7 @@ good choice to use is =typescript-language-server=. Enable the language server i
     :ensure t)
 
   (add-hook 'js-ts-mode-hook #'eglot-ensure)
-  (add-hook 'typescript-ts-mode-hook #'eglot-ensure)
+  (add-hook 'typescript-mode-hook #'eglot-ensure)
 #+end_src
 ** Interactive REPL
 The best solution for javascript/typescript REPL functionality within Emacs is to use =ansi-term= (activated via =s-t=) and then start a =node= session. The below code will try to resolve =node= and
@@ -1414,6 +1413,13 @@ Fix: trigger the same lazy-load nvm does, once, in a disposable login shell at s
       (when (and bin-dir (not (member bin-dir exec-path)))
         (add-to-list 'exec-path bin-dir)
         (setenv "PATH" (concat bin-dir ":" (getenv "PATH"))))))
+#+end_src
+** Map module files to Typescript buffers
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist
+               '("\\.mts\\'" . typescript-mode))
+  (add-to-list 'auto-mode-alist
+               '("\\.cts\\'" . typescript-mode))
 #+end_src
 * Python
 ** Consistent tab widths & indentation
@@ -1725,6 +1731,7 @@ The built-in =gnuplot-mode= is really old and bad, so just use =prog-mode= for f
   (add-to-list 'auto-mode-alist 
                '("\\.gp$" . prog-mode))
 #+end_src
+
 * Docker
 ** Install & use =dockerfile-mode=
 =dockerfile-mode= is a major mode helpful for editing Dockerfiles.
