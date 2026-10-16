@@ -49,6 +49,26 @@ and configuration values. We display recent *projectile* projects and recent fil
 under =.git= directories and from the recent files list that get treated as edited by the package
 manager for some reason. Also remove the auto-generated footer from the dashboard page by removing
 it from =dashboard-startupify-list=.
+
+#+begin_src emacs-lisp
+  (defun dashboard-insert-treemacs-workspaces (list-size)
+    "Insert the list of active Treemacs workspaces into the dashboard."
+    (require 'treemacs)
+    ;; Workspaces are loaded lazily from disk; otherwise only "Default" exists
+    (treemacs--maybe-load-workspaces)
+    (dashboard-insert-section
+     "Treemacs Workspaces:"
+     (mapcar #'treemacs-workspace->name (treemacs-workspaces))
+     list-size
+     'treemacs-workspaces
+     "w"
+     ;; `el' is bound to the current item by `dashboard-insert-section-list'
+     `(lambda (&rest _)
+        (treemacs-do-switch-workspace ,el)
+        (treemacs-select-window))
+     el))
+#+end_src
+
 #+BEGIN_SRC emacs-lisp
   (use-package dashboard
     :demand t
@@ -61,14 +81,17 @@ it from =dashboard-startupify-list=.
     (bind-key "n" 'dashboard-next-line dashboard-mode-map)
     (bind-key "p" 'dashboard-previous-line dashboard-mode-map)
     (setq dashboard-startupify-list (delete 'dashboard-insert-footer dashboard-startupify-list))
+    ;; Register the custom section type
+    (add-to-list 'dashboard-item-generators '(treemacs-workspaces . dashboard-insert-treemacs-workspaces))
     :custom
     (dashboard-page-separator "\n\f\n")
     (dashboard-projects-backend 'projectile)
     (dashboard-items '((projects . 5)
-                       (recents . 10)))
+                       (recents . 10)
+                       (treemacs-workspaces . 5)))
     (dashboard-banner-logo-title
      "Ad astra per aspera.")
-    (dashboard-item-shortcuts '((recents . "r") (projects . "j"))))
+    (dashboard-item-shortcuts '((recents . "r") (projects . "j") (treemacs-workspaces . "w"))))
 #+END_SRC
 ** Markdown
 This package provides a major mode for editing markdown files. It requires the =multimarkdown= command be
