@@ -1382,7 +1382,8 @@ Use built-in emacs [[https://joaotavora.github.io/eglot/][eglot]] package for ma
   (require 'eglot)
   ;; Map super-r to eglot-rename to rename all symbols in buffer
   (general-def eglot-mode-map
-    "s-r" 'eglot-rename)
+    "s-r" 'eglot-rename
+    "s-f" 'eglot-format-buffer)
 #+end_src
 * PHP
 Use =php-mode= for =.php= files.        
@@ -1390,6 +1391,10 @@ Use =php-mode= for =.php= files.
   (use-package php-mode)
 #+end_src
 * Javascript/Typescript
+** Set Javascript/Typescript Indentation
+#+begin_src emacs-lisp
+  (setq js-indent-level 2)
+#+end_src
 ** Tree-sitter Grammar
 Emacs 30's bundled tree-sitter runtime only supports grammar ABI 14, but the
 =tree-sitter-javascript= grammar moved to ABI 15 starting with v0.25.0. Pin the
@@ -1398,6 +1403,22 @@ warning, then install it with =M-x treesit-install-language-grammar RET javascri
 #+begin_src emacs-lisp
   (setq treesit-language-source-alist
         '((javascript "https://github.com/tree-sitter/tree-sitter-javascript" "v0.23.1")))
+#+end_src
+** Preserve Template Literal Indentation
+Emacs 30's =js-ts-mode= can reindent lines inside multiline =string_fragment=
+nodes, changing whitespace that is part of the string's value. Preserve that
+whitespace while leaving JavaScript inside =${...}= substitutions subject to
+the normal indentation rules.
+#+begin_src emacs-lisp
+  (defun bsl/js-ts-preserve-template-indentation ()
+    "Preserve existing indentation in multiline template literal text."
+    (setq-local treesit-simple-indent-rules
+                (copy-tree treesit-simple-indent-rules))
+    (cl-pushnew '((parent-is "string_fragment") no-indent 0)
+                (alist-get 'javascript treesit-simple-indent-rules)
+                :test #'equal))
+
+  (add-hook 'js-ts-mode-hook #'bsl/js-ts-preserve-template-indentation)
 #+end_src
 ** LSP Support for Javascript/Typescript
 LSP interaction is managed through =eglot=. A *typescript* LSP server must be installed in the system PATH. A
@@ -1410,7 +1431,7 @@ good choice to use is =typescript-language-server=. Enable the language server i
   (add-hook 'typescript-mode-hook #'eglot-ensure)
 #+end_src
 ** Interactive REPL
-The best solution for javascript/typescript REPL functionality within Emacs is to use =ansi-term= (activated via =s-t=) and then start a =node= session. The below code will try to resolve =node= and
+The best solution for JavaScript/TypeScript REPL functionality within Emacs is to use =ansi-term= (activated via =s-t=) and then start a =node= session. The below code will try to resolve =node= and
 add it to the Emacs process' =PATH= environment variable.
 ** Make nvm's Node visible to Emacs (=exec-path=/=eglot=, etc.)
 =nvm= is lazy-loaded in =.bash_profile= for faster shell startup: =node=/=npm=/=npx=/=nvm= are just shell functions that source =nvm.sh= (which actually puts Node's =bin= dir on =PATH=) only the first
