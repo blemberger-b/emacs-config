@@ -919,16 +919,35 @@ buffer like a normal emacs buffer, while character treats the keybindings as in 
 | char           | C-c C-k    |
 | line           | C-c C-j    |
 
-** Open a bash shell to the right
-This custom command opens a bash shell to the right of the currently active
-window.
+** Open a bash shell in a new window
+This custom command always creates a new window for a bash shell, trying the
+largest window first.  If Emacs's preferred split thresholds prevent a split,
+it retries using the actual minimum window sizes.
 #+begin_src emacs-lisp
-  (defun bsl/split-window-right-and-shell ()
-    "Split the current window vertically (side-by-side) and open a shell in the new window."
+  (defun bsl/split-window-and-shell ()
+    "Open a bash terminal in a newly created window."
     (interactive)
-    (split-window-right)
-    (other-window 1)
-    (ansi-term "bash"))
+    (let* ((largest (get-largest-window))
+           (windows (cons largest (delq largest (window-list))))
+           (window
+            (catch 'split
+              (dolist (relax-thresholds '(nil t))
+                (let ((split-height-threshold
+                       (if relax-thresholds 0 split-height-threshold))
+                      (split-width-threshold
+                       (if relax-thresholds 0 split-width-threshold)))
+                  (dolist (candidate windows)
+                    (when (and (window-live-p candidate)
+                               (not (window-dedicated-p candidate))
+                               (not (window-parameter candidate 'window-side))
+                               (not (window-parameter candidate 'no-other-window)))
+                      (let ((new-window (split-window-sensibly candidate)))
+                        (when new-window
+                          (throw 'split new-window))))))))))
+      (unless window
+        (user-error "No room to create a new terminal window"))
+      (select-window window)
+      (ansi-term "bash")))
 #+end_src
 ** Make bash the default shell for ansi-term
 =bash= command will be located based on the =PATH= in the user's environment.
@@ -942,7 +961,7 @@ window.
 to =s-t=
 Doesn't work in tty mode, must use =C-x @ s t=.
 #+BEGIN_SRC emacs-lisp
-  (global-set-key (kbd "s-t") 'bsl/split-window-right-and-shell)
+  (global-set-key (kbd "s-t") 'bsl/split-window-and-shell)
 #+END_SRC
 * Dired
 For directory editing & file system operations within emacs.
@@ -1392,8 +1411,16 @@ Use =php-mode= for =.php= files.
 #+end_src
 * Javascript/Typescript
 ** Set Javascript/Typescript Indentation
+Use two-space JavaScript indentation and two-column tab stops in =js-ts-mode=,
+including when TAB inserts whitespace rather than reindenting the line.
 #+begin_src emacs-lisp
   (setq js-indent-level 2)
+
+  (defun bsl/js-ts-set-tab-width ()
+    "Use two-column tab stops in JavaScript tree-sitter buffers."
+    (setq-local tab-width 2))
+
+  (add-hook 'js-ts-mode-hook #'bsl/js-ts-set-tab-width)
 #+end_src
 ** Tree-sitter Grammar
 Emacs 30's bundled tree-sitter runtime only supports grammar ABI 14, but the
