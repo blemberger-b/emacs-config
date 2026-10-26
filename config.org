@@ -1792,6 +1792,12 @@ I use Kotlin mostly as a DSL for Gradle.
   (use-package kotlin-mode
     :pin nongnu)
 #+end_src
+* GraphQL
+For editing GraphQL schema files (=.graphql= files).
+#+begin_src emacs-lisp
+  (use-package graphql-mode
+    :pin nongnu)
+#+end_src
 * Terraform
 #+begin_src emacs-lisp
   (use-package terraform-mode)
