@@ -1286,24 +1286,28 @@ in all programming language files with this setting enabled.
 #+BEGIN_SRC emacs-lisp
   (show-paren-mode 1)
 #+END_SRC
-** Paredit
-This [[https://paredit.org][minor mode]] makes dealing with parenthesis and lisp expressions much easier. Here, we enable it
-for some lisp major modes only. =paredit-newline= does some electric indenting after newlines if
-=electric-indent-mode= is enabled (which it is by default). Also remap the s-expression /slurp/
-and /barf/ commands to keybindings that work in both GUI and TTY.
+** Smartparens
+This [[https://github.com/Fuco1/smartparens][minor mode]] makes dealing with parenthesis/bracket/brace matching and structural s-expression
+editing (slurp/barf/raise) much easier. Unlike =paredit=, it isn't Lisp-specific, so it is used here
+both for the Lisp family of major modes (in =smartparens-strict-mode=, which behaves close to
+=paredit=) and for =js-ts-mode= (in regular, non-strict =smartparens-mode=, since strict mode's
+aggressive paren-balancing assumptions don't fit JavaScript as well as they fit Lisp). Remap the
+s-expression /slurp/, /barf/, and /raise/ commands to keybindings that work in both GUI and TTY.
 #+BEGIN_SRC emacs-lisp
-  (use-package paredit
+  (use-package smartparens
     :pin melpa-stable
     :hook ((clojure-mode
             emacs-lisp-mode
-            scheme-mode) . enable-paredit-mode)
-    :bind (:map paredit-mode-map
-                (("C-c )" . paredit-forward-slurp-sexp)
-                 ("C-c (" . paredit-backward-slurp-sexp)
-                 ("C-c M-)" . paredit-forward-barf-sexp)
-                 ("C-c M-(" . paredit-backward-barf-sexp)
-                 ("C-j" . paredit-newline)
-                 ("M-r" . paredit-raise-sexp))))
+            scheme-mode) . smartparens-strict-mode)
+    :hook (js-ts-mode . smartparens-mode)
+    :bind (:map smartparens-mode-map
+                (("C-c )" . sp-forward-slurp-sexp)
+                 ("C-c (" . sp-backward-slurp-sexp)
+                 ("C-c M-)" . sp-forward-barf-sexp)
+                 ("C-c M-(" . sp-backward-barf-sexp)
+                 ("M-r" . sp-raise-sexp)))
+    :config
+    (require 'smartparens-config))
 #+END_SRC
 
 ** Colorful matching delimiters
